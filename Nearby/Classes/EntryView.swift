@@ -29,6 +29,7 @@ class EntryView: UIView {
     fatalError("Not Implemented")
   }
   
+  
   // MARK: - Functions
   
   func setUp() {
