@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4912539625326610002E000C /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912539525326610002E000C /* UITableView+Extensions.swift */; };
-		491253C725337DA3002E000C /* ChatSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491253C625337DA3002E000C /* ChatSession.swift */; };
 		495E8DF0253256DF00E7FFAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495E8DEF253256DF00E7FFAD /* AppDelegate.swift */; };
 		495E8DF2253256DF00E7FFAD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495E8DF1253256DF00E7FFAD /* SceneDelegate.swift */; };
 		495E8DF6253256E200E7FFAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 495E8DF5253256E200E7FFAD /* Assets.xcassets */; };
@@ -29,7 +28,6 @@
 /* Begin PBXFileReference section */
 		4912539525326610002E000C /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		4912539A253267BE002E000C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		491253C625337DA3002E000C /* ChatSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSession.swift; sourceTree = "<group>"; };
 		495E8DEC253256DF00E7FFAD /* Nearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		495E8DEF253256DF00E7FFAD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		495E8DF1253256DF00E7FFAD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 				495E8E0E25325F7000E7FFAD /* ChatListController.swift */,
 				496D025D2533B15700D44BEE /* ChatController.swift */,
 				496B82592535094700C94FDE /* EntryView.swift */,
-				491253C625337DA3002E000C /* ChatSession.swift */,
 				496D028C2533B4FE00D44BEE /* KeyboardLayoutGuide.swift */,
 			);
 			path = Classes;
@@ -224,7 +221,6 @@
 				495E8DF2253256DF00E7FFAD /* SceneDelegate.swift in Sources */,
 				496D029B2533DAEC00D44BEE /* Init.swift in Sources */,
 				496D02952533D68100D44BEE /* Constants.swift in Sources */,
-				491253C725337DA3002E000C /* ChatSession.swift in Sources */,
 				495E8E0F25325F7000E7FFAD /* ChatListController.swift in Sources */,
 				4912539625326610002E000C /* UITableView+Extensions.swift in Sources */,
 				496D025E2533B15700D44BEE /* ChatController.swift in Sources */,
