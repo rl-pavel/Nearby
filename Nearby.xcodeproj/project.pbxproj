@@ -23,6 +23,8 @@
 		496D029B2533DAEC00D44BEE /* Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496D029A2533DAEC00D44BEE /* Init.swift */; };
 		496D029E2533E14200D44BEE /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496D029D2533E14200D44BEE /* UIImage+Extensions.swift */; };
 		498B733B253510BC00AD1A9F /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 498B733A253510BC00AD1A9F /* ReSwift */; };
+		498B734425353A1700AD1A9F /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498B734325353A1700AD1A9F /* Optional+Extensions.swift */; };
+		498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498B734625353A5200AD1A9F /* Sequence+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		496D02942533D68100D44BEE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		496D029A2533DAEC00D44BEE /* Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Init.swift; sourceTree = "<group>"; };
 		496D029D2533E14200D44BEE /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		498B734325353A1700AD1A9F /* Optional+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extensions.swift"; sourceTree = "<group>"; };
+		498B734625353A5200AD1A9F /* Sequence+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,8 @@
 				496D02612533B1C700D44BEE /* SnapKit+Extensions.swift */,
 				496D028F2533CCEB00D44BEE /* UIView+Extensions.swift */,
 				496D029D2533E14200D44BEE /* UIImage+Extensions.swift */,
+				498B734325353A1700AD1A9F /* Optional+Extensions.swift */,
+				498B734625353A5200AD1A9F /* Sequence+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -99,8 +105,8 @@
 		495E8E052532588800E7FFAD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				495E8DF1253256DF00E7FFAD /* SceneDelegate.swift */,
 				495E8DEF253256DF00E7FFAD /* AppDelegate.swift */,
+				495E8DF1253256DF00E7FFAD /* SceneDelegate.swift */,
 				495E8DF5253256E200E7FFAD /* Assets.xcassets */,
 				495E8DFA253256E200E7FFAD /* LaunchScreen.storyboard */,
 				495E8DFD253256E200E7FFAD /* Info.plist */,
@@ -214,7 +220,9 @@
 			files = (
 				496D02622533B1C700D44BEE /* SnapKit+Extensions.swift in Sources */,
 				496B825A2535094700C94FDE /* EntryView.swift in Sources */,
+				498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */,
 				496D028D2533B4FE00D44BEE /* KeyboardLayoutGuide.swift in Sources */,
+				498B734425353A1700AD1A9F /* Optional+Extensions.swift in Sources */,
 				495E8DF0253256DF00E7FFAD /* AppDelegate.swift in Sources */,
 				496D029E2533E14200D44BEE /* UIImage+Extensions.swift in Sources */,
 				496D02902533CCEC00D44BEE /* UIView+Extensions.swift in Sources */,

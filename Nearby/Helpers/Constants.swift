@@ -14,8 +14,8 @@ extension LayoutSpacing where Self: Numeric {
   static var x4: Self { 32 }
   static var x5: Self { 40 }
   
-  static var smallButton: Self { 32 }
-  static var textViewMinHeight: Self { 38 }
+  static var smallButton: Self { 28 }
+  static var textViewMinHeight: Self { 35 }
   static var textViewMaxHeight: Self { 148 }
 }
 
