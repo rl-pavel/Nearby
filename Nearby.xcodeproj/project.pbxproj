@@ -13,7 +13,7 @@
 		495E8DF6253256E200E7FFAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 495E8DF5253256E200E7FFAD /* Assets.xcassets */; };
 		495E8DFC253256E200E7FFAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 495E8DFA253256E200E7FFAD /* LaunchScreen.storyboard */; };
 		495E8E0C25325EFB00E7FFAD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 495E8E0B25325EFB00E7FFAD /* SnapKit */; };
-		495E8E0F25325F7000E7FFAD /* ChatListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495E8E0E25325F7000E7FFAD /* ChatListController.swift */; };
+		495E8E0F25325F7000E7FFAD /* ChatBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495E8E0E25325F7000E7FFAD /* ChatBrowserController.swift */; };
 		496B825A2535094700C94FDE /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496B82592535094700C94FDE /* EntryView.swift */; };
 		496D025E2533B15700D44BEE /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496D025D2533B15700D44BEE /* ChatController.swift */; };
 		496D02622533B1C700D44BEE /* SnapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496D02612533B1C700D44BEE /* SnapKit+Extensions.swift */; };
@@ -25,6 +25,16 @@
 		498B733B253510BC00AD1A9F /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 498B733A253510BC00AD1A9F /* ReSwift */; };
 		498B734425353A1700AD1A9F /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498B734325353A1700AD1A9F /* Optional+Extensions.swift */; };
 		498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498B734625353A5200AD1A9F /* Sequence+Extensions.swift */; };
+		49EBDE582537D5F200BD0129 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE572537D5F200BD0129 /* ChatManager.swift */; };
+		49EBDE5B2537E52800BD0129 /* MultiSimConfig.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49EBDE5A2537E52800BD0129 /* MultiSimConfig.txt */; };
+		49EBDE5E2537E59500BD0129 /* LaunchMultiSim.sh in Resources */ = {isa = PBXBuildFile; fileRef = 49EBDE5D2537E59500BD0129 /* LaunchMultiSim.sh */; };
+		49EBDE7625380C1400BD0129 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE7525380C1300BD0129 /* AppState.swift */; };
+		49EBDE7A25380E1200BD0129 /* BrowserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE7925380E1200BD0129 /* BrowserState.swift */; };
+		49EBDE7D25380E1E00BD0129 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE7C25380E1E00BD0129 /* Store.swift */; };
+		49EBDE832538160100BD0129 /* ChatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE822538160100BD0129 /* ChatState.swift */; };
+		49EBDE882538B28E00BD0129 /* PreferencesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE872538B28E00BD0129 /* PreferencesManager.swift */; };
+		49EBDE912538B60600BD0129 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE902538B60600BD0129 /* Preference.swift */; };
+		49EBDE942538B89600BD0129 /* Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE932538B89600BD0129 /* Middleware.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +45,7 @@
 		495E8DF1253256DF00E7FFAD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		495E8DF5253256E200E7FFAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		495E8DFD253256E200E7FFAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		495E8E0E25325F7000E7FFAD /* ChatListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListController.swift; sourceTree = "<group>"; };
+		495E8E0E25325F7000E7FFAD /* ChatBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBrowserController.swift; sourceTree = "<group>"; };
 		496B82592535094700C94FDE /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		496D025D2533B15700D44BEE /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		496D02612533B1C700D44BEE /* SnapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+Extensions.swift"; sourceTree = "<group>"; };
@@ -46,6 +56,16 @@
 		496D029D2533E14200D44BEE /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		498B734325353A1700AD1A9F /* Optional+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extensions.swift"; sourceTree = "<group>"; };
 		498B734625353A5200AD1A9F /* Sequence+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extensions.swift"; sourceTree = "<group>"; };
+		49EBDE572537D5F200BD0129 /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
+		49EBDE5A2537E52800BD0129 /* MultiSimConfig.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = MultiSimConfig.txt; sourceTree = "<group>"; };
+		49EBDE5D2537E59500BD0129 /* LaunchMultiSim.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = LaunchMultiSim.sh; sourceTree = "<group>"; };
+		49EBDE7525380C1300BD0129 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		49EBDE7925380E1200BD0129 /* BrowserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserState.swift; sourceTree = "<group>"; };
+		49EBDE7C25380E1E00BD0129 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		49EBDE822538160100BD0129 /* ChatState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatState.swift; sourceTree = "<group>"; };
+		49EBDE872538B28E00BD0129 /* PreferencesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesManager.swift; sourceTree = "<group>"; };
+		49EBDE902538B60600BD0129 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
+		49EBDE932538B89600BD0129 /* Middleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Middleware.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				495E8E052532588800E7FFAD /* Supporting Files */,
-				498B733D253510C300AD1A9F /* States */,
+				498B733D253510C300AD1A9F /* Redux */,
+				49EBDE862538B28100BD0129 /* Managers */,
 				495E8E092532595A00E7FFAD /* Classes */,
 				496D02932533D67500D44BEE /* Helpers */,
 				49125394253265FF002E000C /* Extensions */,
@@ -110,6 +131,8 @@
 				495E8DF5253256E200E7FFAD /* Assets.xcassets */,
 				495E8DFA253256E200E7FFAD /* LaunchScreen.storyboard */,
 				495E8DFD253256E200E7FFAD /* Info.plist */,
+				49EBDE5A2537E52800BD0129 /* MultiSimConfig.txt */,
+				49EBDE5D2537E59500BD0129 /* LaunchMultiSim.sh */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -117,7 +140,7 @@
 		495E8E092532595A00E7FFAD /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				495E8E0E25325F7000E7FFAD /* ChatListController.swift */,
+				495E8E0E25325F7000E7FFAD /* ChatBrowserController.swift */,
 				496D025D2533B15700D44BEE /* ChatController.swift */,
 				496B82592535094700C94FDE /* EntryView.swift */,
 				496D028C2533B4FE00D44BEE /* KeyboardLayoutGuide.swift */,
@@ -130,15 +153,30 @@
 			children = (
 				496D02942533D68100D44BEE /* Constants.swift */,
 				496D029A2533DAEC00D44BEE /* Init.swift */,
+				49EBDE902538B60600BD0129 /* Preference.swift */,
+				49EBDE932538B89600BD0129 /* Middleware.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		498B733D253510C300AD1A9F /* States */ = {
+		498B733D253510C300AD1A9F /* Redux */ = {
 			isa = PBXGroup;
 			children = (
+				49EBDE7C25380E1E00BD0129 /* Store.swift */,
+				49EBDE7525380C1300BD0129 /* AppState.swift */,
+				49EBDE7925380E1200BD0129 /* BrowserState.swift */,
+				49EBDE822538160100BD0129 /* ChatState.swift */,
 			);
-			path = States;
+			path = Redux;
+			sourceTree = "<group>";
+		};
+		49EBDE862538B28100BD0129 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				49EBDE572537D5F200BD0129 /* ChatManager.swift */,
+				49EBDE872538B28E00BD0129 /* PreferencesManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +189,7 @@
 				495E8DE8253256DF00E7FFAD /* Sources */,
 				495E8DE9253256DF00E7FFAD /* Frameworks */,
 				495E8DEA253256DF00E7FFAD /* Resources */,
+				49EBDE602537E64E00BD0129 /* Launch MultiSim */,
 			);
 			buildRules = (
 			);
@@ -207,11 +246,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				495E8DFC253256E200E7FFAD /* LaunchScreen.storyboard in Resources */,
+				49EBDE5E2537E59500BD0129 /* LaunchMultiSim.sh in Resources */,
 				495E8DF6253256E200E7FFAD /* Assets.xcassets in Resources */,
+				49EBDE5B2537E52800BD0129 /* MultiSimConfig.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		49EBDE602537E64E00BD0129 /* Launch MultiSim */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Launch MultiSim";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "custom_sim=`xcrun simctl list | grep 'MultiSim' | awk -F'[()]' '{print $2}'`\nif [ ! -z \"${custom_sim}\" ] && [ \"${TARGET_DEVICE_IDENTIFIER}\" = \"${custom_sim}\" ]; then\n  SCRIPT_PATH=\"${SRCROOT}/Nearby/Supporting Files/LaunchMultiSim.sh\"\n  /bin/sh \"${SCRIPT_PATH}\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		495E8DE8253256DF00E7FFAD /* Sources */ = {
@@ -220,16 +282,24 @@
 			files = (
 				496D02622533B1C700D44BEE /* SnapKit+Extensions.swift in Sources */,
 				496B825A2535094700C94FDE /* EntryView.swift in Sources */,
+				49EBDE882538B28E00BD0129 /* PreferencesManager.swift in Sources */,
 				498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */,
+				49EBDE7D25380E1E00BD0129 /* Store.swift in Sources */,
 				496D028D2533B4FE00D44BEE /* KeyboardLayoutGuide.swift in Sources */,
+				49EBDE582537D5F200BD0129 /* ChatManager.swift in Sources */,
+				49EBDE912538B60600BD0129 /* Preference.swift in Sources */,
 				498B734425353A1700AD1A9F /* Optional+Extensions.swift in Sources */,
 				495E8DF0253256DF00E7FFAD /* AppDelegate.swift in Sources */,
+				49EBDE7625380C1400BD0129 /* AppState.swift in Sources */,
+				49EBDE7A25380E1200BD0129 /* BrowserState.swift in Sources */,
 				496D029E2533E14200D44BEE /* UIImage+Extensions.swift in Sources */,
+				49EBDE942538B89600BD0129 /* Middleware.swift in Sources */,
 				496D02902533CCEC00D44BEE /* UIView+Extensions.swift in Sources */,
 				495E8DF2253256DF00E7FFAD /* SceneDelegate.swift in Sources */,
+				49EBDE832538160100BD0129 /* ChatState.swift in Sources */,
 				496D029B2533DAEC00D44BEE /* Init.swift in Sources */,
 				496D02952533D68100D44BEE /* Constants.swift in Sources */,
-				495E8E0F25325F7000E7FFAD /* ChatListController.swift in Sources */,
+				495E8E0F25325F7000E7FFAD /* ChatBrowserController.swift in Sources */,
 				4912539625326610002E000C /* UITableView+Extensions.swift in Sources */,
 				496D025E2533B15700D44BEE /* ChatController.swift in Sources */,
 			);

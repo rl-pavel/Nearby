@@ -1,7 +1,13 @@
 import UIKit
 
-protocol LayoutSpacing { }
-extension LayoutSpacing where Self: Numeric {
+// MARK: - Numeric Constants
+
+protocol NumericConstants { }
+extension Int: NumericConstants { }
+extension Double: NumericConstants { }
+extension CGFloat: NumericConstants { }
+
+extension NumericConstants where Self: Numeric {
   static var x0_25: Self { 2 }
   static var x0_5: Self { 4 }
   static var x0_75: Self { 6 }
@@ -17,7 +23,17 @@ extension LayoutSpacing where Self: Numeric {
   static var smallButton: Self { 28 }
   static var textViewMinHeight: Self { 35 }
   static var textViewMaxHeight: Self { 148 }
+  
+  static var invitationTimeout: Self { 10 }
 }
 
-extension Int: LayoutSpacing { }
-extension CGFloat: LayoutSpacing { }
+
+// MARK: - String Constants
+
+protocol StringConstants { }
+extension String: StringConstants { }
+
+extension StringConstants where Self: StringProtocol {
+  static var joinRequest: Self { "joinRequest" }
+  static var invitation: Self { "invitation" }
+}

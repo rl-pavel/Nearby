@@ -37,7 +37,7 @@ class EntryView: UIView {
     addSubview(textView)
     textView.snp.makeConstraints { make in
       make.leading.equalToSuperview().inset(Int.x1)
-      make.top.equalToSuperview().inset(- 2)
+      make.top.equalToSuperview().inset(-2)
       make.bottom.equalToSuperview().inset(-3)
       _textViewHeightConstraint = make.height.equalTo(Int.textViewMinHeight).priority(.medium).constraint
       make.height.lessThanOrEqualTo(Int.textViewMaxHeight)
