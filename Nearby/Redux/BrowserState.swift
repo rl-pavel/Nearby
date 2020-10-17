@@ -37,7 +37,7 @@ struct BrowserState: StateType {
           
         } else {
           // Guest side - accept the invitation from the host.
-          invitationHandler(true, chatManager.guestSession.session)
+          invitationHandler(true, chatManager.guestClient.session)
           
           let newChat = ChatState(host: peer, messages: invitation.messageHistory ?? [])
           context.next(ChatState.SetGuestChat(chat: newChat))
@@ -47,7 +47,7 @@ struct BrowserState: StateType {
         guard let context = try? JSONEncoder().encode(invitation) else { break }
         chatManager.browser.invitePeer(
           peer,
-          to: chatManager.hostSession.session,
+          to: chatManager.hostClient.session,
           withContext: context,
           timeout: Constants.invitationTimeout)
         

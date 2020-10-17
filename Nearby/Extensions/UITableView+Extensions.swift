@@ -13,7 +13,6 @@ extension UITableView {
     _ returningType: T.Type,
     style: UITableViewCell.CellStyle = .default,
     withIdentifier identifier: String) -> T {
-    
     if let cell = dequeueReusableCell(withIdentifier: identifier) as? T {
       return cell
       
