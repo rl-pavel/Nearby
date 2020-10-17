@@ -1,36 +1,23 @@
 import ReSwift
 import MultipeerConnectivity
 
-// MARK: -  State
-
 struct BrowserState: StateType {
-  enum State {
-    case browsing
-    case invited
-  }
   
-  var peers = [MCPeerID]()
-  var state = State.browsing
-}
-
-
-// MARK: - State Management
-
-extension BrowserState {
+  // MARK: - Properties
+  
+  var nearbyChats = [ChatState]()
+  
   
   // MARK: - Actions
   
-  // TODO: - Improve naming.
-  enum Peer: Action {
+  enum Connection: Action {
     case found(MCPeerID)
     case lost(MCPeerID)
-    
-    case join(MCPeerID)
-    case invite(MCPeerID)
   }
   
-  struct SetState: Action {
-    let state: State
+  enum Invite: Action {
+    case send(to: MCPeerID, Invitation)
+    case received(from: MCPeerID, Invitation, InvitationHandler)
   }
 
   
@@ -40,21 +27,29 @@ extension BrowserState {
     let chatManager = ChatManager.shared
     
     switch action {
-      case .join(let peer) as Peer:
-        let purpose = "joinRequest".data(using: .utf8)
-        chatManager.browser.invitePeer(
-          peer,
-          to: chatManager.guestSession,
-          withContext: purpose,
-          timeout: .invitationTimeout)
+      case let .received(from: peer, invitation, invitationHandler) as Invite:
+        if invitation.purpose == .joinRequest {
+          // Host side - reject the request, it will be sent back as an invite.
+          invitationHandler(false, nil)
+          
+          let messageHistory = context.state?.hostChat.messages
+          context.dispatch(Invite.send(to: peer, Invitation(purpose: .confirmation, messageHistory: messageHistory)))
+          
+        } else {
+          // Guest side - accept the invitation from the host.
+          invitationHandler(true, chatManager.guestSession.session)
+          
+          let newChat = ChatState(host: peer, messages: invitation.messageHistory ?? [])
+          context.next(ChatState.SetGuestChat(chat: newChat))
+        }
         
-      case .invite(let peer) as Peer:
-        let purpose = "invitation".data(using: .utf8)
+      case let .send(to: peer, invitation) as Invite:
+        guard let context = try? JSONEncoder().encode(invitation) else { break }
         chatManager.browser.invitePeer(
           peer,
-          to: chatManager.hostSession,
-          withContext: purpose,
-          timeout: .invitationTimeout)
+          to: chatManager.hostSession.session,
+          withContext: context,
+          timeout: Constants.invitationTimeout)
         
       default: break
     }
@@ -69,15 +64,11 @@ extension BrowserState {
     var browser = state ?? .init()
     
     switch action {
-      case .found(let peer) as Peer:
-        browser.peers.append(peer)
+      case .found(let host) as Connection:
+        browser.nearbyChats.append(.init(host: host))
         
-      case .lost(let peer) as Peer:
-        browser.peers.removeAll { $0 == peer }
-        
-      case let action as SetState:
-        browser.state = action.state
-        browser.peers.removeAll()
+      case .lost(let host) as Connection:
+        browser.nearbyChats.removeAll { $0.host == host }
         
       default:
         break

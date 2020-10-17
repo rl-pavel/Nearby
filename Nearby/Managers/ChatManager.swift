@@ -2,83 +2,41 @@ import Foundation
 import MultipeerConnectivity
 import ReSwift
 
-class ChatManager: NSObject {
+typealias InvitationHandler = (Bool, MCSession?) -> Void
+
+class SessionClient: NSObject {
   
-  static var shared = ChatManager()
+  enum SessionType {
+    case host, guest
+  }
   
-  var myPeerId = MCPeerID(displayName: Preferences.shared.userName)
-  lazy var hostSession = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
-  lazy var guestSession = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
+  var type: SessionType
+  let session: MCSession
+  
+  init(type: SessionType, myPeerId: MCPeerID) {
+    self.type = type
+    self.session = .init(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
     
-  lazy var advertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: nil, serviceType: "nearby")
-  lazy var browser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: "nearby")
-  
-  private override init() {
     super.init()
     
-    hostSession.delegate = self
-    guestSession.delegate = self
-    advertiser.delegate = self
-    browser.delegate = self
-  }
-  
-  func startDiscovery() {
-    advertiser.startAdvertisingPeer()
-    browser.startBrowsingForPeers()
+    session.delegate = self
   }
 }
 
-extension ChatManager: MCNearbyServiceAdvertiserDelegate {
-  func advertiser(
-    _ advertiser: MCNearbyServiceAdvertiser,
-    didReceiveInvitationFromPeer peerID: MCPeerID,
-    withContext context: Data?,
-    invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-    guard let context = context, let purpose = String(data: context, encoding: .utf8) else {
-      invitationHandler(false, nil)
-      return
-    }
-    
-    if purpose == .joinRequest {
-      Store.dispatch(BrowserState.Peer.invite(peerID))
-      invitationHandler(false, nil)
-      
-    } else if purpose == .invitation {
-      invitationHandler(true, guestSession)
-      Store.dispatch(BrowserState.SetState(state: .invited))
-      advertiser.stopAdvertisingPeer()
-    }
-  }
-}
-
-
-extension ChatManager: MCNearbyServiceBrowserDelegate {
-  func browser(
-    _ browser: MCNearbyServiceBrowser,
-    foundPeer peerID: MCPeerID,
-    withDiscoveryInfo info: [String : String]?) {
-    Store.dispatch(BrowserState.Peer.found(peerID))
-  }
-  
-  func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-    Store.dispatch(BrowserState.Peer.lost(peerID))
-  }
-}
-
-extension ChatManager: MCSessionDelegate {
+extension SessionClient: MCSessionDelegate {
   func session(
     _ session: MCSession,
-    peer peerID: MCPeerID,
+    peer: MCPeerID,
     didChange state: MCSessionState) {
     switch state {
     case .connected:
-      print("Connected: \(peerID.displayName)")
+      print("Connected: \(peer.displayName)")
       
     case .connecting:
-      print("Connecting: \(peerID.displayName)")
+      print("Connecting: \(peer.displayName)")
       
     case .notConnected:
-      print("Not Connected: \(peerID.displayName)")
+      print("Not Connected: \(peer.displayName)")
       
     @unknown default:
       fatalError()
@@ -88,26 +46,29 @@ extension ChatManager: MCSessionDelegate {
   func session(
     _ session: MCSession,
     didReceive data: Data,
-    fromPeer peerID: MCPeerID) {
-    guard let message = String(data: data, encoding: .utf8) else { return }
+    fromPeer peer: MCPeerID) {
+    guard let message = try? Message.decode(from: data) else { return }
     
-    DispatchQueue.main.async {
-      Store.dispatch(ChatState.AddMessage(.init(sender: peerID.displayName, text: message)))
+    DispatchQueue.main.async { [self] in
+      Store.dispatch(ChatState.ReceivedMessage(message: message, sessionType: type))
     }
   }
+  
+  
+  // MARK: - Unused Functions
   
   func session(
     _ session: MCSession,
     didReceive stream: InputStream,
     withName streamName: String,
-    fromPeer peerID: MCPeerID) {
+    fromPeer peer: MCPeerID) {
     
   }
   
   func session(
     _ session: MCSession,
     didStartReceivingResourceWithName resourceName: String,
-    fromPeer peerID: MCPeerID,
+    fromPeer peer: MCPeerID,
     with progress: Progress) {
     
   }
@@ -115,9 +76,84 @@ extension ChatManager: MCSessionDelegate {
   func session(
     _ session: MCSession,
     didFinishReceivingResourceWithName resourceName: String,
-    fromPeer peerID: MCPeerID,
+    fromPeer peer: MCPeerID,
     at localURL: URL?,
     withError error: Error?) {
     
+  }
+}
+
+
+// MARK: - ChatManager
+
+class ChatManager: NSObject {
+  
+  // MARK: - Properties
+  
+  static var shared = ChatManager()
+  
+  var userPeer = MCPeerID(displayName: Preferences.shared.userName)
+  lazy var hostSession = SessionClient(type: .host, myPeerId: userPeer)
+  lazy var guestSession = SessionClient(type: .guest, myPeerId: userPeer)
+    
+  lazy var advertiser = MCNearbyServiceAdvertiser(peer: userPeer, discoveryInfo: nil, serviceType: "nearby")
+  lazy var browser = MCNearbyServiceBrowser(peer: userPeer, serviceType: "nearby")
+  
+  
+  // MARK: - Inits
+  
+  private override init() {
+    super.init()
+
+    advertiser.delegate = self
+    browser.delegate = self
+    
+    advertiser.startAdvertisingPeer()
+    browser.startBrowsingForPeers()
+  }
+  
+  
+  // MARK: - Functions
+  
+  func sendMessage(_ message: Message, to peer: MCPeerID) {
+    guard let messageData = try? message.encoded() else { return }
+    let session = peer == userPeer ? hostSession.session : guestSession.session
+    
+    do {
+      try session.send(messageData, toPeers: session.connectedPeers, with: .reliable)
+      
+    } catch let error {
+      // TODO: - Show error to user?
+      fatalError("Failed to send message with error: \(error)")
+    }
+  }
+}
+
+extension ChatManager: MCNearbyServiceAdvertiserDelegate {
+  func advertiser(
+    _ advertiser: MCNearbyServiceAdvertiser,
+    didReceiveInvitationFromPeer peer: MCPeerID,
+    withContext context: Data?,
+    invitationHandler: @escaping InvitationHandler) {
+    guard let data = context, let invitation = try? Invitation.decode(from: data) else {
+      invitationHandler(false, nil)
+      return
+    }
+    
+    Store.dispatch(BrowserState.Invite.received(from: peer, invitation, invitationHandler))
+  }
+}
+
+
+extension ChatManager: MCNearbyServiceBrowserDelegate {
+  func browser(
+    _ browser: MCNearbyServiceBrowser,
+    foundPeer peer: MCPeerID,
+    withDiscoveryInfo info: [String : String]?) {
+    Store.dispatch(BrowserState.Connection.found(peer))
+  }
+  
+  func browser(_ browser: MCNearbyServiceBrowser, lostPeer peer: MCPeerID) {
+    Store.dispatch(BrowserState.Connection.lost(peer))
   }
 }

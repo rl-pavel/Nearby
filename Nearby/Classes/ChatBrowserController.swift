@@ -11,13 +11,9 @@ class ChatBrowserController: UIViewController {
     $0.text = Preferences.shared.userName
     $0.backgroundColor = .quaternarySystemFill
   }
-  let searchButton: UIButton = Init {
-    $0.setTitle("Advertise", for: .normal)
-    $0.setTitleColor(.systemBlue, for: .normal)
-  }
   
   let tableView = UITableView()
-  var peers = [MCPeerID]()
+  var chats = [ChatState]()
   
   
   // MARK: - Functions
@@ -35,12 +31,6 @@ class ChatBrowserController: UIViewController {
     }
     nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     
-    view.addSubview(searchButton)
-    searchButton.snp.makeConstraints { make in
-      make.vertical.trailing.equalTo(nameField)
-    }
-    searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
-    
     view.addSubview(tableView)
     tableView.snp.makeConstraints { make in
       make.top.equalTo(nameField.snp.bottom)
@@ -53,8 +43,9 @@ class ChatBrowserController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    Store.subscribe(self)
-    search()
+    Store.subscribe(self) { subscription in
+      subscription.skipRepeats { $0.guestChat != nil && $1.guestChat != nil && $0.guestChat == $1.guestChat }
+    }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -65,15 +56,11 @@ class ChatBrowserController: UIViewController {
   }
   
   @objc func textFieldDidChange(_ textField: UITextField) {
+    // TODO: - Create a profile configuration controller, implement MCPeerID editing.
     textField.text?.nonEmpty.map {
       Preferences.shared.userName = $0
-      ChatManager.shared.myPeerId = MCPeerID(displayName: $0)
+      ChatManager.shared.userPeer = MCPeerID(displayName: $0)
     }
-  }
-  
-  @objc func search() {
-    ChatManager.shared.startDiscovery()
-    Store.dispatch(BrowserState.SetState(state: .browsing))
   }
 }
 
@@ -82,11 +69,11 @@ class ChatBrowserController: UIViewController {
 
 extension ChatBrowserController: StoreSubscriber {
   func newState(state: State) {
-    peers = state.browserState.peers
+    chats = state.browserState.nearbyChats
     tableView.reloadData()
     
-    if state.browserState.state == .invited {
-      show(ChatController(isHost: false), sender: self)
+    if let activeChat = state.guestChat {
+      show(ChatController(chat: activeChat), sender: nil)
     }
   }
 }
@@ -96,16 +83,18 @@ extension ChatBrowserController: StoreSubscriber {
 
 extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return peers.count + 1
+    return chats.count + 1
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(UITableViewCell.self)
     
     if indexPath.row == 0 {
-      cell.textLabel?.text = "Your Chat"
+      let userName = ChatManager.shared.userPeer.displayName
+      cell.textLabel?.text = "\(userName) (Your Chat)"
+      
     } else {
-      cell.textLabel?.text = peers[indexPath.row - 1].displayName
+      cell.textLabel?.text = chats[indexPath.row - 1].host.displayName
     }
     
     return cell
@@ -115,11 +104,12 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
     tableView.deselectRow(at: indexPath, animated: true)
     
     guard indexPath.row != 0 else {
-      show(ChatController(isHost: true), sender: self)
+      let chat = Store.state.hostChat
+      show(ChatController(chat: chat), sender: self)
       return
     }
     
-    let peerToJoin = peers[indexPath.row - 1]
-    Store.dispatch(BrowserState.Peer.join(peerToJoin))
+    let hostToJoin = chats[indexPath.row - 1].host
+    Store.dispatch(BrowserState.Invite.send(to: hostToJoin, Invitation(purpose: .joinRequest)))
   }
 }

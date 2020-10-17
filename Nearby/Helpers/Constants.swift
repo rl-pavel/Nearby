@@ -1,13 +1,12 @@
 import UIKit
 
-// MARK: - Numeric Constants
+// MARK: - Layout Constants
 
-protocol NumericConstants { }
-extension Int: NumericConstants { }
-extension Double: NumericConstants { }
-extension CGFloat: NumericConstants { }
+protocol LayoutSpacing { }
+extension Int: LayoutSpacing { }
+extension CGFloat: LayoutSpacing { }
 
-extension NumericConstants where Self: Numeric {
+extension LayoutSpacing where Self: Numeric {
   static var x0_25: Self { 2 }
   static var x0_5: Self { 4 }
   static var x0_75: Self { 6 }
@@ -24,16 +23,14 @@ extension NumericConstants where Self: Numeric {
   static var textViewMinHeight: Self { 35 }
   static var textViewMaxHeight: Self { 148 }
   
-  static var invitationTimeout: Self { 10 }
 }
 
 
-// MARK: - String Constants
+// MARK: - Other Constants
 
-protocol StringConstants { }
-extension String: StringConstants { }
-
-extension StringConstants where Self: StringProtocol {
-  static var joinRequest: Self { "joinRequest" }
-  static var invitation: Self { "invitation" }
+enum Constants {
+  static var joinRequest: String = "joinRequest"
+  static var joinConfirmation: String = "joinConfirmation"
+  
+  static var invitationTimeout: TimeInterval { 10 }
 }

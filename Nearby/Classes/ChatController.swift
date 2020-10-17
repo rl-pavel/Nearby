@@ -6,8 +6,7 @@ class ChatController: UIViewController {
   
   // MARK: - Properties
   
-  let isHost: Bool
-  var messages = [Message]()
+  var chat: ChatState
   let tableView = UITableView()
   
   let entryContainerView: UIView = Init { $0.backgroundColor = .quaternarySystemFill }
@@ -16,8 +15,8 @@ class ChatController: UIViewController {
   
   // MARK: - Inits
   
-  init(isHost: Bool) {
-    self.isHost = isHost
+  init(chat: ChatState) {
+    self.chat = chat
     
     super.init(nibName: nil, bundle: nil)
   }
@@ -60,42 +59,35 @@ class ChatController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    Store.subscribe(self) { $0.select(\.chatState) }
-    
-    let session = isHost ? ChatManager.shared.hostSession : ChatManager.shared.guestSession
-    Store.dispatch(ChatState.SetSession(session: session))
+    Store.subscribe(self)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     
-    if !isHost {
-      ChatManager.shared.guestSession.disconnect()
-    }
+    Store.dispatch(ChatState.SetGuestChat(chat: nil))
     Store.unsubscribe(self)
   }
   
   @objc func sendButtonTapped() {
-    let myPeerId = ChatManager.shared.myPeerId
-    
     guard let message = entryView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).nonEmpty else {
-      let session = Store.state.chatState.session
-      navigationItem.title = "Connected: \(session?.connectedPeers.count ?? -1)"
+//      let session = Store.state.chatState.session
+//      navigationItem.title = "Connected: \(session?.connectedPeers.count ?? -1)"
       return
     }
     
     entryView.textView.text = nil
-    Store.dispatch(ChatState.AddMessage(Message(sender: myPeerId.displayName, text: message)))
+    Store.dispatch(ChatState.SendMessage(Message(text: message), in: chat))
   }
 }
-
 
 
 // MARK: - Store Subscriber
 
 extension ChatController: StoreSubscriber {
-  func newState(state: ChatState) {
-    messages = state.messages
+  func newState(state: State) {
+    // TODO: - Implement host disconnection.
+    chat = state.guestChat ?? state.hostChat
     tableView.reloadData()
   }
 }
@@ -105,14 +97,14 @@ extension ChatController: StoreSubscriber {
 
 extension ChatController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return messages.count
+    return chat.messages.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(UITableViewCell.self)
     
-    let message = messages[indexPath.row]
-    let myPeerId = ChatManager.shared.myPeerId
+    let message = chat.messages[indexPath.row]
+    let myPeerId = ChatManager.shared.userPeer
     let isMyMessage = message.sender == myPeerId.displayName
     
     cell.textLabel?.textAlignment = isMyMessage ? .right : .left

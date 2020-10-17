@@ -2,15 +2,24 @@ import Foundation
 import ReSwift
 import MultipeerConnectivity
 
-// MARK: - State
-
 struct State: StateType {
+  
+  // MARK: - Properties
+  
   var browserState = BrowserState()
-  var chatState = ChatState()
+  
+  var hostChat = ChatState(host: ChatManager.shared.userPeer)
+  var guestChat: ChatState?
+  
+  
+  // MARK: - Reducer
+  
+  static func reduce(action: Action, state: State?) -> State {
+    return State(
+      browserState: BrowserState.reduce(action: action, state: state?.browserState),
+      hostChat: ChatState.hostChatReduce(action: action, state: state?.hostChat),
+      guestChat: ChatState.guestChatReduce(action: action, state: state?.guestChat))
+  }
 }
 
-func reduce(action: Action, state: State?) -> State {
-  return State(
-    browserState: BrowserState.reduce(action: action, state: state?.browserState),
-    chatState: ChatState.reduce(action: action, state: state?.chatState))
-}
+

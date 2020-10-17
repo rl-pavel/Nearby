@@ -2,55 +2,55 @@ import Foundation
 import MultipeerConnectivity
 import ReSwift
 
-struct Message {
-  let sender: String
-  let text: String
-}
-
 struct ChatState: StateType {
+  
+  // MARK: - Properties
+  
+  // TODO: - Create Profile model. Add avatar image in Base64 String representation:
+  // https://www.mysamplecode.com/2019/04/ios-swift-convert-image-base64.html
+  let host: MCPeerID
+  
   var messages = [Message]()
-  var session: MCSession?
-}
-
-extension ChatState {
+  var isPending = false
+  
   
   // MARK: - Actions
   
-  struct AddMessage: Action {
+  struct SetGuestChat: Action {
+    let chat: ChatState?
+  }
+  
+  struct SendMessage: Action {
     let message: Message
+    let chat: ChatState
     
-    init(_ message: Message) {
+    init(_ message: Message, in chat: ChatState) {
       self.message = message
+      self.chat = chat
     }
   }
   
-  struct SetSession: Action {
-    let session: MCSession?
+  struct ReceivedMessage: Action {
+    let message: Message
+    let sessionType: SessionClient.SessionType
   }
   
   
   // MARK: - Middleware
   
-  static func middleware(action: Action, context: Middleware.Context<State>) -> Action? {
-    let myPeerId = ChatManager.shared.myPeerId
+  static func middleware(action: Action, context: StateContext) -> Action? {
+    let chatManager = ChatManager.shared
+    let state = context.state
     
     switch action {
-      case let action as AddMessage where action.message.sender == myPeerId.displayName:
-        guard let messageData = action.message.text.data(using: .utf8),
-              let session = context.state?.chatState.session else {
-          return nil
+      case let action as SendMessage:
+        guard let chat = state?.guestChat ?? state?.hostChat else {
+          fatalError("Message sent without a chat? 🤔")
         }
         
-        do {
-          try session.send(messageData, toPeers: session.connectedPeers, with: .reliable)
-          
-        } catch let error {
-          print("Failed to send message with error: \(error)")
-          return nil
-        }
+        chatManager.sendMessage(action.message, to: chat.host)
         
-      default:
-        break
+      default: break
     }
     
     return action
@@ -59,21 +59,45 @@ extension ChatState {
   
   // MARK: - Reducer
   
-  static func reduce(action: Action, state: Self?) -> Self {
-    var state = state ?? .init()
+  static func hostChatReduce(action: Action, state: Self?) -> Self {
+    var state = state ?? .init(host: ChatManager.shared.userPeer)
     
     switch action {
-      case let action as AddMessage:
+      case let action as ReceivedMessage where action.sessionType == .host:
         state.messages.append(action.message)
         
-      case let action as SetSession:
-        state.session = action.session
+      case let action as SendMessage where action.chat.host == state.host:
+        state.messages.append(action.message)
         
-      default:
-        break
+      default: break
     }
     
     return state
   }
+  
+  static func guestChatReduce(action: Action, state: Self?) -> Self? {
+    var state = state
+    
+    switch action {
+      case let action as SetGuestChat:
+        return action.chat
+        
+      case let action as ReceivedMessage where action.sessionType == .guest:
+        state?.messages.append(action.message)
+        
+      case let action as SendMessage where action.chat.host == state?.host:
+        state?.messages.append(action.message)
+        
+      default: break
+    }
+    
+    return state
+  }
+}
 
+
+extension ChatState: Equatable {
+  static func == (lhs: ChatState, rhs: ChatState) -> Bool {
+    return lhs.host == rhs.host
+  }
 }

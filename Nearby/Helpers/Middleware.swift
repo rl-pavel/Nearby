@@ -3,13 +3,14 @@ import ReSwift
 typealias MiddlewareAction<State: StateType> = (Action, Middleware.Context<State>) -> Action?
 typealias StateContext = Middleware.Context<State>
 
+// Slightly modified from source: http://bit.ly/2DCMmyX
 struct Middleware {
   struct Context<State: StateType> {
     
     /// Closure that can be used to emit additional actions, that go through the middleware.
     /// NOTE: Do not dispatch the current action, that will lead to an infinite loop. Use `next` instead.
     let dispatch: DispatchFunction
-    let getState: () -> State?
+    fileprivate let getState: () -> State?
     
     /// Closure that is returned from the middleware, which forwards the action to the reducer.
     /// In case of an async operation, return `nil` and use `dispatch` within the callback for other actions.

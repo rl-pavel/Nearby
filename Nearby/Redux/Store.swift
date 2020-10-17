@@ -1,12 +1,11 @@
 import Foundation
 import ReSwift
 
-let Store = ReSwift.Store(
-  reducer: reduce,
+var Store = ReSwift.Store(
+  reducer: State.reduce,
   state: State(),
   middleware: [
     Middleware.create(BrowserState.middleware),
     Middleware.create(ChatState.middleware)
   ]
 )
-
