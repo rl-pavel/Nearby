@@ -4,88 +4,6 @@ import ReSwift
 
 typealias InvitationHandler = (Bool, MCSession?) -> Void
 
-class SessionClient: NSObject {
-  
-  enum SessionType {
-    case host, guest
-  }
-  
-  var type: SessionType
-  let session: MCSession
-  
-  init(type: SessionType, myPeerId: MCPeerID) {
-    self.type = type
-    self.session = .init(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
-    
-    super.init()
-    
-    session.delegate = self
-  }
-}
-
-extension SessionClient: MCSessionDelegate {
-  func session(
-    _ session: MCSession,
-    peer: MCPeerID,
-    didChange state: MCSessionState) {
-    switch state {
-    case .connected:
-      print("Connected: \(peer.displayName)")
-      
-    case .connecting:
-      print("Connecting: \(peer.displayName)")
-      
-    case .notConnected:
-      print("Not Connected: \(peer.displayName)")
-      
-    @unknown default:
-      fatalError()
-    }
-  }
-  
-  func session(
-    _ session: MCSession,
-    didReceive data: Data,
-    fromPeer peer: MCPeerID) {
-    guard let message = try? Message.decode(from: data) else { return }
-    
-    DispatchQueue.main.async { [self] in
-      Store.dispatch(ChatState.ReceivedMessage(message: message, sessionType: type))
-    }
-  }
-  
-  
-  // MARK: - Unused Functions
-  
-  func session(
-    _ session: MCSession,
-    didReceive stream: InputStream,
-    withName streamName: String,
-    fromPeer peer: MCPeerID) {
-    
-  }
-  
-  func session(
-    _ session: MCSession,
-    didStartReceivingResourceWithName resourceName: String,
-    fromPeer peer: MCPeerID,
-    with progress: Progress) {
-    
-  }
-  
-  func session(
-    _ session: MCSession,
-    didFinishReceivingResourceWithName resourceName: String,
-    fromPeer peer: MCPeerID,
-    at localURL: URL?,
-    withError error: Error?) {
-    
-  }
-}
-
-
-// MARK: - ChatManager
-
 class ChatManager: NSObject {
   
   // MARK: - Properties
@@ -93,8 +11,9 @@ class ChatManager: NSObject {
   static var shared = ChatManager()
   
   var userPeer = MCPeerID(displayName: Preferences.shared.userName)
-  lazy var hostSession = SessionClient(type: .host, myPeerId: userPeer)
-  lazy var guestSession = SessionClient(type: .guest, myPeerId: userPeer)
+  
+  lazy var hostClient = ChatClient(type: .host, myPeerId: userPeer)
+  lazy var guestClient = ChatClient(type: .guest, myPeerId: userPeer)
     
   lazy var advertiser = MCNearbyServiceAdvertiser(peer: userPeer, discoveryInfo: nil, serviceType: "nearby")
   lazy var browser = MCNearbyServiceBrowser(peer: userPeer, serviceType: "nearby")
@@ -117,17 +36,20 @@ class ChatManager: NSObject {
   
   func sendMessage(_ message: Message, to peer: MCPeerID) {
     guard let messageData = try? message.encoded() else { return }
-    let session = peer == userPeer ? hostSession.session : guestSession.session
+    let session = peer == userPeer ? hostClient.session : guestClient.session
     
     do {
       try session.send(messageData, toPeers: session.connectedPeers, with: .reliable)
       
     } catch let error {
-      // TODO: - Show error to user?
+      // TODO: - When does this fail? Show error to user?
       fatalError("Failed to send message with error: \(error)")
     }
   }
 }
+
+
+// MARK: - Advertiser Delegate
 
 extension ChatManager: MCNearbyServiceAdvertiserDelegate {
   func advertiser(
@@ -144,6 +66,8 @@ extension ChatManager: MCNearbyServiceAdvertiserDelegate {
   }
 }
 
+
+// MARK: - Browser Delegate
 
 extension ChatManager: MCNearbyServiceBrowserDelegate {
   func browser(
