@@ -32,7 +32,7 @@ struct ChatState: StateType {
   
   struct ReceivedMessage: Action {
     let message: Message
-    let sessionType: SessionClient.SessionType
+    let sessionType: ChatClient.SessionType
   }
   
   
