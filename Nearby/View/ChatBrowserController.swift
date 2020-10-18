@@ -7,7 +7,7 @@ class ChatBrowserController: UIViewController {
   
   // MARK: - Properties
   
-  let nameField: UITextField = Init {
+  let nameField = Init(UITextField()) {
     $0.text = Preferences.shared.userName
     $0.backgroundColor = .quaternarySystemFill
   }

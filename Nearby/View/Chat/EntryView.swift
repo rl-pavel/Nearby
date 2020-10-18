@@ -5,12 +5,13 @@ class EntryView: UIView {
   
   // MARK: - Properties
   
-  let textView: UITextView = Init {
+  let textView = Init(UITextView()) {
     $0.font = UIFont.preferredFont(forTextStyle: .body)
     $0.backgroundColor = .clear
     $0.isScrollEnabled = false
   }
-  let sendButton: UIButton = Init {
+  
+  let sendButton = Init(UIButton()) {
     $0.setImage(UIImage(symbol: "arrow.up.circle.fill", size: .smallButton), for: .normal)
     $0.imageView?.contentMode = .scaleAspectFit
   }
