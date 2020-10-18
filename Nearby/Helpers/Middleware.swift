@@ -1,7 +1,7 @@
 import ReSwift
 
 typealias MiddlewareAction<State: StateType> = (Action, Middleware.Context<State>) -> Action?
-typealias StateContext = Middleware.Context<State>
+typealias StateContext = Middleware.Context<AppState>
 
 // Slightly modified from source: http://bit.ly/2DCMmyX
 struct Middleware {

@@ -68,8 +68,8 @@ class ChatBrowserController: UIViewController {
 // MARK: - Store Subscriber
 
 extension ChatBrowserController: StoreSubscriber {
-  func newState(state: State) {
-    chats = state.browserState.nearbyChats
+  func newState(state: AppState) {
+    chats = state.browser.chats
     tableView.reloadData()
     
     if let activeChat = state.guestChat {

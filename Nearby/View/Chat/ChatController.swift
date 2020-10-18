@@ -85,7 +85,7 @@ class ChatController: UIViewController {
 // MARK: - Store Subscriber
 
 extension ChatController: StoreSubscriber {
-  func newState(state: State) {
+  func newState(state: AppState) {
     // TODO: - Implement host disconnection.
     chat = state.guestChat ?? state.hostChat
     tableView.reloadData()

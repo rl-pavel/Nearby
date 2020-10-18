@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4912539625326610002E000C /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912539525326610002E000C /* UITableView+Extensions.swift */; };
+		49141BE8253CCB8700A866A8 /* ChatState+Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */; };
+		49141BEB253CCBAD00A866A8 /* ChatState+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BEA253CCBAD00A866A8 /* ChatState+Actions.swift */; };
+		49141BEE253CCBD800A866A8 /* ChatState+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BED253CCBD800A866A8 /* ChatState+Reducer.swift */; };
 		4933EBA5253A9FF100B3A517 /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4933EBA4253A9FF100B3A517 /* Invitation.swift */; };
 		4933EBA9253AA05800B3A517 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4933EBA8253AA05800B3A517 /* Message.swift */; };
 		4933EBAE253AA20400B3A517 /* ChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4933EBAD253AA20400B3A517 /* ChatClient.swift */; };
@@ -35,7 +38,6 @@
 		49EBDE5E2537E59500BD0129 /* LaunchMultiSim.sh in Resources */ = {isa = PBXBuildFile; fileRef = 49EBDE5D2537E59500BD0129 /* LaunchMultiSim.sh */; };
 		49EBDE7625380C1400BD0129 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE7525380C1300BD0129 /* AppState.swift */; };
 		49EBDE7A25380E1200BD0129 /* BrowserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE7925380E1200BD0129 /* BrowserState.swift */; };
-		49EBDE7D25380E1E00BD0129 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE7C25380E1E00BD0129 /* Store.swift */; };
 		49EBDE832538160100BD0129 /* ChatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE822538160100BD0129 /* ChatState.swift */; };
 		49EBDE882538B28E00BD0129 /* PreferencesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE872538B28E00BD0129 /* PreferencesManager.swift */; };
 		49EBDE912538B60600BD0129 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE902538B60600BD0129 /* Preference.swift */; };
@@ -45,6 +47,9 @@
 /* Begin PBXFileReference section */
 		4912539525326610002E000C /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		4912539A253267BE002E000C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Middleware.swift"; sourceTree = "<group>"; };
+		49141BEA253CCBAD00A866A8 /* ChatState+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Actions.swift"; sourceTree = "<group>"; };
+		49141BED253CCBD800A866A8 /* ChatState+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Reducer.swift"; sourceTree = "<group>"; };
 		4933EBA4253A9FF100B3A517 /* Invitation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invitation.swift; sourceTree = "<group>"; };
 		4933EBA8253AA05800B3A517 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4933EBAD253AA20400B3A517 /* ChatClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClient.swift; sourceTree = "<group>"; };
@@ -71,7 +76,6 @@
 		49EBDE5D2537E59500BD0129 /* LaunchMultiSim.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = LaunchMultiSim.sh; sourceTree = "<group>"; };
 		49EBDE7525380C1300BD0129 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		49EBDE7925380E1200BD0129 /* BrowserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserState.swift; sourceTree = "<group>"; };
-		49EBDE7C25380E1E00BD0129 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		49EBDE822538160100BD0129 /* ChatState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatState.swift; sourceTree = "<group>"; };
 		49EBDE872538B28E00BD0129 /* PreferencesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesManager.swift; sourceTree = "<group>"; };
 		49EBDE902538B60600BD0129 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
@@ -110,7 +114,6 @@
 			children = (
 				4933EBA4253A9FF100B3A517 /* Invitation.swift */,
 				4933EBA8253AA05800B3A517 /* Message.swift */,
-				4933EBAD253AA20400B3A517 /* ChatClient.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -193,10 +196,12 @@
 		498B733D253510C300AD1A9F /* Redux */ = {
 			isa = PBXGroup;
 			children = (
-				49EBDE7C25380E1E00BD0129 /* Store.swift */,
 				49EBDE7525380C1300BD0129 /* AppState.swift */,
 				49EBDE7925380E1200BD0129 /* BrowserState.swift */,
 				49EBDE822538160100BD0129 /* ChatState.swift */,
+				49141BEA253CCBAD00A866A8 /* ChatState+Actions.swift */,
+				49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */,
+				49141BED253CCBD800A866A8 /* ChatState+Reducer.swift */,
 			);
 			path = Redux;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				49EBDE572537D5F200BD0129 /* ChatManager.swift */,
+				4933EBAD253AA20400B3A517 /* ChatClient.swift */,
 				49EBDE872538B28E00BD0129 /* PreferencesManager.swift */,
 			);
 			path = Managers;
@@ -312,10 +318,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				496D02622533B1C700D44BEE /* SnapKit+Extensions.swift in Sources */,
+				49141BE8253CCB8700A866A8 /* ChatState+Middleware.swift in Sources */,
 				496B825A2535094700C94FDE /* EntryView.swift in Sources */,
 				49EBDE882538B28E00BD0129 /* PreferencesManager.swift in Sources */,
 				498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */,
-				49EBDE7D25380E1E00BD0129 /* Store.swift in Sources */,
 				496D028D2533B4FE00D44BEE /* KeyboardLayoutGuide.swift in Sources */,
 				49EBDE582537D5F200BD0129 /* ChatManager.swift in Sources */,
 				4933EBA9253AA05800B3A517 /* Message.swift in Sources */,
@@ -328,6 +334,8 @@
 				496D029E2533E14200D44BEE /* UIImage+Extensions.swift in Sources */,
 				49EBDE942538B89600BD0129 /* Middleware.swift in Sources */,
 				496D02902533CCEC00D44BEE /* UIView+Extensions.swift in Sources */,
+				49141BEE253CCBD800A866A8 /* ChatState+Reducer.swift in Sources */,
+				49141BEB253CCBAD00A866A8 /* ChatState+Actions.swift in Sources */,
 				495E8DF2253256DF00E7FFAD /* SceneDelegate.swift in Sources */,
 				49EBDE832538160100BD0129 /* ChatState.swift in Sources */,
 				496D029B2533DAEC00D44BEE /* Init.swift in Sources */,
