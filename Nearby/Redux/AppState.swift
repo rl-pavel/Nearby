@@ -6,8 +6,8 @@ var Store = ReSwift.Store(
   reducer: AppState.reduce,
   state: AppState(),
   middleware: [
-    Middleware.create(BrowserState.middleware),
-    Middleware.create(ChatState.middleware)
+    Middleware.create(BrowserState.middleware()),
+    Middleware.create(ChatState.middleware())
   ]
 )
 

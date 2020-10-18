@@ -1,4 +1,5 @@
 import ReSwift
+import MultipeerConnectivity
 
 extension ChatState {
   struct SetGuestChat: Action {
@@ -12,6 +13,10 @@ extension ChatState {
     init(_ message: Message, in chat: ChatState) {
       self.message = message
       self.chat = chat
+    }
+    
+    func belongs(to host: MCPeerID?) -> Bool {
+      return chat.host == host
     }
   }
   

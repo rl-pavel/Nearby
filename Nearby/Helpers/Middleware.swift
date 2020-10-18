@@ -1,33 +1,34 @@
 import ReSwift
 
-typealias MiddlewareAction<State: StateType> = (Action, Middleware.Context<State>) -> Action?
-typealias StateContext = Middleware.Context<AppState>
+typealias MiddlewareHandler = Middleware.Action<AppState>
 
 // Slightly modified from source: http://bit.ly/2DCMmyX
 struct Middleware {
+  typealias Action<State: StateType> = (ReSwift.Action, Middleware.Context<State>) -> ReSwift.Action?
+  
   struct Context<State: StateType> {
     
-    /// Closure that can be used to emit additional actions, that go through the middleware.
+    /// Closure that can be used to emit additional actions.
     /// NOTE: Do not dispatch the current action, that will lead to an infinite loop. Use `next` instead.
     let dispatch: DispatchFunction
-    fileprivate let getState: () -> State?
     
     /// Closure that is returned from the middleware, which forwards the action to the reducer.
     /// In case of an async operation, return `nil` and use `dispatch` within the callback for other actions.
     let next: DispatchFunction
     
-    var state: State? {
-      return getState()
-    }
+    var state: State? { getState() }
+    
+    fileprivate let getState: () -> State?
   }
   
-  /// Creates a middleware function using SimpleMiddleware to create a ReSwift Middleware function.
-  static func create<State: StateType>(_ middleware: @escaping MiddlewareAction<State>) -> ReSwift.Middleware<State> {
+  
+  /// Creates a middleware using a Context object to abstract the nested closured.
+  static func create<State: StateType>(_ middleware: @escaping Action<State>) -> ReSwift.Middleware<State> {
     return { dispatch, getState in
       return { next in
         return { action in
           
-          let context = Context(dispatch: dispatch, getState: getState, next: next)
+          let context = Context(dispatch: dispatch, next: next, getState: getState)
           if let newAction = middleware(action, context) {
             next(newAction)
           }
