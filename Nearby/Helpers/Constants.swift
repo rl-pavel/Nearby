@@ -29,8 +29,5 @@ extension LayoutSpacing where Self: Numeric {
 // MARK: - Other Constants
 
 enum Constants {
-  static var joinRequest: String = "joinRequest"
-  static var joinConfirmation: String = "joinConfirmation"
-  
   static var invitationTimeout: TimeInterval { 10 }
 }
