@@ -1,6 +1,6 @@
 import MultipeerConnectivity
 
-struct Message {
+struct Message: Equatable {
   var date = Date()
   var sender = ChatManager.shared.userPeer
   var text: String

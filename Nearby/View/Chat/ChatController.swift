@@ -6,7 +6,12 @@ class ChatController: UIViewController {
   // MARK: - Properties
   
   var chat: ChatState
-  let tableView = UITableView()
+  let tableView = Init(UITableView()) {
+    $0.contentInset = .init(top: .x1_5, left: 0, bottom: 0, right: 0)
+    $0.separatorStyle = .none
+    // Flip the table-view upside down so the messages are added bottom-up.
+    $0.transform = CGAffineTransform(scaleX: 1, y: -1)
+  }
   
   let entryContainerView = Init(UIView()) { $0.backgroundColor = .quaternarySystemFill }
   let entryView = EntryView()
@@ -51,8 +56,9 @@ class ChatController: UIViewController {
       make.bottom.equalTo(view.keyboardLayoutGuide).inset(Int.x1).priority(.high)
       make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
     }
-    
     entryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+    
+    navigationItem.title = chat.host.displayName
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -77,6 +83,7 @@ class ChatController: UIViewController {
     }
     
     entryView.textView.text = nil
+    entryView.textViewDidChange(entryView.textView)
     Store.dispatch(ChatState.SendMessage(Message(text: message), in: chat))
   }
 }
@@ -109,16 +116,23 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(UITableViewCell.self)
-    
     let message = chat.messages[indexPath.row]
     let myPeerId = ChatManager.shared.userPeer
     let isMyMessage = message.sender == myPeerId
     
-    cell.textLabel?.textAlignment = isMyMessage ? .right : .left
-    cell.textLabel?.text = message.text
-    
-    return cell
+    if isMyMessage {
+      let cell = tableView.dequeueReusableCell(RightMessageCell.self)
+      cell.messageLabel.text = message.text
+      
+      return cell
+      
+    } else {
+      let cell = tableView.dequeueReusableCell(LeftMessageCell.self)
+      cell.senderLabel.text = message.sender.displayName
+      cell.messageLabel.text = message.text
+      
+      return cell
+    }
   }
 }
 

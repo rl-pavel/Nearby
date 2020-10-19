@@ -26,13 +26,14 @@ extension ChatState {
       case let action as SetGuestChat:
         return action.chat
         
-      case let messageAction as SendMessage where messageAction.belongs(to: chatState?.host):
-        chatState?.messages.append(messageAction.message)
+      case let action as SendMessage where action.belongs(to: chatState?.host):
+        // TODO: - Implement sorting messages by date sent.
+        chatState?.messages.insert(action.message, at: 0)
         
       // Only handle received messages for the appropriate session (i.e. don't add a received message in the guest
       // chat if it was received in the host session).
       case let action as ReceivedMessage where action.sessionType == .guest:
-        chatState?.messages.append(action.message)
+        chatState?.messages.insert(action.message, at: 0)
         
       case .lost(let peer) as BrowserState.Connection where peer == chatState?.host:
         chatState = nil

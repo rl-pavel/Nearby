@@ -6,9 +6,7 @@ class EntryView: UIView {
   // MARK: - Properties
   
   let textView = Init(UITextView()) {
-    $0.font = UIFont.preferredFont(forTextStyle: .body)
-    $0.backgroundColor = .clear
-    $0.isScrollEnabled = false
+    $0.apply(style: .body, color: .label)
   }
   let sendButton = Init(UIButton()) {
     $0.setImage(UIImage(symbol: "arrow.up.circle.fill", size: .smallButton), for: .normal)
@@ -41,23 +39,18 @@ class EntryView: UIView {
       _textViewHeightConstraint = make.height.equalTo(Int.textViewMinHeight).priority(.medium).constraint
       make.height.lessThanOrEqualTo(Int.textViewMaxHeight)
     }
+    textView.delegate = self
     
     addSubview(sendButton)
     sendButton.snp.makeConstraints { make in
       make.size.equalTo(Int.smallButton)
-      make.leading.equalTo(textView.snp.trailing).offset(Int.x1)
+      make.leading.equalTo(textView.snp.trailing)//.offset(Int.x1)
       make.trailing.equalToSuperview().inset(Int.x0_25)
       make.bottom.equalToSuperview().inset(Int.x0_25)
     }
     
-    textView.delegate = self
-    
     backgroundColor = .systemBackground
-    
-    layer.cornerRadius = 19
-    layer.cornerCurve = .continuous
-    layer.borderWidth = 1
-    layer.borderColor = UIColor.systemGray3.cgColor
+    layer.roundCorners(.all, radius: 19, borderWidth: 1, borderColor: .systemGray3)
   }
 }
 
