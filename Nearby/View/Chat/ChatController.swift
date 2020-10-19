@@ -9,7 +9,7 @@ class ChatController: UIViewController {
   var chat: ChatState
   let tableView = UITableView()
   
-  let entryContainerView = Init(UIView()) { $0.backgroundColor = .quaternarySystemFill }
+  let entryContainerView: UIView = Init { $0.backgroundColor = .quaternarySystemFill }
   let entryView = EntryView()
   
   

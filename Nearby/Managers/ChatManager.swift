@@ -10,13 +10,7 @@ class ChatManager: NSObject {
   
   static var shared = ChatManager()
   
-  lazy var userPeer = MCPeerID(displayName: Preferences.shared.userName) {
-    didSet {
-      // Whenever the user peer is changed (e.g. after rename), make sure the
-      // sessions, advertiser and browser are updated.
-      _setUp()
-    }
-  }
+  var userPeer = MCPeerID(displayName: Preferences.shared.userName)
   
   lazy var hostClient = ChatClient(type: .host, myPeerId: userPeer)
   lazy var guestClient = ChatClient(type: .guest, myPeerId: userPeer)
@@ -29,22 +23,16 @@ class ChatManager: NSObject {
   
   private override init() {
     super.init()
+
+    advertiser.delegate = self
+    browser.delegate = self
     
-    _setUp()
-  }
-  
-  
-  // MARK: - Functions
-  
-  func startDiscovery() {
     advertiser.startAdvertisingPeer()
     browser.startBrowsingForPeers()
   }
   
-  func stopDiscovery() {
-    advertiser.stopAdvertisingPeer()
-    browser.stopBrowsingForPeers()
-  }
+  
+  // MARK: - Functions
   
   func sendMessage(_ message: Message, to peer: MCPeerID) {
     guard let messageData = try? message.encoded() else { return }
@@ -91,21 +79,5 @@ extension ChatManager: MCNearbyServiceBrowserDelegate {
   
   func browser(_ browser: MCNearbyServiceBrowser, lostPeer peer: MCPeerID) {
     Store.dispatch(BrowserState.Connection.lost(peer))
-  }
-}
-
-
-// MARK: - Helper Functions
-
-private extension ChatManager {
-  func _setUp() {
-    hostClient = ChatClient(type: .host, myPeerId: userPeer)
-    guestClient = ChatClient(type: .guest, myPeerId: userPeer)
-    
-    advertiser = MCNearbyServiceAdvertiser(peer: userPeer, discoveryInfo: nil, serviceType: "nearby")
-    advertiser.delegate = self
-    
-    browser = MCNearbyServiceBrowser(peer: userPeer, serviceType: "nearby")
-    browser.delegate = self
   }
 }
