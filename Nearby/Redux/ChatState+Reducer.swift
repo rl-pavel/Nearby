@@ -34,6 +34,9 @@ extension ChatState {
       case let action as ReceivedMessage where action.sessionType == .guest:
         chatState?.messages.append(action.message)
         
+      case .lost(let peer) as BrowserState.Connection where peer == chatState?.host:
+        chatState = nil
+        
       default: break
     }
     

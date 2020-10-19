@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49025575253D0A9500DC78A4 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49025574253D0A9500DC78A4 /* Preference.swift */; };
+		49025578253D0ABE00DC78A4 /* NSCodingPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49025577253D0ABE00DC78A4 /* NSCodingPreference.swift */; };
 		4912539625326610002E000C /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912539525326610002E000C /* UITableView+Extensions.swift */; };
 		49141BE8253CCB8700A866A8 /* ChatState+Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */; };
 		49141BEB253CCBAD00A866A8 /* ChatState+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BEA253CCBAD00A866A8 /* ChatState+Actions.swift */; };
@@ -44,6 +46,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49025574253D0A9500DC78A4 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
+		49025577253D0ABE00DC78A4 /* NSCodingPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSCodingPreference.swift; sourceTree = "<group>"; };
 		4912539525326610002E000C /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		4912539A253267BE002E000C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Middleware.swift"; sourceTree = "<group>"; };
@@ -186,6 +190,8 @@
 				49EBDE932538B89600BD0129 /* Middleware.swift */,
 				496D028C2533B4FE00D44BEE /* KeyboardLayoutGuide.swift */,
 				4933EBB3253AA40400B3A517 /* Optional+Abstractions.swift */,
+				49025574253D0A9500DC78A4 /* Preference.swift */,
+				49025577253D0ABE00DC78A4 /* NSCodingPreference.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -318,6 +324,7 @@
 				49141BE8253CCB8700A866A8 /* ChatState+Middleware.swift in Sources */,
 				496B825A2535094700C94FDE /* EntryView.swift in Sources */,
 				49EBDE882538B28E00BD0129 /* PreferencesManager.swift in Sources */,
+				49025578253D0ABE00DC78A4 /* NSCodingPreference.swift in Sources */,
 				498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */,
 				496D028D2533B4FE00D44BEE /* KeyboardLayoutGuide.swift in Sources */,
 				49EBDE582537D5F200BD0129 /* ChatManager.swift in Sources */,
@@ -333,6 +340,7 @@
 				49141BEE253CCBD800A866A8 /* ChatState+Reducer.swift in Sources */,
 				49141BEB253CCBAD00A866A8 /* ChatState+Actions.swift in Sources */,
 				495E8DF2253256DF00E7FFAD /* SceneDelegate.swift in Sources */,
+				49025575253D0A9500DC78A4 /* Preference.swift in Sources */,
 				49EBDE832538160100BD0129 /* ChatState.swift in Sources */,
 				496D029B2533DAEC00D44BEE /* Init.swift in Sources */,
 				4933EBAE253AA20400B3A517 /* ChatClient.swift in Sources */,

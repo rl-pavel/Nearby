@@ -1,7 +1,6 @@
 import Foundation
 
-func Init<T: NSObject>(_ customize: (T) -> Void) -> T {
-  let object = T.init()
+func Init<Type>(_ object: Type, _ customize: (Type) -> Void) -> Type {
   customize(object)
   return object
 }

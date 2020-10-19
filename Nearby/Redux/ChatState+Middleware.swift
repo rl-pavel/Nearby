@@ -13,6 +13,11 @@ extension ChatState {
           
           chatManager.sendMessage(action.message, to: chat.host)
           
+        case let action as SetGuestChat:
+          if action.chat == nil {
+            chatManager.disconnectFromHost()
+          }
+          
         default: break
       }
       

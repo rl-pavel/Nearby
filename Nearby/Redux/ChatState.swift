@@ -11,9 +11,10 @@ struct ChatState: StateType {
   let host: MCPeerID
   
   var messages = [Message]()
-  var isPending = false
 }
 
+
+// MARK: - Equatable Implementation
 
 extension ChatState: Equatable {
   static func == (lhs: ChatState, rhs: ChatState) -> Bool {
