@@ -13,11 +13,12 @@ struct BrowserState: StateType {
   enum Connection: Action {
     case found(MCPeerID)
     case lost(MCPeerID)
+    case reset
   }
   
   enum Invite: Action {
     case send(to: MCPeerID, Invitation)
-    case received(from: MCPeerID, Invitation, InvitationHandler)
+    case received(from: MCPeerID, Invitation, InvitationHandler, MCSession)
   }
   
   
@@ -27,14 +28,9 @@ struct BrowserState: StateType {
     return { action, context in
       switch action {
         case let .send(to: peer, invitation) as Invite:
-          guard let context = try? invitation.encoded() else { break }
-          chatManager.browser.invitePeer(
-            peer,
-            to: chatManager.hostClient.session,
-            withContext: context,
-            timeout: Constants.invitationTimeout)
+          ChatManager.shared.invite(peer: peer, to: .host, invitation: invitation)
           
-        case let .received(from: peer, invitation, invitationHandler) as Invite
+        case let .received(from: peer, invitation, invitationHandler, _) as Invite
               where invitation.purpose == .joinRequest:
           // Host side - reject the request, it will be sent back as an invite to join the host's session.
           invitationHandler(false, nil)
@@ -42,13 +38,19 @@ struct BrowserState: StateType {
           let confirmation = Invitation(purpose: .confirmation, messageHistory: context.state?.hostChat.messages)
           context.dispatch(Invite.send(to: peer, confirmation))
           
-        case let .received(from: peer, invitation, invitationHandler) as Invite
+        case let .received(from: peer, invitation, invitationHandler, session) as Invite
               where invitation.purpose == .confirmation:
           // Guest side - accept the invitation to join the host.
-          invitationHandler(true, chatManager.guestClient.session)
+          invitationHandler(true, session)
           
           let newChat = ChatState(host: peer, messages: invitation.messageHistory ?? [])
           context.next(ChatState.SetGuestChat(chat: newChat))
+          
+        case .reset as Connection:
+          chatManager.stopDiscovery()
+          context.next(action)
+          chatManager.startDiscovery()
+          return nil
           
         default: break
       }
@@ -65,10 +67,14 @@ struct BrowserState: StateType {
     
     switch action {
       case .found(let peer) as Connection:
-        browser.chats.append(.init(host: peer))
+        guard !browser.chats.contains(where: { $0.host == peer }) else { break }
+          browser.chats.append(.init(host: peer))
         
       case .lost(let peer) as Connection:
         browser.chats.removeAll { $0.host == peer }
+        
+      case .reset as Connection:
+        browser.chats.removeAll()
         
       default:
         break
