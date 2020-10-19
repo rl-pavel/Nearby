@@ -1,7 +1,7 @@
 import Foundation
 
 @propertyWrapper
-struct Preference<Value: Codable> {
+struct NSCodingPreference<Value: NSSecureCoding> {
   
   // MARK: - Properties
   
@@ -17,19 +17,13 @@ struct Preference<Value: Codable> {
         return storedValue as? Value ?? defaultValue
       }
       
-      let decodedValue = try? Value.decode(from: data)
+      let decodedValue = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? Value
       return decodedValue ?? defaultValue
     }
     set {
       let userDefaults = Preferences.shared.userDefaults
+      let encodedValue = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false)
       
-      // Clear out the object if the new value is an Optional and nil.
-      if let optionalValue = newValue as? AnyOptional, optionalValue.isNil {
-        userDefaults.removeObject(forKey: key)
-        return
-      }
-      
-      let encodedValue = try? newValue.encoded()
       userDefaults.set(encodedValue ?? newValue, forKey: key)
     }
   }
@@ -40,10 +34,5 @@ struct Preference<Value: Codable> {
   init(_ key: String, defaultValue: Value) {
     self.key = key
     self.defaultValue = defaultValue
-  }
-  
-  init(_ key: String) where Value: OptionalType {
-    self.key = key
-    self.defaultValue = nil
   }
 }

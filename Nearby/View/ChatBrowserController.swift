@@ -1,5 +1,4 @@
 import UIKit
-import SnapKit
 import MultipeerConnectivity
 import ReSwift
 
@@ -7,16 +6,18 @@ class ChatBrowserController: UIViewController {
   
   // MARK: - Properties
   
-  let nameField: UITextField = Init {
-    $0.text = Preferences.shared.userName
+  let nameField = Init(UITextField()) {
+    $0.text = ChatManager.shared.userPeer.displayName
     $0.backgroundColor = .quaternarySystemFill
   }
   
+  let refreshControl = UIRefreshControl()
   let tableView = UITableView()
+  
   var chats = [ChatState]()
   
   
-  // MARK: - Functions
+  // MARK: - Controller Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,6 +39,9 @@ class ChatBrowserController: UIViewController {
     }
     tableView.delegate = self
     tableView.dataSource = self
+    tableView.refreshControl = refreshControl
+    
+    refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -52,13 +56,18 @@ class ChatBrowserController: UIViewController {
     super.viewDidDisappear(animated)
     
     Store.unsubscribe(self)
-    ChatManager.shared.browser.stopBrowsingForPeers()
+  }
+  
+  
+  // MARK: - Functions
+  
+  @objc func pullToRefresh() {
+    Store.dispatch(BrowserState.Connection.reset)
   }
   
   @objc func textFieldDidChange(_ textField: UITextField) {
     // TODO: - Create a profile configuration controller, implement MCPeerID editing.
     textField.text?.nonEmpty.map {
-      Preferences.shared.userName = $0
       ChatManager.shared.userPeer = MCPeerID(displayName: $0)
     }
   }
@@ -68,8 +77,10 @@ class ChatBrowserController: UIViewController {
 // MARK: - Store Subscriber
 
 extension ChatBrowserController: StoreSubscriber {
-  func newState(state: State) {
-    chats = state.browserState.nearbyChats
+  func newState(state: AppState) {
+    refreshControl.endRefreshing()
+    
+    chats = state.browser.chats
     tableView.reloadData()
     
     if let activeChat = state.guestChat {

@@ -1,4 +1,4 @@
-import UIKit
+import MultipeerConnectivity
 
 class Preferences {
   
@@ -6,12 +6,15 @@ class Preferences {
   
   static let shared = Preferences()
   
-  @Preference("userName", defaultValue: UIDevice.current.name)
-  var userName: String
+  @NSCodingPreference("userPeer", defaultValue: .init(displayName: UIDevice.current.name))
+  var userPeer: MCPeerID
   
   let userDefaults = UserDefaults()
   
+  
   // MARK: - Inits
   
-  private init() { }
+  private init() {
+    
+  }
 }
