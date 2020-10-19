@@ -1,5 +1,4 @@
 import UIKit
-import MultipeerConnectivity
 import ReSwift
 
 class ChatController: UIViewController {
@@ -9,7 +8,7 @@ class ChatController: UIViewController {
   var chat: ChatState
   let tableView = UITableView()
   
-  let entryContainerView: UIView = Init { $0.backgroundColor = .quaternarySystemFill }
+  let entryContainerView = Init(UIView()) { $0.backgroundColor = .quaternarySystemFill }
   let entryView = EntryView()
   
   
@@ -26,7 +25,7 @@ class ChatController: UIViewController {
   }
   
   
-  // MARK: - Functions
+  // MARK: - Controller Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -69,10 +68,11 @@ class ChatController: UIViewController {
     Store.unsubscribe(self)
   }
   
+  
+  // MARK: - Functions
+  
   @objc func sendButtonTapped() {
     guard let message = entryView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).nonEmpty else {
-//      let session = Store.state.chatState.session
-//      navigationItem.title = "Connected: \(session?.connectedPeers.count ?? -1)"
       return
     }
     
@@ -87,7 +87,15 @@ class ChatController: UIViewController {
 extension ChatController: StoreSubscriber {
   func newState(state: AppState) {
     // TODO: - Implement host disconnection.
-    chat = state.guestChat ?? state.hostChat
+    let newChat = state.guestChat ?? state.hostChat
+    
+    // If the new chat's host changed compared to the current one - it got disconnected.
+    guard newChat.host == chat.host else {
+      _handleDisconnection()
+      return
+    }
+    
+    chat = newChat
     tableView.reloadData()
   }
 }
@@ -105,11 +113,29 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
     
     let message = chat.messages[indexPath.row]
     let myPeerId = ChatManager.shared.userPeer
-    let isMyMessage = message.sender == myPeerId.displayName
+    let isMyMessage = message.sender == myPeerId
     
     cell.textLabel?.textAlignment = isMyMessage ? .right : .left
     cell.textLabel?.text = message.text
     
     return cell
+  }
+}
+
+
+// MARK: - Helper Functions
+
+private extension ChatController {
+  func _handleDisconnection() {
+    let disconnectionAlert = UIAlertController(
+      title: "\(chat.host.displayName) Disconnected",
+      message: "If the host becomes available again, you will be able to reconnect.",
+      preferredStyle: .alert)
+    let closeAction = UIAlertAction(title: "Close", style: .cancel) { _ in
+      self.navigationController?.popViewController(animated: true)
+    }
+    
+    disconnectionAlert.addAction(closeAction)
+    present(disconnectionAlert, animated: true, completion: nil)
   }
 }
