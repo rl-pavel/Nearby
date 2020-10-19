@@ -1,22 +1,17 @@
 import UIKit
 
-class LeftMessageCell: UITableViewCell {
+class RightMessageCell: UITableViewCell {
   
   // MARK: - Properties
   
   let containerView = Init(UIView()) {
-    $0.layer.roundCorners([.topLeft, .topRight, .bottomRight], radius: 16)
-    $0.backgroundColor = .systemFill
+    $0.layer.roundCorners([.topLeft, .topRight, .bottomLeft], radius: 16)
+    $0.backgroundColor = .systemBlue
   }
   
-  lazy var messageStack = Init(UIStackView(arrangedSubviews: [senderLabel, messageLabel])) {
-    $0.axis = .vertical
-  }
-  let senderLabel = Init(UILabel()) {
-    $0.apply(style: .caption1, color: .secondaryLabel)
-  }
   let messageLabel = Init(UILabel()) {
-    $0.apply(style: .body, color: .label)
+    $0.apply(style: .body, color: .white)
+    $0.textAlignment = .right
   }
   
   
@@ -28,12 +23,12 @@ class LeftMessageCell: UITableViewCell {
     contentView.addSubview(containerView)
     containerView.snp.makeConstraints { make in
       make.vertical.equalToSuperview().inset(Int.x0_25)
-      make.leading.equalToSuperview().inset(Int.x1_5)
+      make.trailing.equalToSuperview().inset(Int.x1_5)
       make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
     }
     
-    containerView.addSubview(messageStack)
-    messageStack.snp.makeConstraints { make in
+    containerView.addSubview(messageLabel)
+    messageLabel.snp.makeConstraints { make in
       make.vertical.equalToSuperview().inset(Int.x1)
       make.horizontal.equalToSuperview().inset(Int.x1_5)
     }
@@ -47,3 +42,5 @@ class LeftMessageCell: UITableViewCell {
     fatalError("Not Implemented")
   }
 }
+
+

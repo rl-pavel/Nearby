@@ -7,10 +7,10 @@ class ChatController: UIViewController {
   
   var chat: ChatState
   let tableView = Init(UITableView()) {
-    // Flip the table-view upside down so the messages are added bottom-up.
-    $0.transform = CGAffineTransform(scaleX: 1, y: -1)
     $0.contentInset = .init(top: .x1_5, left: 0, bottom: 0, right: 0)
     $0.separatorStyle = .none
+    // Flip the table-view upside down so the messages are added bottom-up.
+    $0.transform = CGAffineTransform(scaleX: 1, y: -1)
   }
   
   let entryContainerView = Init(UIView()) { $0.backgroundColor = .quaternarySystemFill }
@@ -56,8 +56,9 @@ class ChatController: UIViewController {
       make.bottom.equalTo(view.keyboardLayoutGuide).inset(Int.x1).priority(.high)
       make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
     }
-    
     entryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+    
+    navigationItem.title = chat.host.displayName
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -121,14 +122,14 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
     
     if isMyMessage {
       let cell = tableView.dequeueReusableCell(RightMessageCell.self)
-      cell.messageView.messageLabel.text = message.text
+      cell.messageLabel.text = message.text
       
       return cell
       
     } else {
       let cell = tableView.dequeueReusableCell(LeftMessageCell.self)
-      cell.messageView.senderLabel.text = message.sender.displayName
-      cell.messageView.messageLabel.text = message.text
+      cell.senderLabel.text = message.sender.displayName
+      cell.messageLabel.text = message.text
       
       return cell
     }

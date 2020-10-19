@@ -13,7 +13,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let newWindow = UIWindow(windowScene: windowScene)
       newWindow.backgroundColor = .systemBackground
       
-    let hostChat = Store.state.hostChat
     newWindow.rootViewController = UINavigationController(rootViewController: ChatBrowserController())
     
     newWindow.makeKeyAndVisible()
