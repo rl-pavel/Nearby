@@ -23,6 +23,9 @@
 		495E8DFC253256E200E7FFAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 495E8DFA253256E200E7FFAD /* LaunchScreen.storyboard */; };
 		495E8E0C25325EFB00E7FFAD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 495E8E0B25325EFB00E7FFAD /* SnapKit */; };
 		495E8E0F25325F7000E7FFAD /* ChatBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495E8E0E25325F7000E7FFAD /* ChatBrowserController.swift */; };
+		49641AD3253D45DB00616F54 /* Styling+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641AD2253D45DB00616F54 /* Styling+Extensions.swift */; };
+		49641ADC253D4AF200616F54 /* LeftMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641ADB253D4AF200616F54 /* LeftMessageCell.swift */; };
+		4966BE94253D2EDE00966AE0 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4966BE93253D2EDE00966AE0 /* MessageView.swift */; };
 		496B825A2535094700C94FDE /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496B82592535094700C94FDE /* EntryView.swift */; };
 		496D025E2533B15700D44BEE /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496D025D2533B15700D44BEE /* ChatController.swift */; };
 		496D02622533B1C700D44BEE /* SnapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496D02612533B1C700D44BEE /* SnapKit+Extensions.swift */; };
@@ -63,6 +66,9 @@
 		495E8DF5253256E200E7FFAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		495E8DFD253256E200E7FFAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		495E8E0E25325F7000E7FFAD /* ChatBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBrowserController.swift; sourceTree = "<group>"; };
+		49641AD2253D45DB00616F54 /* Styling+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Styling+Extensions.swift"; sourceTree = "<group>"; };
+		49641ADB253D4AF200616F54 /* LeftMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMessageCell.swift; sourceTree = "<group>"; };
+		4966BE93253D2EDE00966AE0 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		496B82592535094700C94FDE /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		496D025D2533B15700D44BEE /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		496D02612533B1C700D44BEE /* SnapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+Extensions.swift"; sourceTree = "<group>"; };
@@ -100,6 +106,7 @@
 		49125394253265FF002E000C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				49641AD2253D45DB00616F54 /* Styling+Extensions.swift */,
 				4912539525326610002E000C /* UITableView+Extensions.swift */,
 				496D02612533B1C700D44BEE /* SnapKit+Extensions.swift */,
 				496D028F2533CCEB00D44BEE /* UIView+Extensions.swift */,
@@ -125,6 +132,8 @@
 			children = (
 				496D025D2533B15700D44BEE /* ChatController.swift */,
 				496B82592535094700C94FDE /* EntryView.swift */,
+				4966BE93253D2EDE00966AE0 /* MessageView.swift */,
+				49641ADB253D4AF200616F54 /* LeftMessageCell.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -323,6 +332,7 @@
 				496D02622533B1C700D44BEE /* SnapKit+Extensions.swift in Sources */,
 				49141BE8253CCB8700A866A8 /* ChatState+Middleware.swift in Sources */,
 				496B825A2535094700C94FDE /* EntryView.swift in Sources */,
+				49641AD3253D45DB00616F54 /* Styling+Extensions.swift in Sources */,
 				49EBDE882538B28E00BD0129 /* PreferencesManager.swift in Sources */,
 				49025578253D0ABE00DC78A4 /* NSCodingPreference.swift in Sources */,
 				498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */,
@@ -330,6 +340,7 @@
 				49EBDE582537D5F200BD0129 /* ChatManager.swift in Sources */,
 				4933EBA9253AA05800B3A517 /* Message.swift in Sources */,
 				4933EBA5253A9FF100B3A517 /* Invitation.swift in Sources */,
+				49641ADC253D4AF200616F54 /* LeftMessageCell.swift in Sources */,
 				498B734425353A1700AD1A9F /* Optional+Extensions.swift in Sources */,
 				495E8DF0253256DF00E7FFAD /* AppDelegate.swift in Sources */,
 				49EBDE7625380C1400BD0129 /* AppState.swift in Sources */,
@@ -338,6 +349,7 @@
 				49EBDE942538B89600BD0129 /* Middleware.swift in Sources */,
 				496D02902533CCEC00D44BEE /* UIView+Extensions.swift in Sources */,
 				49141BEE253CCBD800A866A8 /* ChatState+Reducer.swift in Sources */,
+				4966BE94253D2EDE00966AE0 /* MessageView.swift in Sources */,
 				49141BEB253CCBAD00A866A8 /* ChatState+Actions.swift in Sources */,
 				495E8DF2253256DF00E7FFAD /* SceneDelegate.swift in Sources */,
 				49025575253D0A9500DC78A4 /* Preference.swift in Sources */,
