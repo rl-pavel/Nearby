@@ -5,7 +5,7 @@ class LeftMessageCell: UITableViewCell {
   // MARK: - Properties
   
   let containerView = Init(UIView()) {
-    $0.layer.roundCorners([.topLeft, .topRight, .bottomRight], radius: 16)
+    $0.roundCorners([.topLeft, .topRight, .bottomRight], radius: 16)
     $0.backgroundColor = .systemFill
   }
   
@@ -27,15 +27,15 @@ class LeftMessageCell: UITableViewCell {
     
     contentView.addSubview(containerView)
     containerView.snp.makeConstraints { make in
-      make.vertical.equalToSuperview().inset(Int.x0_25)
-      make.leading.equalToSuperview().inset(Int.x1_5)
+      make.vertical.equalToSuperview().inset(2)
+      make.leading.equalToSuperview().inset(12)
       make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
     }
     
     containerView.addSubview(messageStack)
     messageStack.snp.makeConstraints { make in
-      make.vertical.equalToSuperview().inset(Int.x0_5)
-      make.horizontal.equalToSuperview().inset(Int.x1_5)
+      make.vertical.equalToSuperview().inset(4)
+      make.horizontal.equalToSuperview().inset(12)
     }
     
     // Flip the cell so it looks right side up in the table view.

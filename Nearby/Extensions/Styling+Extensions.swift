@@ -4,6 +4,15 @@ protocol TextStyling {
   func apply(style: UIFont.TextStyle, color: UIColor)
 }
 
+
+extension UITextField: TextStyling {
+  func apply(style: UIFont.TextStyle, color: UIColor) {
+    font = .preferredFont(forTextStyle: style)
+    textColor = color
+  }
+}
+
+
 extension UITextView: TextStyling {
   func apply(style: UIFont.TextStyle, color: UIColor) {
     font = .preferredFont(forTextStyle: style)
@@ -31,30 +40,5 @@ extension UIButton: TextStyling {
     titleLabel?.font = .preferredFont(forTextStyle: style)
     titleLabel?.numberOfLines = 0
     titleLabel?.lineBreakMode = .byWordWrapping
-  }
-}
-
-extension CACornerMask {
-  static var topLeft: CACornerMask { .layerMinXMinYCorner }
-  static var topRight: CACornerMask { .layerMaxXMinYCorner }
-  static var bottomLeft: CACornerMask { .layerMinXMaxYCorner }
-  static var bottomRight: CACornerMask { .layerMaxXMaxYCorner }
-  static var all: CACornerMask { [topLeft, topRight, bottomLeft, bottomRight] }
-}
-
-extension CALayer {
-  func roundCorners(
-    _ corners: CACornerMask,
-    radius: CGFloat,
-    borderWidth: CGFloat = 0,
-    borderColor: UIColor = .clear) {
-    cornerRadius = radius
-    maskedCorners = corners
-    cornerCurve = .continuous
-    
-    if borderWidth > 0 {
-      self.borderWidth = borderWidth
-      self.borderColor = borderColor.cgColor
-    }
   }
 }

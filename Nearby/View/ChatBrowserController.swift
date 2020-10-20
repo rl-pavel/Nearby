@@ -25,6 +25,11 @@ class ChatBrowserController: UIViewController {
     
     navigationItem.title = "Nearby Chats"
     navigationController?.navigationBar.prefersLargeTitles = true
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: UIImage(symbol: "person.crop.circle.fill", size: 18),
+      style: .plain,
+      target: self,
+      action: #selector(profileButtonTapped))
     
     view.addSubview(nameField)
     nameField.snp.makeConstraints { make in
@@ -43,7 +48,8 @@ class ChatBrowserController: UIViewController {
     tableView.dataSource = self
     tableView.refreshControl = refreshControl
     
-    refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+    refreshControl.addTarget(self, action: #selector(refreshDidChange), for: .valueChanged)
+    view.backgroundColor = .systemBackground
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +69,12 @@ class ChatBrowserController: UIViewController {
   
   // MARK: - Functions
   
-  @objc func pullToRefresh() {
+  @objc func profileButtonTapped() {
+    let profileController = UINavigationController(rootViewController: ProfileController())
+    present(profileController, animated: true, completion: nil)
+  }
+  
+  @objc func refreshDidChange() {
     ChatManager.shared.stopDiscovery()
     Store.dispatch(BrowserState.Connection.reset)
     ChatManager.shared.startDiscovery()

@@ -7,7 +7,7 @@ class ChatController: UIViewController {
   
   var chat: ChatState
   let tableView = Init(UITableView()) {
-    $0.contentInset = .init(top: .x1_5, left: 0, bottom: 0, right: 0)
+    $0.contentInset = .init(top: 4, left: 0, bottom: 0, right: 0)
     $0.separatorStyle = .none
     // Flip the table-view upside down so the messages are added bottom-up.
     $0.transform = CGAffineTransform(scaleX: 1, y: -1)
@@ -35,6 +35,9 @@ class ChatController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    navigationItem.title = "\(chat.host.name) Chat"
+    navigationItem.largeTitleDisplayMode = .never
+    
     view.addSubview(tableView)
     tableView.snp.makeConstraints { make in
       make.top.equalTo(view.safeAreaLayoutGuide)
@@ -51,15 +54,14 @@ class ChatController: UIViewController {
     
     entryContainerView.addSubview(entryView)
     entryView.snp.makeConstraints { make in
-      make.top.equalToSuperview().inset(Int.x1)
-      make.horizontal.equalToSuperview().inset(Int.x1_5)
-      make.bottom.equalTo(view.keyboardLayoutGuide).inset(Int.x1).priority(.high)
+      make.top.equalToSuperview().inset(8)
+      make.horizontal.equalToSuperview().inset(12)
+      make.bottom.equalTo(view.keyboardLayoutGuide).inset(8).priority(.high)
       make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
     }
     entryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
     
-    navigationItem.title = "\(chat.host.name) Chat"
-    navigationItem.largeTitleDisplayMode = .never
+    view.backgroundColor = .systemBackground
   }
   
   override func viewWillAppear(_ animated: Bool) {
