@@ -13,7 +13,7 @@ class EntryView: UIView {
     $0.imageView?.contentMode = .scaleAspectFit
   }
   
-  private var _textViewHeightConstraint: Constraint?
+  private var textViewHeightConstraint: Constraint?
   
   
   // MARK: - Inits
@@ -36,7 +36,7 @@ class EntryView: UIView {
     textView.snp.makeConstraints { make in
       make.leading.equalToSuperview().inset(Int.x1)
       make.vertical.equalToSuperview()
-      _textViewHeightConstraint = make.height.equalTo(Int.textViewMinHeight).priority(.medium).constraint
+      textViewHeightConstraint = make.height.equalTo(Int.textViewMinHeight).priority(.medium).constraint
       make.height.lessThanOrEqualTo(Int.textViewMaxHeight)
     }
     textView.delegate = self
@@ -61,6 +61,6 @@ extension EntryView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     let exceedsHeightConstraint = textView.sizeThatFits(textView.contentSize).height >= .textViewMaxHeight
     textView.isScrollEnabled = exceedsHeightConstraint
-    _textViewHeightConstraint?.setActivated(!exceedsHeightConstraint)
+    textViewHeightConstraint?.setActivated(!exceedsHeightConstraint)
   }
 }

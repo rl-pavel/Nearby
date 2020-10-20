@@ -12,13 +12,13 @@ class ChatManager: NSObject {
   
   lazy var userPeerId = Preferences.shared.userProfile.peerId
   
-  private lazy var _hostClient = ChatClient(type: .host, myPeerId: userPeerId)
-  private lazy var _guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
+  private lazy var hostClient = ChatClient(type: .host, myPeerId: userPeerId)
+  private lazy var guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
     
-  private lazy var _advertiser = MCNearbyServiceAdvertiser(peer: userPeerId, discoveryInfo: nil, serviceType: "nearby")
-  private lazy var _browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
+  private lazy var advertiser = MCNearbyServiceAdvertiser(peer: userPeerId, discoveryInfo: nil, serviceType: "nearby")
+  private lazy var browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
   
-  private var _discoveryAttempts = 0
+  private var discoveryAttempts = 0
   
   
   // MARK: - Inits
@@ -49,21 +49,19 @@ class ChatManager: NSObject {
   }
   
   func startDiscovery() {
-    print("🟢 Started Discovery")
-    _advertiser.startAdvertisingPeer()
-    _browser.startBrowsingForPeers()
+    advertiser.startAdvertisingPeer()
+    browser.startBrowsingForPeers()
   }
   
   func stopDiscovery() {
-    print("🟡 Stopped Discovery")
-    _advertiser.stopAdvertisingPeer()
-    _browser.stopBrowsingForPeers()
+    advertiser.stopAdvertisingPeer()
+    browser.stopBrowsingForPeers()
   }
   
   func invite(peer: MCPeerID, to sessionType: ChatClient.SessionType, invitation: Invitation) {
-    let session = sessionType == .host ? _hostClient.session : _guestClient.session
+    let session = sessionType == .host ? hostClient.session : guestClient.session
     
-    _browser.invitePeer(
+    browser.invitePeer(
       peer,
       to: session,
       withContext: try? invitation.encoded(),
@@ -71,11 +69,11 @@ class ChatManager: NSObject {
   }
   
   func disconnectFromHost() {
-    _guestClient.session.disconnect()
+    guestClient.session.disconnect()
   }
   
   func sendMessage(_ message: Message, to peer: MCPeerID) {
-    let session = peer == userPeerId ? _hostClient.session : _guestClient.session
+    let session = peer == userPeerId ? hostClient.session : guestClient.session
     
     guard let messageData = try? message.encoded(),
           let peers = session.connectedPeers.nonEmpty else {
@@ -107,11 +105,11 @@ extension ChatManager: MCNearbyServiceAdvertiserDelegate {
     }
     
     // Invitations are only accepted as a guest, so use the guest client's session by default.
-    Store.dispatch(BrowserState.Invite.received(invitation, invitationHandler, _guestClient.session))
+    Store.dispatch(BrowserState.Invite.received(invitation, invitationHandler, guestClient.session))
   }
   
   func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
-    guard _discoveryAttempts < 5 else {
+    guard discoveryAttempts < 5 else {
       // TODO: - Show error to user.
       return
     }
@@ -139,7 +137,7 @@ extension ChatManager: MCNearbyServiceBrowserDelegate {
   }
   
   func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
-    guard _discoveryAttempts < 5 else {
+    guard discoveryAttempts < 5 else {
       // TODO: - Show error to user.
       return
     }

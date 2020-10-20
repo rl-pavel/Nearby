@@ -15,9 +15,8 @@ infix operator <?: NilCoalescingPrecedence
 infix operator <=?: NilCoalescingPrecedence
 infix operator !=?: NilCoalescingPrecedence
 
-// All the operators here will return false if either of the sides is nil.
-// Otherwise they'll return the comparison result of the unwrapped values.
 extension Optional where Wrapped: Comparable {
+  /// Unwraps both sides, returning `false` if either is `nil`, then performs the comparison check.
   static func >? (lhs: Wrapped?, rhs: Wrapped?) -> Bool {
     guard let lhs = lhs, let rhs = rhs else {
       return false
@@ -25,6 +24,8 @@ extension Optional where Wrapped: Comparable {
     
     return lhs > rhs
   }
+  
+  /// Unwraps both sides, returning `false` if either is `nil`, then performs the comparison check.
   static func >=? (lhs: Wrapped?, rhs: Wrapped?) -> Bool {
     guard let lhs = lhs, let rhs = rhs else {
       return false
@@ -32,6 +33,8 @@ extension Optional where Wrapped: Comparable {
     
     return lhs >= rhs
   }
+  
+  /// Unwraps both sides, returning `false` if either is `nil`, then performs the comparison check.
   static func <? (lhs: Wrapped?, rhs: Wrapped?) -> Bool {
     guard let lhs = lhs, let rhs = rhs else {
       return false
@@ -39,6 +42,8 @@ extension Optional where Wrapped: Comparable {
     
     return lhs < rhs
   }
+  
+  /// Unwraps both sides, returning `false` if either is `nil`, then performs the comparison check.
   static func <=? (lhs: Wrapped?, rhs: Wrapped?) -> Bool {
     guard let lhs = lhs, let rhs = rhs else {
       return false
@@ -49,6 +54,7 @@ extension Optional where Wrapped: Comparable {
 }
 
 extension Optional where Wrapped: Equatable {
+  /// Unwraps both sides, returning `false` if either is `nil`, then performs the equation check.
   static func !=? (lhs: Wrapped?, rhs: Wrapped?) -> Bool {
     guard let lhs = lhs, let rhs = rhs else {
       return false
