@@ -23,12 +23,6 @@ extension BrowserState {
           let newChat = ChatState(host: invitation.profile, messages: invitation.messageHistory ?? [])
           context.next(ChatState.SetGuestChat(chat: newChat))
           
-        case .reset as Connection:
-          chatManager.stopDiscovery()
-          context.next(action)
-          chatManager.startDiscovery()
-          return nil
-          
         default: break
       }
       

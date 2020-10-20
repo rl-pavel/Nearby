@@ -6,7 +6,7 @@ class Preferences {
   
   static let shared = Preferences()
   
-  @Preference("userProfile", defaultValue: .init(peerId: MCPeerID(displayName: UIDevice.current.name)))
+  @Preference("userProfile",defaultValue: .defaultProfile)
   var userProfile: Profile
   
   let userDefaults = UserDefaults()
@@ -14,7 +14,5 @@ class Preferences {
   
   // MARK: - Inits
   
-  private init() {
-    
-  }
+  private init() { }
 }

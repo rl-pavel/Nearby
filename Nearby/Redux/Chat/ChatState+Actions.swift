@@ -14,10 +14,6 @@ extension ChatState {
       self.message = message
       self.chat = chat
     }
-    
-    func belongs(to hostProfile: Profile?) -> Bool {
-      return chat.host == hostProfile
-    }
   }
   
   struct ReceivedMessage: Action {

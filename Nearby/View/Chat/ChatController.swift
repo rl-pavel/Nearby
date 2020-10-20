@@ -58,7 +58,8 @@ class ChatController: UIViewController {
     }
     entryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
     
-    navigationItem.title = "\(chat.host.peerId.displayName) Chat"
+    navigationItem.title = "\(chat.host.name) Chat"
+    navigationItem.largeTitleDisplayMode = .never
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -116,11 +117,10 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let message = chat.messages[indexPath.row]
-    let myPeerId = Preferences.shared.userProfile.peerId
-    let isMyMessage = message.sender.peerId == myPeerId
+    let currentUserProfile = Preferences.shared.userProfile
     
     // TODO: - Implement MessageViewModel
-    if isMyMessage {
+    if message.sender == currentUserProfile {
       let cell = tableView.dequeueReusableCell(RightMessageCell.self)
       cell.messageLabel.text = message.text
       
@@ -128,7 +128,7 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
       
     } else {
       let cell = tableView.dequeueReusableCell(LeftMessageCell.self)
-      cell.senderLabel.text = message.sender.peerId.displayName
+      cell.senderLabel.text = message.sender.name
       cell.messageLabel.text = message.text
       
       return cell
@@ -142,7 +142,7 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
 private extension ChatController {
   func handleDisconnection() {
     let disconnectionAlert = UIAlertController(
-      title: "\(chat.host.peerId.displayName) Disconnected",
+      title: "\(chat.host.name) Disconnected",
       message: "If the host becomes available again, you will be able to reconnect.",
       preferredStyle: .alert)
     let closeAction = UIAlertAction(title: "Close", style: .cancel) { _ in

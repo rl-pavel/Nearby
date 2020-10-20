@@ -26,7 +26,7 @@ extension ChatState {
       case let action as SetGuestChat:
         return action.chat
         
-      case let action as SendMessage where action.belongs(to: chatState?.host):
+      case let action as SendMessage where action.chat.host == chatState?.host:
         // TODO: - Implement sorting messages by date sent.
         chatState?.messages.insert(action.message, at: 0)
         

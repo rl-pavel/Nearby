@@ -8,7 +8,7 @@ class ChatBrowserController: UIViewController {
   
   // TODO: - Create a dedicated ProfileController.
   let nameField = Init(UITextField()) {
-    $0.text = Preferences.shared.userProfile.peerId.displayName
+    $0.text = Preferences.shared.userProfile.name
     $0.backgroundColor = .quaternarySystemFill
   }
   
@@ -28,7 +28,8 @@ class ChatBrowserController: UIViewController {
     
     view.addSubview(nameField)
     nameField.snp.makeConstraints { make in
-      make.top.horizontal.equalTo(view.safeAreaLayoutGuide)
+      make.top.equalTo(view.safeAreaLayoutGuide)
+      make.horizontal.equalToSuperview()
       make.height.equalTo(Int.textViewMinHeight)
     }
     nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
@@ -63,15 +64,17 @@ class ChatBrowserController: UIViewController {
   // MARK: - Functions
   
   @objc func pullToRefresh() {
+    ChatManager.shared.stopDiscovery()
     Store.dispatch(BrowserState.Connection.reset)
+    ChatManager.shared.startDiscovery()
   }
   
   @objc func textFieldDidChange(_ textField: UITextField) {
-    textField.text?.nonEmpty.map {
-      let newPeerId = MCPeerID(displayName: $0)
-      Preferences.shared.userProfile = .init(peerId: newPeerId)
-      ChatManager.shared.setUpAndStartDiscovery(with: newPeerId)
-    }
+    let preferences = Preferences.shared
+    preferences.userProfile.name = textField.text ?? UIDevice.current.name
+    preferences.userProfile.peerId = .devicePeerId
+    
+    ChatManager.shared.setUpAndStartDiscovery()
   }
 }
 
@@ -105,11 +108,11 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
     
     if indexPath.row == 0 {
       let profile = Preferences.shared.userProfile
-      cell.textLabel?.text = "\(profile.peerId.displayName) (Your Chat)"
+      cell.textLabel?.text = "\(profile.name) (Your Chat)"
       
     } else {
       let profile = chats[indexPath.row - 1].host
-      cell.textLabel?.text = profile.peerId.displayName
+      cell.textLabel?.text = profile.name
       cell.imageView?.image = profile.avatar
     }
     

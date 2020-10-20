@@ -10,12 +10,15 @@ class ChatManager: NSObject {
   
   static var shared = ChatManager()
   
-  lazy var userPeerId = Preferences.shared.userProfile.peerId
+  var userPeerId: MCPeerID { Preferences.shared.userProfile.peerId }
   
   private lazy var hostClient = ChatClient(type: .host, myPeerId: userPeerId)
   private lazy var guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
     
-  private lazy var advertiser = MCNearbyServiceAdvertiser(peer: userPeerId, discoveryInfo: nil, serviceType: "nearby")
+  private lazy var advertiser = MCNearbyServiceAdvertiser(
+    peer: userPeerId,
+    discoveryInfo: ["userName": Preferences.shared.userProfile.name],
+    serviceType: "nearby")
   private lazy var browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
   
   private var discoveryAttempts = 0
@@ -26,20 +29,25 @@ class ChatManager: NSObject {
   private override init() {
     super.init()
     
-    setUpAndStartDiscovery(with: userPeerId)
+    advertiser.delegate = self
+    browser.delegate = self
+    
+    startDiscovery()
   }
   
   
   // MARK: - Functions
   
-  func setUpAndStartDiscovery(with newPeerId: MCPeerID) {
+  func setUpAndStartDiscovery() {
     stopDiscovery()
     
-    userPeerId = newPeerId
     hostClient = ChatClient(type: .host, myPeerId: userPeerId)
     guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
     
-    advertiser = MCNearbyServiceAdvertiser(peer: userPeerId, discoveryInfo: nil, serviceType: "nearby")
+    advertiser = MCNearbyServiceAdvertiser(
+      peer: userPeerId,
+      discoveryInfo: ["userName": Preferences.shared.userProfile.name],
+      serviceType: "nearby")
     advertiser.delegate = self
     
     browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
@@ -125,9 +133,10 @@ extension ChatManager: MCNearbyServiceAdvertiserDelegate {
 extension ChatManager: MCNearbyServiceBrowserDelegate {
   func browser(
     _ browser: MCNearbyServiceBrowser,
-    foundPeer peer: MCPeerID,
+    foundPeer peerId: MCPeerID,
     withDiscoveryInfo info: [String : String]?) {
-    let profile = Profile(peerId: peer)
+    guard let userName = info?["userName"] else { return }
+    let profile = Profile(peerId: peerId, userName: userName)
     
     Store.dispatch(BrowserState.Connection.found(profile))
   }
