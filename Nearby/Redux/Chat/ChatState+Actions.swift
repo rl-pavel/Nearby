@@ -15,8 +15,8 @@ extension ChatState {
       self.chat = chat
     }
     
-    func belongs(to host: MCPeerID?) -> Bool {
-      return chat.host == host
+    func belongs(to hostProfile: Profile?) -> Bool {
+      return chat.host == hostProfile
     }
   }
   

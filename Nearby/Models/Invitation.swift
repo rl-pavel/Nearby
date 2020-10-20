@@ -7,4 +7,5 @@ struct Invitation: Codable {
   
   var purpose: Purpose
   var messageHistory: [Message]?
+  var profile = Preferences.shared.userProfile
 }

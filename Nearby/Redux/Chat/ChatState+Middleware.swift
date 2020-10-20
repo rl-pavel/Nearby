@@ -11,7 +11,7 @@ extension ChatState {
             fatalError("Message sent without a chat? 🤔")
           }
           
-          chatManager.sendMessage(action.message, to: chat.host)
+          chatManager.sendMessage(action.message, to: chat.host.peerId)
           
         case let action as SetGuestChat:
           if action.chat == nil {

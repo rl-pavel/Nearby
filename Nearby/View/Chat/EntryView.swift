@@ -44,13 +44,13 @@ class EntryView: UIView {
     addSubview(sendButton)
     sendButton.snp.makeConstraints { make in
       make.size.equalTo(Int.smallButton)
-      make.leading.equalTo(textView.snp.trailing)//.offset(Int.x1)
+      make.leading.equalTo(textView.snp.trailing)
       make.trailing.equalToSuperview().inset(Int.x0_25)
       make.bottom.equalToSuperview().inset(Int.x0_25)
     }
     
     backgroundColor = .systemBackground
-    layer.roundCorners(.all, radius: 19, borderWidth: 1, borderColor: .systemGray3)
+    layer.roundCorners(.all, radius: 19, borderWidth: .pixel, borderColor: .systemGray3)
   }
 }
 

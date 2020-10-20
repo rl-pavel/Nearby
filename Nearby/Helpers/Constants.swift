@@ -4,7 +4,9 @@ import UIKit
 
 protocol LayoutSpacing { }
 extension Int: LayoutSpacing { }
-extension CGFloat: LayoutSpacing { }
+extension CGFloat: LayoutSpacing {
+  static let pixel: Self = 1 / UIScreen.main.scale
+}
 
 extension LayoutSpacing where Self: Numeric {
   static var x0_25: Self { 2 }

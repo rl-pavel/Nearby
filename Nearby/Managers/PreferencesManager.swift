@@ -6,8 +6,8 @@ class Preferences {
   
   static let shared = Preferences()
   
-  @NSCodingPreference("userPeer", defaultValue: .init(displayName: UIDevice.current.name))
-  var userPeer: MCPeerID
+  @Preference("userProfile", defaultValue: .init(peerId: MCPeerID(displayName: UIDevice.current.name)))
+  var userProfile: Profile
   
   let userDefaults = UserDefaults()
   

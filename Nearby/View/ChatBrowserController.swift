@@ -7,7 +7,7 @@ class ChatBrowserController: UIViewController {
   // MARK: - Properties
   
   let nameField = Init(UITextField()) {
-    $0.text = ChatManager.shared.userPeer.displayName
+    $0.text = Preferences.shared.userProfile.peerId.displayName
     $0.backgroundColor = .quaternarySystemFill
   }
   
@@ -68,7 +68,9 @@ class ChatBrowserController: UIViewController {
   @objc func textFieldDidChange(_ textField: UITextField) {
     // TODO: - Create a profile configuration controller, implement MCPeerID editing.
     textField.text?.nonEmpty.map {
-      ChatManager.shared.userPeer = MCPeerID(displayName: $0)
+      let newPeerId = MCPeerID(displayName: $0)
+      Preferences.shared.userProfile = .init(peerId: newPeerId)
+      ChatManager.shared.setUpAndStartDiscovery(with: newPeerId)
     }
   }
 }
@@ -100,12 +102,15 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(UITableViewCell.self)
     
+    
     if indexPath.row == 0 {
-      let userName = ChatManager.shared.userPeer.displayName
-      cell.textLabel?.text = "\(userName) (Your Chat)"
+      let profile = Preferences.shared.userProfile
+      cell.textLabel?.text = "\(profile.peerId.displayName) (Your Chat)"
       
     } else {
-      cell.textLabel?.text = chats[indexPath.row - 1].host.displayName
+      let profile = chats[indexPath.row - 1].host
+      cell.textLabel?.text = profile.peerId.displayName
+      cell.imageView?.image = profile.avatar
     }
     
     return cell
@@ -120,7 +125,7 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
       return
     }
     
-    let hostToJoin = chats[indexPath.row - 1].host
-    Store.dispatch(BrowserState.Invite.send(to: hostToJoin, Invitation(purpose: .joinRequest)))
+    let peerToJoin = chats[indexPath.row - 1].host.peerId
+    Store.dispatch(BrowserState.Invite.send(to: peerToJoin, Invitation(purpose: .joinRequest)))
   }
 }

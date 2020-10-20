@@ -17,7 +17,7 @@ struct AppState: StateType {
   
   var browser = BrowserState()
   
-  var hostChat = ChatState(host: ChatManager.shared.userPeer)
+  var hostChat = ChatState(host: Preferences.shared.userProfile)
   var guestChat: ChatState?
   
     

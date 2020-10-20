@@ -13,7 +13,7 @@ class LeftMessageCell: UITableViewCell {
     $0.axis = .vertical
   }
   let senderLabel = Init(UILabel()) {
-    $0.apply(style: .caption1, color: .secondaryLabel)
+    $0.apply(style: .caption2, color: .secondaryLabel)
   }
   let messageLabel = Init(UILabel()) {
     $0.apply(style: .body, color: .label)
@@ -34,7 +34,7 @@ class LeftMessageCell: UITableViewCell {
     
     containerView.addSubview(messageStack)
     messageStack.snp.makeConstraints { make in
-      make.vertical.equalToSuperview().inset(Int.x1)
+      make.vertical.equalToSuperview().inset(Int.x0_5)
       make.horizontal.equalToSuperview().inset(Int.x1_5)
     }
     

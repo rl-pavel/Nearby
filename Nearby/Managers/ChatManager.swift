@@ -10,20 +10,13 @@ class ChatManager: NSObject {
   
   static var shared = ChatManager()
   
-  lazy var userPeer = Preferences.shared.userPeer {
-    willSet {
-      // Whenever the user peer is changed (e.g. after rename), make sure the
-      // sessions, advertiser and browser are updated.
-      Preferences.shared.userPeer = newValue
-      _setUpAndStartDiscovery(with: newValue)
-    }
-  }
+  lazy var userPeerId = Preferences.shared.userProfile.peerId
   
-  private lazy var _hostClient = ChatClient(type: .host, myPeerId: userPeer)
-  private lazy var _guestClient = ChatClient(type: .guest, myPeerId: userPeer)
+  private lazy var _hostClient = ChatClient(type: .host, myPeerId: userPeerId)
+  private lazy var _guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
     
-  private lazy var _advertiser = MCNearbyServiceAdvertiser(peer: userPeer, discoveryInfo: nil, serviceType: "nearby")
-  private lazy var _browser = MCNearbyServiceBrowser(peer: userPeer, serviceType: "nearby")
+  private lazy var _advertiser = MCNearbyServiceAdvertiser(peer: userPeerId, discoveryInfo: nil, serviceType: "nearby")
+  private lazy var _browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
   
   private var _discoveryAttempts = 0
   
@@ -32,19 +25,37 @@ class ChatManager: NSObject {
   
   private override init() {
     super.init()
-
-    _setUpAndStartDiscovery(with: userPeer)
+    
+    setUpAndStartDiscovery(with: userPeerId)
   }
   
   
   // MARK: - Functions
   
+  func setUpAndStartDiscovery(with newPeerId: MCPeerID) {
+    stopDiscovery()
+    
+    userPeerId = newPeerId
+    _hostClient = ChatClient(type: .host, myPeerId: userPeerId)
+    _guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
+    
+    _advertiser = MCNearbyServiceAdvertiser(peer: userPeerId, discoveryInfo: nil, serviceType: "nearby")
+    _advertiser.delegate = self
+    
+    _browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
+    _browser.delegate = self
+    
+    startDiscovery()
+  }
+  
   func startDiscovery() {
+    print("🟢 Started Discovery")
     _advertiser.startAdvertisingPeer()
     _browser.startBrowsingForPeers()
   }
   
   func stopDiscovery() {
+    print("🟡 Stopped Discovery")
     _advertiser.stopAdvertisingPeer()
     _browser.stopBrowsingForPeers()
   }
@@ -64,7 +75,7 @@ class ChatManager: NSObject {
   }
   
   func sendMessage(_ message: Message, to peer: MCPeerID) {
-    let session = peer == userPeer ? _hostClient.session : _guestClient.session
+    let session = peer == userPeerId ? _hostClient.session : _guestClient.session
     
     guard let messageData = try? message.encoded(),
           let peers = session.connectedPeers.nonEmpty else {
@@ -96,7 +107,7 @@ extension ChatManager: MCNearbyServiceAdvertiserDelegate {
     }
     
     // Invitations are only accepted as a guest, so use the guest client's session by default.
-    Store.dispatch(BrowserState.Invite.received(from: peer, invitation, invitationHandler, _guestClient.session))
+    Store.dispatch(BrowserState.Invite.received(invitation, invitationHandler, _guestClient.session))
   }
   
   func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
@@ -118,7 +129,9 @@ extension ChatManager: MCNearbyServiceBrowserDelegate {
     _ browser: MCNearbyServiceBrowser,
     foundPeer peer: MCPeerID,
     withDiscoveryInfo info: [String : String]?) {
-    Store.dispatch(BrowserState.Connection.found(peer))
+    let profile = Profile(peerId: peer)
+    
+    Store.dispatch(BrowserState.Connection.found(profile))
   }
   
   func browser(_ browser: MCNearbyServiceBrowser, lostPeer peer: MCPeerID) {
@@ -132,26 +145,6 @@ extension ChatManager: MCNearbyServiceBrowserDelegate {
     }
     
     print("🔴 Failed to start browsing - trying again.")
-    startDiscovery()
-  }
-}
-
-
-// MARK: - Helper Functions
-
-private extension ChatManager {
-  func _setUpAndStartDiscovery(with newPeer: MCPeerID) {
-    stopDiscovery()
-    
-    _hostClient = ChatClient(type: .host, myPeerId: newPeer)
-    _guestClient = ChatClient(type: .guest, myPeerId: newPeer)
-    
-    _advertiser = MCNearbyServiceAdvertiser(peer: newPeer, discoveryInfo: nil, serviceType: "nearby")
-    _advertiser.delegate = self
-    
-    _browser = MCNearbyServiceBrowser(peer: newPeer, serviceType: "nearby")
-    _browser.delegate = self
-    
     startDiscovery()
   }
 }

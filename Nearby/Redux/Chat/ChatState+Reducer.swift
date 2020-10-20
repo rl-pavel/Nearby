@@ -2,7 +2,7 @@ import ReSwift
 
 extension ChatState {
   static func hostChatReduce(action: Action, state: Self?) -> Self {
-    var chatState = state ?? .init(host: ChatManager.shared.userPeer)
+    var chatState = state ?? .init(host: Preferences.shared.userProfile)
     
     switch action {
       case let action as SendMessage where action.chat.host == chatState.host:
@@ -35,7 +35,7 @@ extension ChatState {
       case let action as ReceivedMessage where action.sessionType == .guest:
         chatState?.messages.insert(action.message, at: 0)
         
-      case .lost(let peer) as BrowserState.Connection where peer == chatState?.host:
+      case .lost(let peer) as BrowserState.Connection where peer == chatState?.host.peerId:
         chatState = nil
         
       default: break
