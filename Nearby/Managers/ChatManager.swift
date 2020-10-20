@@ -36,14 +36,14 @@ class ChatManager: NSObject {
     stopDiscovery()
     
     userPeerId = newPeerId
-    _hostClient = ChatClient(type: .host, myPeerId: userPeerId)
-    _guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
+    hostClient = ChatClient(type: .host, myPeerId: userPeerId)
+    guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
     
-    _advertiser = MCNearbyServiceAdvertiser(peer: userPeerId, discoveryInfo: nil, serviceType: "nearby")
-    _advertiser.delegate = self
+    advertiser = MCNearbyServiceAdvertiser(peer: userPeerId, discoveryInfo: nil, serviceType: "nearby")
+    advertiser.delegate = self
     
-    _browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
-    _browser.delegate = self
+    browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
+    browser.delegate = self
     
     startDiscovery()
   }
