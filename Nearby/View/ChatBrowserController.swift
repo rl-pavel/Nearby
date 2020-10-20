@@ -6,6 +6,7 @@ class ChatBrowserController: UIViewController {
   
   // MARK: - Properties
   
+  // TODO: - Create a dedicated ProfileController.
   let nameField = Init(UITextField()) {
     $0.text = ChatManager.shared.userPeer.displayName
     $0.backgroundColor = .quaternarySystemFill
@@ -66,7 +67,6 @@ class ChatBrowserController: UIViewController {
   }
   
   @objc func textFieldDidChange(_ textField: UITextField) {
-    // TODO: - Create a profile configuration controller, implement MCPeerID editing.
     textField.text?.nonEmpty.map {
       ChatManager.shared.userPeer = MCPeerID(displayName: $0)
     }

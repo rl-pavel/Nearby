@@ -93,12 +93,11 @@ class ChatController: UIViewController {
 
 extension ChatController: StoreSubscriber {
   func newState(state: AppState) {
-    // TODO: - Implement host disconnection.
     let newChat = state.guestChat ?? state.hostChat
     
-    // If the new chat's host changed compared to the current one - it got disconnected.
+    // If the new (guest) chat's host is different to the current one - it got disconnected.
     guard newChat.host == chat.host else {
-      _handleDisconnection()
+      handleDisconnection()
       return
     }
     
@@ -120,6 +119,7 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
     let myPeerId = ChatManager.shared.userPeer
     let isMyMessage = message.sender == myPeerId
     
+    // TODO: - Implement MessageViewModel
     if isMyMessage {
       let cell = tableView.dequeueReusableCell(RightMessageCell.self)
       cell.messageLabel.text = message.text
@@ -140,7 +140,7 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - Helper Functions
 
 private extension ChatController {
-  func _handleDisconnection() {
+  func handleDisconnection() {
     let disconnectionAlert = UIAlertController(
       title: "\(chat.host.displayName) Disconnected",
       message: "If the host becomes available again, you will be able to reconnect.",

@@ -1,11 +1,26 @@
 import UIKit
 import SnapKit
 
+extension UIView {
+  var keyboardLayoutGuide: UILayoutGuide {
+    if let existingGuide = layoutGuides.first(where: { $0 is KeyboardLayoutGuide }) {
+      return existingGuide
+    }
+    
+    let newGuide = KeyboardLayoutGuide()
+    addLayoutGuide(newGuide)
+    newGuide.setUp()
+    
+    return newGuide
+  }
+}
+
+
 class KeyboardLayoutGuide: UILayoutGuide {
   
   // MARK: - Properties
   
-  private static var _keyboardHeight: CGFloat = 0
+  private static var keyboardHeight: CGFloat = 0
   
   
   // MARK: - Inits
@@ -15,7 +30,7 @@ class KeyboardLayoutGuide: UILayoutGuide {
     
     notificationCenter.addObserver(
       self,
-      selector: #selector(_keyboardWillChangeFrame(_:)),
+      selector: #selector(keyboardWillChangeFrame(_:)),
       name: UIResponder.keyboardWillChangeFrameNotification,
       object: nil
     )
@@ -28,7 +43,7 @@ class KeyboardLayoutGuide: UILayoutGuide {
   
   // MARK: - Functions
   
-  internal func setUp() {
+  func setUp() {
     guard let view = owningView else { return }
     
     snp.makeConstraints { make in
@@ -37,7 +52,7 @@ class KeyboardLayoutGuide: UILayoutGuide {
   }
   
   @objc
-  private func _keyboardWillChangeFrame(_ notification: Notification) {
+  private func keyboardWillChangeFrame(_ notification: Notification) {
     guard let keyboardHeight = notification.keyboardHeight,
           let duration = notification.animationDuration,
           let owningView = owningView else {
