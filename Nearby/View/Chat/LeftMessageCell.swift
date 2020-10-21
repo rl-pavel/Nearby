@@ -4,7 +4,7 @@ class LeftMessageCell: UITableViewCell {
   
   // MARK: - Properties
   
-  let containerView = Init(UIView()) {
+  let messageBubbleView = Init(UIView()) {
     $0.roundCorners([.topLeft, .topRight, .bottomRight], radius: 16)
     $0.backgroundColor = .systemFill
   }
@@ -12,7 +12,7 @@ class LeftMessageCell: UITableViewCell {
   lazy var messageStack = Init(UIStackView(arrangedSubviews: [senderLabel, messageLabel])) {
     $0.axis = .vertical
   }
-  let senderLabel = Init(UILabel()) {
+  let senderLabel = Init(UILabel()) { 
     $0.apply(style: .caption2, color: .secondaryLabel)
   }
   let messageLabel = Init(UILabel()) {
@@ -25,14 +25,14 @@ class LeftMessageCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
-    contentView.addSubview(containerView)
-    containerView.snp.makeConstraints { make in
+    contentView.addSubview(messageBubbleView)
+    messageBubbleView.snp.makeConstraints { make in
       make.vertical.equalToSuperview().inset(2)
       make.leading.equalToSuperview().inset(12)
       make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
     }
     
-    containerView.addSubview(messageStack)
+    messageBubbleView.addSubview(messageStack)
     messageStack.snp.makeConstraints { make in
       make.vertical.equalToSuperview().inset(4)
       make.horizontal.equalToSuperview().inset(12)

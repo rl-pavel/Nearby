@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class EntryView: UIView {
+class MessageEntryView: UIView {
   
   // MARK: - Properties
   
@@ -50,14 +50,14 @@ class EntryView: UIView {
     }
     
     backgroundColor = .systemBackground
-    roundCorners(.all, radius: 19, borderWidth: .pixel, borderColor: .systemGray3)
+    roundCorners(radius: 19, borderWidth: .pixel, borderColor: .systemGray3)
   }
 }
 
 
 // MARK: - UITextViewDelegate Functions
 
-extension EntryView: UITextViewDelegate {
+extension MessageEntryView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     let exceedsHeightConstraint = textView.sizeThatFits(textView.contentSize).height >= .textViewMaxHeight
     textView.isScrollEnabled = exceedsHeightConstraint

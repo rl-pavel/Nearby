@@ -14,7 +14,7 @@ class ChatController: UIViewController {
   }
   
   let entryContainerView = Init(UIView()) { $0.backgroundColor = .quaternarySystemFill }
-  let entryView = EntryView()
+  let messageEntryView = MessageEntryView()
   
   
   // MARK: - Inits
@@ -52,14 +52,14 @@ class ChatController: UIViewController {
       make.horizontal.bottom.equalToSuperview()
     }
     
-    entryContainerView.addSubview(entryView)
-    entryView.snp.makeConstraints { make in
+    entryContainerView.addSubview(messageEntryView)
+    messageEntryView.snp.makeConstraints { make in
       make.top.equalToSuperview().inset(8)
       make.horizontal.equalToSuperview().inset(12)
       make.bottom.equalTo(view.keyboardLayoutGuide).inset(8).priority(.high)
       make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
     }
-    entryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+    messageEntryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
     
     view.backgroundColor = .systemBackground
   }
@@ -75,19 +75,6 @@ class ChatController: UIViewController {
     
     Store.dispatch(ChatState.SetGuestChat(chat: nil))
     Store.unsubscribe(self)
-  }
-  
-  
-  // MARK: - Functions
-  
-  @objc func sendButtonTapped() {
-    guard let message = entryView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).nonEmpty else {
-      return
-    }
-    
-    entryView.textView.text = nil
-    entryView.textViewDidChange(entryView.textView)
-    Store.dispatch(ChatState.SendMessage(Message(text: message), in: chat))
   }
 }
 
@@ -106,6 +93,34 @@ extension ChatController: StoreSubscriber {
     
     chat = newChat
     tableView.reloadData()
+  }
+}
+
+
+// MARK: - Helper Functions
+
+private extension ChatController {
+  @objc func sendButtonTapped() {
+    guard let message = messageEntryView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).nonEmpty else {
+      return
+    }
+    
+    messageEntryView.textView.text = nil
+    messageEntryView.textViewDidChange(messageEntryView.textView)
+    Store.dispatch(ChatState.SendMessage(Message(text: message), in: chat))
+  }
+  
+  func handleDisconnection() {
+    let disconnectionAlert = UIAlertController(
+      title: "\(chat.host.name) Disconnected",
+      message: "If the host becomes available again, you will be able to reconnect.",
+      preferredStyle: .alert)
+    let closeAction = UIAlertAction(title: "Close", style: .cancel) { _ in
+      self.navigationController?.popViewController(animated: true)
+    }
+    
+    disconnectionAlert.addAction(closeAction)
+    present(disconnectionAlert, animated: true, completion: nil)
   }
 }
 
@@ -135,23 +150,5 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
       
       return cell
     }
-  }
-}
-
-
-// MARK: - Helper Functions
-
-private extension ChatController {
-  func handleDisconnection() {
-    let disconnectionAlert = UIAlertController(
-      title: "\(chat.host.name) Disconnected",
-      message: "If the host becomes available again, you will be able to reconnect.",
-      preferredStyle: .alert)
-    let closeAction = UIAlertAction(title: "Close", style: .cancel) { _ in
-      self.navigationController?.popViewController(animated: true)
-    }
-    
-    disconnectionAlert.addAction(closeAction)
-    present(disconnectionAlert, animated: true, completion: nil)
   }
 }
