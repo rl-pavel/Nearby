@@ -28,7 +28,7 @@ class ChatClient: NSObject {
 }
 
 
-// MARK: - Session Delegate
+// MARK: - MCSessionDelegate Functions
 
 extension ChatClient: MCSessionDelegate {
   func session(

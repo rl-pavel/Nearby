@@ -36,8 +36,8 @@ class MessageEntryView: UIView {
     textView.snp.makeConstraints { make in
       make.leading.equalToSuperview().inset(8)
       make.vertical.equalToSuperview()
-      textViewHeightConstraint = make.height.equalTo(Int.textViewMinHeight).priority(.medium).constraint
-      make.height.lessThanOrEqualTo(Int.textViewMaxHeight)
+      textViewHeightConstraint = make.height.equalTo(Int.messageEntryMinHeight).priority(.medium).constraint
+      make.height.lessThanOrEqualTo(Int.messageEntryMaxHeight)
     }
     textView.delegate = self
     
@@ -59,7 +59,7 @@ class MessageEntryView: UIView {
 
 extension MessageEntryView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
-    let exceedsHeightConstraint = textView.sizeThatFits(textView.contentSize).height >= .textViewMaxHeight
+    let exceedsHeightConstraint = textView.sizeThatFits(textView.contentSize).height >= .messageEntryMaxHeight
     textView.isScrollEnabled = exceedsHeightConstraint
     textViewHeightConstraint?.setActivated(!exceedsHeightConstraint)
   }

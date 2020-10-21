@@ -1,6 +1,9 @@
 import ReSwift
 
 extension BrowserState {
+  
+  // MARK: - Middleware
+  
   static func middleware(chatManager: ChatManager = .shared) -> MiddlewareHandler {
     return { action, context in
       switch action {

@@ -2,6 +2,9 @@ import ReSwift
 import MultipeerConnectivity
 
 extension ChatState {
+  
+  // MARK: - Actions
+  
   struct SetGuestChat: Action {
     let chat: ChatState?
   }

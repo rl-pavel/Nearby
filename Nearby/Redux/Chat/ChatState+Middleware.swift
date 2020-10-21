@@ -1,6 +1,9 @@
 import ReSwift
 
 extension ChatState {
+  
+  // MARK: - Middleware
+  
   static func middleware(chatManager: ChatManager = .shared) -> MiddlewareHandler {
     return { action, context in
       let state = context.state

@@ -1,6 +1,9 @@
 import ReSwift
 
 extension BrowserState {
+  
+  // MARK: - Reducer
+  
   static func reduce(action: Action, state: Self?) -> Self {
     var browser = state ?? .init()
     
