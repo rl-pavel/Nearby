@@ -67,5 +67,9 @@
 		<string>_nearby._tcp</string>
 		<string>_nearby._udp</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>You can grant this application camera access if you want to take a picture for your profile to display with your messages.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You can grant this application photo access if you want to pick a photo for your profile to display next to your messages.</string>
 </dict>
 </plist>
