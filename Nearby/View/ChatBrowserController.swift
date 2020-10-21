@@ -6,14 +6,10 @@ class ChatBrowserController: UIViewController {
   
   // MARK: - Properties
   
-  // TODO: - Create a dedicated ProfileController.
-  let nameField = Init(UITextField()) {
-    $0.text = Preferences.shared.userProfile.name
-    $0.backgroundColor = .quaternarySystemFill
-  }
-  
   let refreshControl = UIRefreshControl()
-  let tableView = UITableView()
+  let tableView = Init(UITableView(frame: .zero, style: .insetGrouped)) {
+    $0.contentInset.top = 16
+  }
   
   var chats = [ChatState]()
   
@@ -26,23 +22,14 @@ class ChatBrowserController: UIViewController {
     navigationItem.title = "Nearby Chats"
     navigationController?.navigationBar.prefersLargeTitles = true
     navigationItem.rightBarButtonItem = UIBarButtonItem(
-      image: UIImage(symbol: "person.crop.circle.fill", size: 18),
+      image: UIImage(symbol: "person.crop.square", size: 20),
       style: .plain,
       target: self,
       action: #selector(profileButtonTapped))
     
-    view.addSubview(nameField)
-    nameField.snp.makeConstraints { make in
-      make.top.equalTo(view.safeAreaLayoutGuide)
-      make.horizontal.equalToSuperview()
-      make.height.equalTo(Int.textViewMinHeight)
-    }
-    nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-    
     view.addSubview(tableView)
     tableView.snp.makeConstraints { make in
-      make.top.equalTo(nameField.snp.bottom)
-      make.horizontal.bottom.equalTo(view.safeAreaLayoutGuide)
+      make.edges.equalTo(view.safeAreaLayoutGuide)
     }
     tableView.delegate = self
     tableView.dataSource = self
@@ -56,7 +43,9 @@ class ChatBrowserController: UIViewController {
     super.viewWillAppear(animated)
     
     Store.subscribe(self) { subscription in
-      subscription.skipRepeats { $0.guestChat != nil && $1.guestChat != nil && $0.guestChat == $1.guestChat }
+      subscription.skipRepeats {
+        $0.guestChat != nil && $1.guestChat != nil && $0.guestChat == $1.guestChat
+      }
     }
   }
   
@@ -65,10 +54,28 @@ class ChatBrowserController: UIViewController {
     
     Store.unsubscribe(self)
   }
-  
-  
-  // MARK: - Functions
-  
+}
+
+
+// MARK: - Store Subscriber
+
+extension ChatBrowserController: StoreSubscriber {
+  func newState(state: AppState) {
+    refreshControl.endRefreshing()
+    
+    chats = state.browser.chats
+    tableView.reloadData()
+    
+    if let activeChat = state.guestChat {
+      show(ChatController(chat: activeChat), sender: nil)
+    }
+  }
+}
+
+
+// MARK: - Helper Functions
+
+private extension ChatBrowserController {
   @objc func profileButtonTapped() {
     let profileController = UINavigationController(rootViewController: ProfileController())
     present(profileController, animated: true, completion: nil)
@@ -86,22 +93,6 @@ class ChatBrowserController: UIViewController {
     preferences.userProfile.peerId = .devicePeerId
     
     ChatManager.shared.setUpAndStartDiscovery()
-  }
-}
-
-
-// MARK: - Store Subscriber
-
-extension ChatBrowserController: StoreSubscriber {
-  func newState(state: AppState) {
-    refreshControl.endRefreshing()
-    
-    chats = state.browser.chats
-    tableView.reloadData()
-    
-    if let activeChat = state.guestChat {
-      show(ChatController(chat: activeChat), sender: nil)
-    }
   }
 }
 

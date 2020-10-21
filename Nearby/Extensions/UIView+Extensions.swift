@@ -14,7 +14,7 @@ extension UIView {
   }
   
   func roundCorners(
-    _ corners: CACornerMask,
+    _ corners: CACornerMask = .all,
     radius: CGFloat,
     borderWidth: CGFloat = 0,
     borderColor: UIColor = .clear) {
