@@ -1,6 +1,9 @@
 import ReSwift
 
 extension ChatState {
+  
+  // MARK: - Host Chat Reducer
+  
   static func hostChatReduce(action: Action, state: Self?) -> Self {
     var chatState = state ?? .init(host: Preferences.shared.userProfile)
     // TODO: - Move to AppDelegate to only store the chat when the app closes.
@@ -20,6 +23,9 @@ extension ChatState {
     
     return chatState
   }
+  
+  
+  // MARK: - Guest Chat Reducer
   
   static func guestChatReduce(action: Action, state: Self?) -> Self? {
     var chatState = state

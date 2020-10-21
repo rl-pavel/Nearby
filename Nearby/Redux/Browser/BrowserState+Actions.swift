@@ -2,6 +2,9 @@ import ReSwift
 import MultipeerConnectivity
 
 extension BrowserState {
+  
+  // MARK: - Actions
+  
   enum Connection: Action {
     case found(Profile)
     case lost(MCPeerID)

@@ -13,7 +13,9 @@ class ChatController: UIViewController {
     $0.transform = CGAffineTransform(scaleX: 1, y: -1)
   }
   
-  let entryContainerView = Init(UIView()) { $0.backgroundColor = .quaternarySystemFill }
+  let entryContainerView = Init(UIView()) {
+    $0.backgroundColor = .quaternarySystemFill
+  }
   let messageEntryView = MessageEntryView()
   
   

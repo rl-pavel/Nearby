@@ -65,9 +65,7 @@ extension Profile: Codable {
     let peerData = try NSKeyedArchiver.archivedData(withRootObject: peerId, requiringSecureCoding: false)
     try container.encode(peerData, forKey: .peerId)
     
-    if let imageData = avatar?.pngData() {
-      try container.encode(imageData, forKey: .avatar)
-    }
+    try container.encodeIfPresent(avatar?.pngData(), forKey: .avatar)
   }
 }
 

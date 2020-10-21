@@ -10,8 +10,8 @@ extension CGFloat: LayoutSpacing {
 
 extension LayoutSpacing where Self: Numeric {
   static var sendButton: Self { 34 }
-  static var textViewMinHeight: Self { 38 }
-  static var textViewMaxHeight: Self { 148 }
+  static var messageEntryMinHeight: Self { 38 }
+  static var messageEntryMaxHeight: Self { 148 }
   
 }
 
