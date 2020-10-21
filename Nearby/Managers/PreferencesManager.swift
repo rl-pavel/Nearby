@@ -6,15 +6,16 @@ class Preferences {
   
   static let shared = Preferences()
   
-  @NSCodingPreference("userPeer", defaultValue: .init(displayName: UIDevice.current.name))
-  var userPeer: MCPeerID
+  @Preference("userProfile",defaultValue: .defaultProfile)
+  var userProfile: Profile
+  
+  @Preference("chatHistory")
+  var chatHistory: ChatState?
   
   let userDefaults = UserDefaults()
   
   
   // MARK: - Inits
   
-  private init() {
-    
-  }
+  private init() { }
 }

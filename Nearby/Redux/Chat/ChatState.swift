@@ -2,14 +2,11 @@ import Foundation
 import MultipeerConnectivity
 import ReSwift
 
-struct ChatState: StateType {
+struct ChatState: StateType, Codable {
   
   // MARK: - Properties
   
-  // TODO: - Create Profile model. Add avatar image in Base64 String representation:
-  // https://www.mysamplecode.com/2019/04/ios-swift-convert-image-base64.html
-  let host: MCPeerID
-  
+  let host: Profile
   var messages = [Message]()
 }
 

@@ -28,7 +28,7 @@ class ChatClient: NSObject {
 }
 
 
-// MARK: - Session Delegate
+// MARK: - MCSessionDelegate Functions
 
 extension ChatClient: MCSessionDelegate {
   func session(
@@ -37,13 +37,13 @@ extension ChatClient: MCSessionDelegate {
     didChange state: MCSessionState) {
     switch state {
     case .connected:
-      print("Connected: \(peer.displayName)")
+      print("Connected: \(peer.id)")
       
     case .connecting:
-      print("Connecting: \(peer.displayName)")
+      print("Connecting: \(peer.id)")
       
     case .notConnected:
-      print("Not Connected: \(peer.displayName)")
+      print("Not Connected: \(peer.id)")
       
     @unknown default:
       fatalError()

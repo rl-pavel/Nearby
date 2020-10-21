@@ -7,14 +7,16 @@ class ChatController: UIViewController {
   
   var chat: ChatState
   let tableView = Init(UITableView()) {
-    $0.contentInset = .init(top: .x1_5, left: 0, bottom: 0, right: 0)
+    $0.contentInset = .init(top: 4, left: 0, bottom: 0, right: 0)
     $0.separatorStyle = .none
     // Flip the table-view upside down so the messages are added bottom-up.
     $0.transform = CGAffineTransform(scaleX: 1, y: -1)
   }
   
-  let entryContainerView = Init(UIView()) { $0.backgroundColor = .quaternarySystemFill }
-  let entryView = EntryView()
+  let entryContainerView = Init(UIView()) {
+    $0.backgroundColor = .quaternarySystemFill
+  }
+  let messageEntryView = MessageEntryView()
   
   
   // MARK: - Inits
@@ -35,6 +37,9 @@ class ChatController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    navigationItem.title = "\(chat.host.name) Chat"
+    navigationItem.largeTitleDisplayMode = .never
+    
     view.addSubview(tableView)
     tableView.snp.makeConstraints { make in
       make.top.equalTo(view.safeAreaLayoutGuide)
@@ -49,16 +54,16 @@ class ChatController: UIViewController {
       make.horizontal.bottom.equalToSuperview()
     }
     
-    entryContainerView.addSubview(entryView)
-    entryView.snp.makeConstraints { make in
-      make.top.equalToSuperview().inset(Int.x1)
-      make.horizontal.equalToSuperview().inset(Int.x1_5)
-      make.bottom.equalTo(view.keyboardLayoutGuide).inset(Int.x1).priority(.high)
+    entryContainerView.addSubview(messageEntryView)
+    messageEntryView.snp.makeConstraints { make in
+      make.top.equalToSuperview().inset(8)
+      make.horizontal.equalToSuperview().inset(12)
+      make.bottom.equalTo(view.keyboardLayoutGuide).inset(8).priority(.high)
       make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
     }
-    entryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+    messageEntryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
     
-    navigationItem.title = chat.host.displayName
+    view.backgroundColor = .systemBackground
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -72,19 +77,6 @@ class ChatController: UIViewController {
     
     Store.dispatch(ChatState.SetGuestChat(chat: nil))
     Store.unsubscribe(self)
-  }
-  
-  
-  // MARK: - Functions
-  
-  @objc func sendButtonTapped() {
-    guard let message = entryView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).nonEmpty else {
-      return
-    }
-    
-    entryView.textView.text = nil
-    entryView.textViewDidChange(entryView.textView)
-    Store.dispatch(ChatState.SendMessage(Message(text: message), in: chat))
   }
 }
 
@@ -107,6 +99,34 @@ extension ChatController: StoreSubscriber {
 }
 
 
+// MARK: - Helper Functions
+
+private extension ChatController {
+  @objc func sendButtonTapped() {
+    guard let message = messageEntryView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).nonEmpty else {
+      return
+    }
+    
+    messageEntryView.textView.text = nil
+    messageEntryView.textViewDidChange(messageEntryView.textView)
+    Store.dispatch(ChatState.SendMessage(Message(text: message), in: chat))
+  }
+  
+  func handleDisconnection() {
+    let disconnectionAlert = UIAlertController(
+      title: "\(chat.host.name) Disconnected",
+      message: "If the host becomes available again, you will be able to reconnect.",
+      preferredStyle: .alert)
+    let closeAction = UIAlertAction(title: "Close", style: .cancel) { _ in
+      self.navigationController?.popViewController(animated: true)
+    }
+    
+    disconnectionAlert.addAction(closeAction)
+    present(disconnectionAlert, animated: true, completion: nil)
+  }
+}
+
+
 // MARK: - UITableView Functions
 
 extension ChatController: UITableViewDelegate, UITableViewDataSource {
@@ -116,11 +136,10 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let message = chat.messages[indexPath.row]
-    let myPeerId = ChatManager.shared.userPeer
-    let isMyMessage = message.sender == myPeerId
+    let currentUserProfile = Preferences.shared.userProfile
     
     // TODO: - Implement MessageViewModel
-    if isMyMessage {
+    if message.sender == currentUserProfile {
       let cell = tableView.dequeueReusableCell(RightMessageCell.self)
       cell.messageLabel.text = message.text
       
@@ -128,28 +147,10 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
       
     } else {
       let cell = tableView.dequeueReusableCell(LeftMessageCell.self)
-      cell.senderLabel.text = message.sender.displayName
+      cell.senderLabel.text = message.sender.name
       cell.messageLabel.text = message.text
       
       return cell
     }
-  }
-}
-
-
-// MARK: - Helper Functions
-
-private extension ChatController {
-  func handleDisconnection() {
-    let disconnectionAlert = UIAlertController(
-      title: "\(chat.host.displayName) Disconnected",
-      message: "If the host becomes available again, you will be able to reconnect.",
-      preferredStyle: .alert)
-    let closeAction = UIAlertAction(title: "Close", style: .cancel) { _ in
-      self.navigationController?.popViewController(animated: true)
-    }
-    
-    disconnectionAlert.addAction(closeAction)
-    present(disconnectionAlert, animated: true, completion: nil)
   }
 }

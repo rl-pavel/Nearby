@@ -4,16 +4,16 @@ class LeftMessageCell: UITableViewCell {
   
   // MARK: - Properties
   
-  let containerView = Init(UIView()) {
-    $0.layer.roundCorners([.topLeft, .topRight, .bottomRight], radius: 16)
+  let messageBubbleView = Init(UIView()) {
+    $0.roundCorners([.topLeft, .topRight, .bottomRight], radius: 16)
     $0.backgroundColor = .systemFill
   }
   
   lazy var messageStack = Init(UIStackView(arrangedSubviews: [senderLabel, messageLabel])) {
     $0.axis = .vertical
   }
-  let senderLabel = Init(UILabel()) {
-    $0.apply(style: .caption1, color: .secondaryLabel)
+  let senderLabel = Init(UILabel()) { 
+    $0.apply(style: .caption2, color: .secondaryLabel)
   }
   let messageLabel = Init(UILabel()) {
     $0.apply(style: .body, color: .label)
@@ -25,17 +25,17 @@ class LeftMessageCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
-    contentView.addSubview(containerView)
-    containerView.snp.makeConstraints { make in
-      make.vertical.equalToSuperview().inset(Int.x0_25)
-      make.leading.equalToSuperview().inset(Int.x1_5)
+    contentView.addSubview(messageBubbleView)
+    messageBubbleView.snp.makeConstraints { make in
+      make.vertical.equalToSuperview().inset(2)
+      make.leading.equalToSuperview().inset(12)
       make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
     }
     
-    containerView.addSubview(messageStack)
+    messageBubbleView.addSubview(messageStack)
     messageStack.snp.makeConstraints { make in
-      make.vertical.equalToSuperview().inset(Int.x1)
-      make.horizontal.equalToSuperview().inset(Int.x1_5)
+      make.vertical.equalToSuperview().inset(4)
+      make.horizontal.equalToSuperview().inset(12)
     }
     
     // Flip the cell so it looks right side up in the table view.
