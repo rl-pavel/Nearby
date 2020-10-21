@@ -2,7 +2,7 @@ import Foundation
 import MultipeerConnectivity
 import ReSwift
 
-struct ChatState: StateType {
+struct ChatState: StateType, Codable {
   
   // MARK: - Properties
   

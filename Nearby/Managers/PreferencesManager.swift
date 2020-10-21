@@ -9,6 +9,9 @@ class Preferences {
   @Preference("userProfile",defaultValue: .defaultProfile)
   var userProfile: Profile
   
+  @Preference("chatHistory")
+  var chatHistory: ChatState?
+  
   let userDefaults = UserDefaults()
   
   
