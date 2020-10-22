@@ -73,24 +73,14 @@ private extension ProfileController {
   }
   
   @objc func saveTapped() {
-    let preferences = Preferences.shared
-    
     guard let displayName = entryView.textField.text?.nonEmpty else {
       // TODO: - Provide feedback to user.
       return
     }
     
-    // TODO: - Move logic to ProfileState.
-    if didChangeAvatar {
-      preferences.userProfile.avatar = avatarPickerView.image
-    }
-    
-    preferences.userProfile.name = displayName
-    
-    // Change the instance of the MCPeerID and restart discovery so other devices get the updated profile.
-    preferences.userProfile.peerId = .devicePeerId
-    ChatManager.shared.setUpAndStartDiscovery()
-    
+    let newAvatar = didChangeAvatar ? avatarPickerView.image : nil
+    Store.dispatch(AppState.UpdateProfile(avatar: newAvatar, name: displayName))
+
     dismiss(animated: true, completion: nil)
   }
   

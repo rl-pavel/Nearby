@@ -10,7 +10,6 @@
 		49025575253D0A9500DC78A4 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49025574253D0A9500DC78A4 /* Preference.swift */; };
 		4912539625326610002E000C /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912539525326610002E000C /* UITableView+Extensions.swift */; };
 		49141BE8253CCB8700A866A8 /* ChatState+Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */; };
-		49141BEB253CCBAD00A866A8 /* ChatState+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BEA253CCBAD00A866A8 /* ChatState+Actions.swift */; };
 		49141BEE253CCBD800A866A8 /* ChatState+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BED253CCBD800A866A8 /* ChatState+Reducer.swift */; };
 		4933EBA5253A9FF100B3A517 /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4933EBA4253A9FF100B3A517 /* Invitation.swift */; };
 		4933EBA9253AA05800B3A517 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4933EBA8253AA05800B3A517 /* Message.swift */; };
@@ -25,7 +24,6 @@
 		49641AD3253D45DB00616F54 /* Styling+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641AD2253D45DB00616F54 /* Styling+Extensions.swift */; };
 		49641ADC253D4AF200616F54 /* LeftMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641ADB253D4AF200616F54 /* LeftMessageCell.swift */; };
 		49641AE0253E046500616F54 /* RightMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641ADF253E046500616F54 /* RightMessageCell.swift */; };
-		49641AE7253E08CA00616F54 /* BrowserState+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641AE6253E08CA00616F54 /* BrowserState+Actions.swift */; };
 		49641AEA253E08F000616F54 /* BrowserState+Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641AE9253E08F000616F54 /* BrowserState+Middleware.swift */; };
 		49641AED253E090D00616F54 /* BrowserState+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641AEC253E090D00616F54 /* BrowserState+Reducer.swift */; };
 		49641AF1253E923700616F54 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49641AF0253E923700616F54 /* Profile.swift */; };
@@ -40,6 +38,8 @@
 		496E55E9253F8EB400F172C3 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E55E8253F8EB400F172C3 /* ProfileController.swift */; };
 		496E561B2540CA0700F172C3 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E561A2540CA0700F172C3 /* EntryView.swift */; };
 		496E56222540D3AC00F172C3 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E56212540D3AC00F172C3 /* ImagePickerView.swift */; };
+		496E562C2540EEF100F172C3 /* AppState+Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E562B2540EEF100F172C3 /* AppState+Middleware.swift */; };
+		496E562F2540EF1300F172C3 /* AppState+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E562E2540EF1300F172C3 /* AppState+Reducer.swift */; };
 		498B733B253510BC00AD1A9F /* ReSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 498B733A253510BC00AD1A9F /* ReSwift */; };
 		498B734425353A1700AD1A9F /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498B734325353A1700AD1A9F /* Optional+Extensions.swift */; };
 		498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498B734625353A5200AD1A9F /* Sequence+Extensions.swift */; };
@@ -59,7 +59,6 @@
 		4912539525326610002E000C /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		4912539A253267BE002E000C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Middleware.swift"; sourceTree = "<group>"; };
-		49141BEA253CCBAD00A866A8 /* ChatState+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Actions.swift"; sourceTree = "<group>"; };
 		49141BED253CCBD800A866A8 /* ChatState+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Reducer.swift"; sourceTree = "<group>"; };
 		4933EBA4253A9FF100B3A517 /* Invitation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invitation.swift; sourceTree = "<group>"; };
 		4933EBA8253AA05800B3A517 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -74,7 +73,6 @@
 		49641AD2253D45DB00616F54 /* Styling+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Styling+Extensions.swift"; sourceTree = "<group>"; };
 		49641ADB253D4AF200616F54 /* LeftMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMessageCell.swift; sourceTree = "<group>"; };
 		49641ADF253E046500616F54 /* RightMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightMessageCell.swift; sourceTree = "<group>"; };
-		49641AE6253E08CA00616F54 /* BrowserState+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BrowserState+Actions.swift"; sourceTree = "<group>"; };
 		49641AE9253E08F000616F54 /* BrowserState+Middleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BrowserState+Middleware.swift"; sourceTree = "<group>"; };
 		49641AEC253E090D00616F54 /* BrowserState+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BrowserState+Reducer.swift"; sourceTree = "<group>"; };
 		49641AF0253E923700616F54 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -89,6 +87,8 @@
 		496E55E8253F8EB400F172C3 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		496E561A2540CA0700F172C3 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		496E56212540D3AC00F172C3 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		496E562B2540EEF100F172C3 /* AppState+Middleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Middleware.swift"; sourceTree = "<group>"; };
+		496E562E2540EF1300F172C3 /* AppState+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Reducer.swift"; sourceTree = "<group>"; };
 		498B734325353A1700AD1A9F /* Optional+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extensions.swift"; sourceTree = "<group>"; };
 		498B734625353A5200AD1A9F /* Sequence+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extensions.swift"; sourceTree = "<group>"; };
 		499C5B12253A7EF400778314 /* Codable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Extensions.swift"; sourceTree = "<group>"; };
@@ -209,7 +209,6 @@
 			isa = PBXGroup;
 			children = (
 				49EBDE822538160100BD0129 /* ChatState.swift */,
-				49141BEA253CCBAD00A866A8 /* ChatState+Actions.swift */,
 				49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */,
 				49141BED253CCBD800A866A8 /* ChatState+Reducer.swift */,
 			);
@@ -220,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				49EBDE7925380E1200BD0129 /* BrowserState.swift */,
-				49641AE6253E08CA00616F54 /* BrowserState+Actions.swift */,
 				49641AE9253E08F000616F54 /* BrowserState+Middleware.swift */,
 				49641AEC253E090D00616F54 /* BrowserState+Reducer.swift */,
 			);
@@ -250,10 +248,20 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		498B733D253510C300AD1A9F /* Redux */ = {
+		496E56282540EED100F172C3 /* AppState */ = {
 			isa = PBXGroup;
 			children = (
 				49EBDE7525380C1300BD0129 /* AppState.swift */,
+				496E562B2540EEF100F172C3 /* AppState+Middleware.swift */,
+				496E562E2540EF1300F172C3 /* AppState+Reducer.swift */,
+			);
+			path = AppState;
+			sourceTree = "<group>";
+		};
+		498B733D253510C300AD1A9F /* Redux */ = {
+			isa = PBXGroup;
+			children = (
+				496E56282540EED100F172C3 /* AppState */,
 				49641AE5253E08B300616F54 /* Browser */,
 				49641AE4253E08AA00616F54 /* Chat */,
 			);
@@ -382,13 +390,13 @@
 				496D028D2533B4FE00D44BEE /* KeyboardLayoutGuide.swift in Sources */,
 				49EBDE582537D5F200BD0129 /* ChatManager.swift in Sources */,
 				49641AE0253E046500616F54 /* RightMessageCell.swift in Sources */,
-				49641AE7253E08CA00616F54 /* BrowserState+Actions.swift in Sources */,
 				4933EBA9253AA05800B3A517 /* Message.swift in Sources */,
 				496E561B2540CA0700F172C3 /* EntryView.swift in Sources */,
 				4933EBA5253A9FF100B3A517 /* Invitation.swift in Sources */,
 				49641ADC253D4AF200616F54 /* LeftMessageCell.swift in Sources */,
 				498B734425353A1700AD1A9F /* Optional+Extensions.swift in Sources */,
 				495E8DF0253256DF00E7FFAD /* AppDelegate.swift in Sources */,
+				496E562F2540EF1300F172C3 /* AppState+Reducer.swift in Sources */,
 				49EBDE7625380C1400BD0129 /* AppState.swift in Sources */,
 				49EBDE7A25380E1200BD0129 /* BrowserState.swift in Sources */,
 				496D029E2533E14200D44BEE /* UIImage+Extensions.swift in Sources */,
@@ -398,10 +406,10 @@
 				49641AF1253E923700616F54 /* Profile.swift in Sources */,
 				49141BEE253CCBD800A866A8 /* ChatState+Reducer.swift in Sources */,
 				49641AED253E090D00616F54 /* BrowserState+Reducer.swift in Sources */,
-				49141BEB253CCBAD00A866A8 /* ChatState+Actions.swift in Sources */,
 				495E8DF2253256DF00E7FFAD /* SceneDelegate.swift in Sources */,
 				49025575253D0A9500DC78A4 /* Preference.swift in Sources */,
 				49EBDE832538160100BD0129 /* ChatState.swift in Sources */,
+				496E562C2540EEF100F172C3 /* AppState+Middleware.swift in Sources */,
 				496D029B2533DAEC00D44BEE /* Init.swift in Sources */,
 				4933EBAE253AA20400B3A517 /* ChatClient.swift in Sources */,
 				496D02952533D68100D44BEE /* Constants.swift in Sources */,

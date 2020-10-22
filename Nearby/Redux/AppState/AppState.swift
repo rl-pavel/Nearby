@@ -6,10 +6,12 @@ var Store = ReSwift.Store(
   reducer: AppState.reduce,
   state: AppState(),
   middleware: [
+    Middleware.create(AppState.middleware()),
     Middleware.create(BrowserState.middleware()),
     Middleware.create(ChatState.middleware())
   ]
 )
+
 
 struct AppState: StateType {
   
@@ -19,16 +21,15 @@ struct AppState: StateType {
   
   var hostChat = Preferences.shared.chatHistory ?? ChatState(host: Preferences.shared.userProfile)
   var guestChat: ChatState?
-  
-    
-  // MARK: - Reducer
-  
-  static func reduce(action: Action, state: AppState?) -> AppState {
-    return AppState(
-      browser: BrowserState.reduce(action: action, state: state?.browser),
-      hostChat: ChatState.hostChatReduce(action: action, state: state?.hostChat),
-      guestChat: ChatState.guestChatReduce(action: action, state: state?.guestChat))
-  }
 }
 
 
+// MARK: - Actions
+
+extension AppState {
+  struct UpdateProfile: Action {
+    var avatar: UIImage?
+    var name: String
+    var peerId: MCPeerID = .devicePeerId
+  }
+}
