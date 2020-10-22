@@ -10,15 +10,12 @@ extension ChatState {
       
       switch action {
         case let action as SendMessage:
-          var message = action.message
           guard let chat = state?.guestChat ?? state?.hostChat else {
             fatalError("Message sent without a chat? 🤔")
           }
           
-          // Don't send the avatar in message sender's profile to save performance.
-          message.sender.avatar = nil
-          
-          chatManager.sendMessage(message, to: chat.host.peerId)
+          // TODO: - Don't send the avatar in every message sender's profile.
+          chatManager.sendMessage(action.message, to: chat.host.peerId)
           
         case let action as SetGuestChat:
           if action.chat == nil {

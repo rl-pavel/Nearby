@@ -8,7 +8,7 @@ extension BrowserState {
     return { action, context in
       switch action {
         case let .send(to: peer, invitation) as Invite:
-          ChatManager.shared.invite(peer: peer, to: .host, invitation: invitation)
+          chatManager.invite(peer: peer, to: .host, invitation: invitation)
           
         case let .received(invitation, invitationHandler, _) as Invite
               where invitation.purpose == .joinRequest:

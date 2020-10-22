@@ -32,14 +32,14 @@ class ChatManager: NSObject {
     advertiser.delegate = self
     browser.delegate = self
     
-    startDiscovery()
+    setIsDiscovering(true)
   }
   
   
   // MARK: - Functions
   
   func setUpAndStartDiscovery() {
-    stopDiscovery()
+    setIsDiscovering(false)
     
     hostClient = ChatClient(type: .host, myPeerId: userPeerId)
     guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
@@ -53,17 +53,18 @@ class ChatManager: NSObject {
     browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
     browser.delegate = self
     
-    startDiscovery()
+    setIsDiscovering(true)
   }
   
-  func startDiscovery() {
-    advertiser.startAdvertisingPeer()
-    browser.startBrowsingForPeers()
-  }
-  
-  func stopDiscovery() {
-    advertiser.stopAdvertisingPeer()
-    browser.stopBrowsingForPeers()
+  func setIsDiscovering(_ isDiscovering: Bool) {
+    if isDiscovering {
+      advertiser.startAdvertisingPeer()
+      browser.startBrowsingForPeers()
+      
+    } else {
+      advertiser.stopAdvertisingPeer()
+      browser.stopBrowsingForPeers()
+    }
   }
   
   func invite(peer: MCPeerID, to sessionType: ChatClient.SessionType, invitation: Invitation) {
@@ -123,7 +124,7 @@ extension ChatManager: MCNearbyServiceAdvertiserDelegate {
     }
     
     print("🔴 Failed to start advertising - trying again.")
-    startDiscovery()
+    setIsDiscovering(true)
   }
 }
 
@@ -152,6 +153,6 @@ extension ChatManager: MCNearbyServiceBrowserDelegate {
     }
     
     print("🔴 Failed to start browsing - trying again.")
-    startDiscovery()
+    setIsDiscovering(true)
   }
 }

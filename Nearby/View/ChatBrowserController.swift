@@ -19,6 +19,9 @@ class ChatBrowserController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    Preferences.shared.userProfile = .defaultProfile
+    Preferences.shared.chatHistory = nil
+    
     navigationItem.title = "Nearby Chats"
     navigationController?.navigationBar.prefersLargeTitles = true
     navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -29,7 +32,8 @@ class ChatBrowserController: UIViewController {
     
     view.addSubview(tableView)
     tableView.snp.makeConstraints { make in
-      make.edges.equalTo(view.safeAreaLayoutGuide)
+      make.top.horizontal.equalTo(view.safeAreaLayoutGuide)
+      make.bottom.equalToSuperview()
     }
     tableView.delegate = self
     tableView.dataSource = self
@@ -82,9 +86,9 @@ private extension ChatBrowserController {
   }
   
   @objc func refreshDidChange() {
-    ChatManager.shared.stopDiscovery()
+    ChatManager.shared.setIsDiscovering(false)
     Store.dispatch(BrowserState.Connection.reset)
-    ChatManager.shared.startDiscovery()
+    ChatManager.shared.setIsDiscovering(true)
   }
   
   @objc func textFieldDidChange(_ textField: UITextField) {
@@ -100,20 +104,23 @@ private extension ChatBrowserController {
 // MARK: - UITableView Functions
 
 extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 2
+  }
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return chats.count + 1
+    return section == 0 ? 1 : chats.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(UITableViewCell.self)
     
-    
-    if indexPath.row == 0 {
+    if indexPath.section == 0 {
       let profile = Preferences.shared.userProfile
       cell.textLabel?.text = "\(profile.name) (Your Chat)"
       
     } else {
-      let profile = chats[indexPath.row - 1].host
+      let profile = chats[indexPath.row].host
       cell.textLabel?.text = profile.name
       cell.imageView?.image = profile.avatar
     }
@@ -124,13 +131,13 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     
-    guard indexPath.row != 0 else {
+    guard indexPath.section != 0 else {
       let chat = Store.state.hostChat
       show(ChatController(chat: chat), sender: self)
       return
     }
     
-    let peerToJoin = chats[indexPath.row - 1].host.peerId
+    let peerToJoin = chats[indexPath.row].host.peerId
     Store.dispatch(BrowserState.Invite.send(to: peerToJoin, Invitation(purpose: .joinRequest)))
   }
 }
