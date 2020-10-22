@@ -147,6 +147,7 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
       
     } else {
       let cell = tableView.dequeueReusableCell(LeftMessageCell.self)
+      message.sender.avatar.map { cell.avatarView.image = $0 }
       cell.senderLabel.text = message.sender.name
       cell.messageLabel.text = message.text
       
