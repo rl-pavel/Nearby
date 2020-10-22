@@ -16,7 +16,7 @@ I've implemented everything from scratch using only 2 libraries (added via Swift
 
 I find ReSwift/Redux useful because it forces you to conceptualize the app's various states (AppState < BrowserState, ChatState, etc.) and consider what actions are possible. Because of its unidirectional data flow and immutable nature it can be really helpful for testing - simply dispatch an action and verify the state change.
 
-I added a `ChatManager` singleton to manage the "discovery" (i.e. browsing and advertising) and the two `ChatClients` - host and guest. It communicates with the rest of the app via the `Store` (Redux layer, containing/managing the state). The View layer is built programatically using SnapKit and currently uses MVC. Most of the logic happens in the various states' `middleware`s (for side effects, like sending/handling invitations and messages) and `reducer`s (for actually updating the state).
+I added a `ChatManager` singleton to manage the "discovery" (i.e. browsing and advertising) and the two `ChatClients` - host and guest. It communicates with the rest of the app via the `Store` (Redux layer, containing/managing the state). The View layer is built programmatically using SnapKit and currently uses MVC. Most of the logic happens in the various states' `middleware`s (for side effects, like sending/handling invitations and messages) and `reducer`s (for actually updating the state).
   
 # Demo (YouTube)
 <div align="center">
