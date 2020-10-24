@@ -8,7 +8,7 @@ struct AppState: StateType {
   
   var browser = BrowserState()
   
-  var hostChat = DI.Preferences().chatHistory ?? ChatState(host: DI.Preferences().userProfile)
+  var hostChat = ChatState(host: DI.Preferences().userProfile)
   var guestChat: ChatState?
 }
 

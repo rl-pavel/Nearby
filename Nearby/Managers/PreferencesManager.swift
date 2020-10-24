@@ -4,7 +4,6 @@ import MultipeerConnectivity
 
 protocol PreferencesType: class {
   var userProfile: Profile { get set }
-  var chatHistory: ChatState? { get set }
 }
 
 extension DI {
@@ -22,11 +21,6 @@ private class Preferences: PreferencesType {
   
   @Preference("userProfile",defaultValue: .defaultProfile)
   var userProfile: Profile
-  
-  // TODO: - Store chat history in a database.
-  @Preference("chatHistory")
-  var chatHistory: ChatState?
-
   
   // MARK: - Inits
   

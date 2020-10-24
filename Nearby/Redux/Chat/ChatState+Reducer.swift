@@ -6,10 +6,6 @@ extension ChatState {
   
   static func hostChatReduce(action: Action, state: Self?) -> Self {
     var chatState = state ?? .init(host: DI.Preferences().userProfile)
-    // TODO: - Move to AppDelegate to only store the chat when the app closes.
-    defer {
-      DI.Preferences().chatHistory = chatState
-    }
     
     switch action {
       case let action as SendMessage where action.chat.host == chatState.host:
