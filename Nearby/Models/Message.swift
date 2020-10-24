@@ -1,7 +1,7 @@
 import Foundation
 
 struct Message: Equatable, Codable {
-  var date = Date()
-  var sender: Profile = Preferences.shared.userProfile
+  var date = DI.Date()
+  var sender: Profile = DI.Preferences().userProfile
   var text: String  
 }

@@ -1,6 +1,7 @@
 import ReSwift
 
 typealias MiddlewareHandler = Middleware.Action<AppState>
+typealias MiddlewareContext = Middleware.Context<AppState>
 
 // Slightly modified from source: http://bit.ly/2DCMmyX
 struct Middleware {

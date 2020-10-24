@@ -8,14 +8,14 @@ class ProfileController: UIViewController {
   static let imageSize: CGFloat = 256
   
   let avatarPickerView = Init(ImagePickerView()) {
-    let image = Preferences.shared.userProfile.avatar
+    let image = DI.Preferences().userProfile.avatar
       ?? UIImage(symbol: "person.crop.circle.fill.badge.plus", size: imageSize)
     $0.imageButton.setImage(image, for: .normal)
   }
   
   let entryView = Init(EntryView()) {
     $0.titleLabel.text = "Display Name:"
-    $0.textField.text = Preferences.shared.userProfile.name
+    $0.textField.text = DI.Preferences().userProfile.name
     $0.backgroundColor = .secondarySystemBackground
     $0.roundCorners(radius: 12)
   }
@@ -79,7 +79,7 @@ private extension ProfileController {
     }
     
     let newAvatar = didChangeAvatar ? avatarPickerView.image : nil
-    Store.dispatch(AppState.UpdateProfile(avatar: newAvatar, name: displayName))
+    DI.Store().dispatch(AppState.UpdateProfile(avatar: newAvatar, name: displayName))
 
     dismiss(animated: true, completion: nil)
   }

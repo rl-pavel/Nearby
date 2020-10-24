@@ -1,7 +1,7 @@
 import XCTest
 
 class NearbyTests: XCTestCase {
-  func testHelloWorld() {
-    XCTAssert(true)
+  func testTesting() {
+    XCTAssertTrue(ProcessInfo.processInfo.arguments.contains("TESTING"))
   }
 }

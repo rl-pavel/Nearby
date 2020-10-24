@@ -57,7 +57,7 @@ extension ChatClient: MCSessionDelegate {
     guard let message = try? Message.decode(from: data) else { return }
     
     DispatchQueue.main.async { [self] in
-      Store.dispatch(ChatState.ReceivedMessage(message: message, sessionType: type))
+      DI.Store().dispatch(ChatState.ReceivedMessage(message: message, sessionType: type))
     }
   }
   

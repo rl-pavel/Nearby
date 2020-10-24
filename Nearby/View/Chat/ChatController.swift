@@ -69,14 +69,14 @@ class ChatController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    Store.subscribe(self)
+    DI.Store().subscribe(self)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     
-    Store.dispatch(ChatState.SetGuestChat(chat: nil))
-    Store.unsubscribe(self)
+    DI.Store().dispatch(ChatState.SetGuestChat(chat: nil))
+    DI.Store().unsubscribe(self)
   }
 }
 
@@ -107,9 +107,9 @@ private extension ChatController {
       return
     }
     
-    messageEntryView.textView.text = nil
+    messageEntryView.textView.text.removeAll()
     messageEntryView.textViewDidChange(messageEntryView.textView)
-    Store.dispatch(ChatState.SendMessage(Message(text: message), in: chat))
+    DI.Store().dispatch(ChatState.SendMessage(Message(text: message), in: chat))
   }
   
   func handleDisconnection() {
@@ -136,7 +136,7 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let message = chat.messages[indexPath.row]
-    let currentUserProfile = Preferences.shared.userProfile
+    let currentUserProfile = DI.Preferences().userProfile
     
     // TODO: - Implement MessageViewModel
     if message.sender == currentUserProfile {

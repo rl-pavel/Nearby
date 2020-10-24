@@ -1,4 +1,5 @@
 import UIKit
+import ReSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -9,9 +10,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     willConnectTo session: UISceneSession,
     options connectionOptions: UIScene.ConnectionOptions) {
     guard let windowScene = scene as? UIWindowScene else { return }
-    
+        
     let newWindow = UIWindow(windowScene: windowScene)
-      
     newWindow.rootViewController = UINavigationController(rootViewController: ChatBrowserController())
     
     newWindow.makeKeyAndVisible()
