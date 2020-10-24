@@ -11,6 +11,7 @@
 		4912539625326610002E000C /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912539525326610002E000C /* UITableView+Extensions.swift */; };
 		49141BE8253CCB8700A866A8 /* ChatState+Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */; };
 		49141BEE253CCBD800A866A8 /* ChatState+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49141BED253CCBD800A866A8 /* ChatState+Reducer.swift */; };
+		4922D96525449C0300D2AD5E /* NearbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922D96425449C0300D2AD5E /* NearbyTests.swift */; };
 		4933EBA5253A9FF100B3A517 /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4933EBA4253A9FF100B3A517 /* Invitation.swift */; };
 		4933EBA9253AA05800B3A517 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4933EBA8253AA05800B3A517 /* Message.swift */; };
 		4933EBAE253AA20400B3A517 /* ChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4933EBAD253AA20400B3A517 /* ChatClient.swift */; };
@@ -54,12 +55,25 @@
 		49EBDE942538B89600BD0129 /* Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE932538B89600BD0129 /* Middleware.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4922D96725449C0300D2AD5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 495E8DE4253256DF00E7FFAD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 495E8DEB253256DF00E7FFAD;
+			remoteInfo = Nearby;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		49025574253D0A9500DC78A4 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		4912539525326610002E000C /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		4912539A253267BE002E000C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		49141BE7253CCB8700A866A8 /* ChatState+Middleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Middleware.swift"; sourceTree = "<group>"; };
 		49141BED253CCBD800A866A8 /* ChatState+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatState+Reducer.swift"; sourceTree = "<group>"; };
+		4922D96225449C0300D2AD5E /* NearbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4922D96425449C0300D2AD5E /* NearbyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyTests.swift; sourceTree = "<group>"; };
+		4922D96625449C0300D2AD5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4933EBA4253A9FF100B3A517 /* Invitation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invitation.swift; sourceTree = "<group>"; };
 		4933EBA8253AA05800B3A517 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4933EBAD253AA20400B3A517 /* ChatClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClient.swift; sourceTree = "<group>"; };
@@ -103,6 +117,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4922D95F25449C0300D2AD5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		495E8DE9253256DF00E7FFAD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -130,6 +151,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		4922D96325449C0300D2AD5E /* NearbyTests */ = {
+			isa = PBXGroup;
+			children = (
+				4922D96425449C0300D2AD5E /* NearbyTests.swift */,
+				4922D96625449C0300D2AD5E /* Info.plist */,
+			);
+			path = NearbyTests;
+			sourceTree = "<group>";
+		};
 		4933EBA3253A9FE200B3A517 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				495E8DEE253256DF00E7FFAD /* Nearby */,
+				4922D96325449C0300D2AD5E /* NearbyTests */,
 				495E8DED253256DF00E7FFAD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -163,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				495E8DEC253256DF00E7FFAD /* Nearby.app */,
+				4922D96225449C0300D2AD5E /* NearbyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -281,6 +313,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4922D96125449C0300D2AD5E /* NearbyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4922D96B25449C0300D2AD5E /* Build configuration list for PBXNativeTarget "NearbyTests" */;
+			buildPhases = (
+				4922D95E25449C0300D2AD5E /* Sources */,
+				4922D95F25449C0300D2AD5E /* Frameworks */,
+				4922D96025449C0300D2AD5E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4922D96825449C0300D2AD5E /* PBXTargetDependency */,
+			);
+			name = NearbyTests;
+			productName = NearbyTests;
+			productReference = 4922D96225449C0300D2AD5E /* NearbyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		495E8DEB253256DF00E7FFAD /* Nearby */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 495E8E00253256E200E7FFAD /* Build configuration list for PBXNativeTarget "Nearby" */;
@@ -309,9 +359,13 @@
 		495E8DE4253256DF00E7FFAD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1210;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
+					4922D96125449C0300D2AD5E = {
+						CreatedOnToolsVersion = 12.1;
+						TestTargetID = 495E8DEB253256DF00E7FFAD;
+					};
 					495E8DEB253256DF00E7FFAD = {
 						CreatedOnToolsVersion = 12.0.1;
 					};
@@ -335,11 +389,19 @@
 			projectRoot = "";
 			targets = (
 				495E8DEB253256DF00E7FFAD /* Nearby */,
+				4922D96125449C0300D2AD5E /* NearbyTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4922D96025449C0300D2AD5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		495E8DEA253256DF00E7FFAD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -375,6 +437,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4922D95E25449C0300D2AD5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4922D96525449C0300D2AD5E /* NearbyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		495E8DE8253256DF00E7FFAD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -423,6 +493,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4922D96825449C0300D2AD5E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 495E8DEB253256DF00E7FFAD /* Nearby */;
+			targetProxy = 4922D96725449C0300D2AD5E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		495E8DFA253256E200E7FFAD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -435,6 +513,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4922D96925449C0300D2AD5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Y5595L6V2B;
+				INFOPLIST_FILE = NearbyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.op.NearbyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nearby.app/Nearby";
+			};
+			name = Debug;
+		};
+		4922D96A25449C0300D2AD5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Y5595L6V2B;
+				INFOPLIST_FILE = NearbyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.op.NearbyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nearby.app/Nearby";
+			};
+			name = Release;
+		};
 		495E8DFE253256E200E7FFAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -596,6 +716,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4922D96B25449C0300D2AD5E /* Build configuration list for PBXNativeTarget "NearbyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4922D96925449C0300D2AD5E /* Debug */,
+				4922D96A25449C0300D2AD5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		495E8DE7253256DF00E7FFAD /* Build configuration list for PBXProject "Nearby" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
