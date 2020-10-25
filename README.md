@@ -2,7 +2,7 @@
 
 Nearby is an iOS peer-to-peer chat app that works offline via Bluetooth and WiFi with the help of Apple's `MultipeerConnectivity` framework.
 
-It supports two parallel sessions, one hosted on each device, and anther that can be used to join other peers. It also has configurable user profiles with avatars and display names which are visible in chat. 
+It supports two parallel sessions, one hosted on each device, and anther that can be used to join other peers. It also has configurable user profiles with avatars and display names which are visible in chat. The app is built using Apple's standard system colors that adapt to the device appearance, and dynamic type for text accessibility.
 
 The app is still a work in progress, so more features are coming 🙂
 
@@ -27,4 +27,4 @@ Nearby currently has 3 state types (along with the respective middlewares, reduc
 I really like how Redux forces you to conceptualize the app's various states and consider what actions are possible/required to alter it. One of the biggest upsides of Redux is how it makes testing the business logic quite simple due to its unidirectional data flow and immutable nature - all you need to do is dispatch and action and validate the state change. There's also potential to inject custom middlewares to verify which actions have been dispatched and when, which helps testing things _outside_ of the state, like view models, etc.
 
 ### Testing
-One of the most important things for testability is dependency injection. I decided to implement something like a Service Locator Pattern, which I learned about in this [talk](https://www.youtube.com/watch?v=dA9rGQRwHGs)/[article](https://noahgilmore.com/blog/swift-dependency-injection/) but never used before. What I like about it is the simplicity light weight(ness?), both in terms of implementation and added boilerplate in code. It's quite flexible, allowing injection of anything from singleton instances (or mocks thereof) to custom initializers like `Date`. I like that it's also easy to implement into a pre-existing project.
+One of the most important things for testability is dependency injection. I decided to implement something like a Service Locator Pattern, which I learned about in this [talk](https://www.youtube.com/watch?v=dA9rGQRwHGs)/[article](https://noahgilmore.com/blog/swift-dependency-injection/) but never used before. What I like about it is the simplicity, both in terms of implementation and added boilerplate in code. It's quite flexible, allowing injection of anything from singleton instances (or mocks thereof) to custom initializers like `Date`. I like that it's also easy to implement into a pre-existing project.
