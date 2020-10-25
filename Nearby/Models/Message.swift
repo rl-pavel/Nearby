@@ -1,7 +1,7 @@
 import Foundation
 
 struct Message: Equatable, Codable {
-  var date = DI.Date()
-  var sender: Profile = DI.Preferences().userProfile
+  var date = Inject.Date()
+  var sender: Profile = Inject.Preferences().userProfile
   var text: String  
 }

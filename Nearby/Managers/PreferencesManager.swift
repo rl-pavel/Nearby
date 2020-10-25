@@ -2,18 +2,18 @@ import MultipeerConnectivity
 
 // MARK: - Preferences Interface
 
-protocol PreferencesType: class {
+protocol PreferencesInterface: class {
   var userProfile: Profile { get set }
 }
 
-extension DI {
-  static let Preferences = bind(PreferencesType.self) { Nearby.Preferences.shared }
+extension Inject {
+  static let Preferences = bind(PreferencesInterface.self) { Nearby.Preferences.shared }
 }
 
 
 // MARK: - Preferences Implementation
 
-private class Preferences: PreferencesType {
+private class Preferences: PreferencesInterface {
   
   // MARK: - Properties
   

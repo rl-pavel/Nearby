@@ -3,8 +3,8 @@ import UIKit
 extension UIView {
   func layoutIfNeeded(
     animatedWithDuration duration: TimeInterval,
-    animations: (() -> Void)? = nil,
-    completion: (() -> Void)? = nil) {
+    animations: VoidClosure? = nil,
+    completion: VoidClosure? = nil) {
     UIView.animate(withDuration: duration, animations: {
       animations?()
       self.layoutIfNeeded()

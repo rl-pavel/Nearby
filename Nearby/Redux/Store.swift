@@ -1,6 +1,6 @@
 import ReSwift
 
-extension DI {
+extension Inject {
   static let Store = bind(ReSwift.Store.self) { Nearby.Store }
 }
 

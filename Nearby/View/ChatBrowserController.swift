@@ -38,22 +38,22 @@ class ChatBrowserController: UIViewController {
     
     refreshControl.addTarget(self, action: #selector(refreshDidChange), for: .valueChanged)
     view.backgroundColor = .systemBackground
+    
+    Inject.ChatManager().setUpAndStartDiscovery()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    DI.Store().subscribe(self) { subscription in
-      subscription.skipRepeats {
-        $0.guestChat != nil && $1.guestChat != nil && $0.guestChat == $1.guestChat
-      }
+    Inject.Store().subscribe(self) { subscription in
+      subscription.skipRepeats { $0.guestChat ==? $1.guestChat }
     }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     
-    DI.Store().unsubscribe(self)
+    Inject.Store().unsubscribe(self)
   }
 }
 
@@ -83,17 +83,7 @@ private extension ChatBrowserController {
   }
   
   @objc func refreshDidChange() {
-    DI.ChatManager().setIsDiscovering(false)
-    DI.Store().dispatch(BrowserState.Connection.reset)
-    DI.ChatManager().setIsDiscovering(true)
-  }
-  
-  @objc func textFieldDidChange(_ textField: UITextField) {
-    let preferences = DI.Preferences()
-    preferences.userProfile.name = textField.text ?? UIDevice.current.name
-    preferences.userProfile.peerId = .devicePeerId
-    
-    DI.ChatManager().setUpAndStartDiscovery()
+    Inject.Store().dispatch(BrowserState.Connection.reset)
   }
 }
 
@@ -113,7 +103,7 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
     let cell = tableView.dequeueReusableCell(UITableViewCell.self)
     
     if indexPath.section == 0 {
-      let profile = DI.Preferences().userProfile
+      let profile = Inject.Preferences().userProfile
       cell.textLabel?.text = "\(profile.name) (Your Chat)"
       
     } else {
@@ -129,12 +119,12 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
     tableView.deselectRow(at: indexPath, animated: true)
     
     guard indexPath.section != 0 else {
-      let chat = DI.Store().state.hostChat
+      let chat = Inject.Store().state.hostChat
       show(ChatController(chat: chat), sender: self)
       return
     }
     
     let peerToJoin = chats[indexPath.row].host.peerId
-    DI.Store().dispatch(BrowserState.Invite.send(to: peerToJoin, Invitation(purpose: .joinRequest)))
+    Inject.Store().dispatch(BrowserState.Invite.send(to: peerToJoin, Invitation(purpose: .joinRequest)))
   }
 }

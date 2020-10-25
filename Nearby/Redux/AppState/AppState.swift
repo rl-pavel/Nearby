@@ -8,7 +8,7 @@ struct AppState: StateType {
   
   var browser = BrowserState()
   
-  var hostChat = ChatState(host: DI.Preferences().userProfile)
+  var hostChat = ChatState(host: Inject.Preferences().userProfile, type: .host)
   var guestChat: ChatState?
 }
 
@@ -16,6 +16,10 @@ struct AppState: StateType {
 // MARK: - Actions
 
 extension AppState {
+  struct SetGuestChat: Action {
+    let chat: ChatState?
+  }
+  
   struct UpdateProfile: Action {
     var avatar: UIImage?
     var name: String

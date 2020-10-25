@@ -4,13 +4,13 @@ extension BrowserState {
   
   // MARK: - Middleware
   
-  static func middleware(action: Action, context: MiddlewareContext) -> Action {
+  static func middleware(action: Action, context: MiddlewareContext) -> Action? {
     let state = context.state
-    let chatManager = DI.ChatManager()
+    let chatManager = Inject.ChatManager()
     
     switch action {
       case let .send(to: peer, invitation) as Invite:
-        chatManager.invite(peer: peer, to: .host, invitation: invitation)
+        chatManager.invite(peer: peer, invitation: invitation)
         
       case let .received(invitation, invitationHandler, _) as Invite
             where invitation.purpose == .joinRequest:
@@ -25,8 +25,18 @@ extension BrowserState {
         // Guest side - accept the invitation to join the host.
         invitationHandler(true, session)
         
-        let newChat = ChatState(host: invitation.profile, messages: invitation.messageHistory ?? [])
-        context.next(ChatState.SetGuestChat(chat: newChat))
+        let newChat = ChatState(
+          host: invitation.profile,
+          type: .guest,
+          messages: invitation.messageHistory ?? [])
+        context.next(AppState.SetGuestChat(chat: newChat))
+        
+      case .reset as Connection:
+        chatManager.setIsDiscovering(false)
+        context.next(action)
+        chatManager.setIsDiscovering(true)
+        // Action dispatched via next.
+        return nil
         
       default: break
     }

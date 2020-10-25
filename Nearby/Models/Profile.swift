@@ -16,7 +16,7 @@ struct Profile {
   // MARK: - Inits
   
   init(
-    peerId: MCPeerID = DI.Preferences().userProfile.peerId,
+    peerId: MCPeerID = Inject.Preferences().userProfile.peerId,
     userName: String,
     avatar: UIImage? = nil) {
     self.peerId = peerId

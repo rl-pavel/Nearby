@@ -2,22 +2,15 @@ import MultipeerConnectivity
 
 class ChatClient: NSObject {
   
-  // MARK: - Enumerations
-  
-  enum SessionType {
-    case host, guest
-  }
-  
-  
   // MARK: - Properties
   
-  var type: SessionType
+  var type: ChatType
   let session: MCSession
   
   
   // MARK: - Inits
   
-  init(type: SessionType, myPeerId: MCPeerID) {
+  init(type: ChatType, myPeerId: MCPeerID) {
     self.type = type
     self.session = .init(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
     
@@ -57,7 +50,7 @@ extension ChatClient: MCSessionDelegate {
     guard let message = try? Message.decode(from: data) else { return }
     
     DispatchQueue.main.async { [self] in
-      DI.Store().dispatch(ChatState.ReceivedMessage(message: message, sessionType: type))
+      Inject.Store().dispatch(ChatState.ReceivedMessage(message: message, chatType: type))
     }
   }
   
