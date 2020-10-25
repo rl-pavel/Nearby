@@ -2,24 +2,41 @@ import Foundation
 import MultipeerConnectivity
 import ReSwift
 
-typealias InvitationHandler = (Bool, MCSession?) -> Void
+// MARK: - ChatManager Interface
 
-class ChatManager: NSObject {
+extension Inject {
+  static let ChatManager = bind(ChatManagerInterface.self) { Nearby.ChatManager.shared }
+}
+
+protocol ChatManagerInterface: class {
+  func setUpAndStartDiscovery()
+  func setIsDiscovering(_ isDiscovering: Bool)
+  func invite(peer: MCPeerID, invitation: Invitation)
+  func disconnectFromHost()
+  func sendMessage(_ message: Message, in chatType: ChatType)
+}
+
+
+// MARK: - ChatManager Implementation
+
+private class ChatManager: NSObject, ChatManagerInterface {
   
   // MARK: - Properties
   
   static var shared = ChatManager()
   
-  var userPeerId: MCPeerID { Preferences.shared.userProfile.peerId }
+  private var userPeerId: MCPeerID {
+    return Inject.Preferences().userProfile.peerId
+  }
   
   private lazy var hostClient = ChatClient(type: .host, myPeerId: userPeerId)
   private lazy var guestClient = ChatClient(type: .guest, myPeerId: userPeerId)
-    
+  
   private lazy var advertiser = MCNearbyServiceAdvertiser(
     peer: userPeerId,
-    discoveryInfo: ["userName": Preferences.shared.userProfile.name],
-    serviceType: "nearby")
-  private lazy var browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
+    discoveryInfo: [Constants.userNameKey: Inject.Preferences().userProfile.name],
+    serviceType: Constants.nearbyService)
+  private lazy var browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: Constants.userNameKey)
   
   private var discoveryAttempts = 0
   
@@ -28,11 +45,6 @@ class ChatManager: NSObject {
   
   private override init() {
     super.init()
-    
-    advertiser.delegate = self
-    browser.delegate = self
-    
-    setIsDiscovering(true)
   }
   
   
@@ -46,11 +58,11 @@ class ChatManager: NSObject {
     
     advertiser = MCNearbyServiceAdvertiser(
       peer: userPeerId,
-      discoveryInfo: ["userName": Preferences.shared.userProfile.name],
-      serviceType: "nearby")
+      discoveryInfo: [Constants.userNameKey: Inject.Preferences().userProfile.name],
+      serviceType: Constants.nearbyService)
     advertiser.delegate = self
     
-    browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: "nearby")
+    browser = MCNearbyServiceBrowser(peer: userPeerId, serviceType: Constants.nearbyService)
     browser.delegate = self
     
     setIsDiscovering(true)
@@ -67,12 +79,11 @@ class ChatManager: NSObject {
     }
   }
   
-  func invite(peer: MCPeerID, to sessionType: ChatClient.SessionType, invitation: Invitation) {
-    let session = sessionType == .host ? hostClient.session : guestClient.session
-    
+  func invite(peer: MCPeerID, invitation: Invitation) {
+    // Invitations are sent from the host session by default.
     browser.invitePeer(
       peer,
-      to: session,
+      to: hostClient.session,
       withContext: try? invitation.encoded(),
       timeout: Constants.invitationTimeout)
   }
@@ -81,8 +92,8 @@ class ChatManager: NSObject {
     guestClient.session.disconnect()
   }
   
-  func sendMessage(_ message: Message, to peer: MCPeerID) {
-    let session = peer == userPeerId ? hostClient.session : guestClient.session
+  func sendMessage(_ message: Message, in chatType: ChatType) {
+    let session = chatType == .host ? hostClient.session : guestClient.session
     
     guard let messageData = try? message.encoded(),
           let peers = session.connectedPeers.nonEmpty else {
@@ -114,7 +125,7 @@ extension ChatManager: MCNearbyServiceAdvertiserDelegate {
     }
     
     // Invitations are only accepted as a guest, so use the guest client's session by default.
-    Store.dispatch(BrowserState.Invite.received(invitation, invitationHandler, guestClient.session))
+    Inject.Store().dispatch(BrowserState.Invite.received(invitation, invitationHandler, guestClient.session))
   }
   
   func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
@@ -135,15 +146,12 @@ extension ChatManager: MCNearbyServiceBrowserDelegate {
   func browser(
     _ browser: MCNearbyServiceBrowser,
     foundPeer peerId: MCPeerID,
-    withDiscoveryInfo info: [String : String]?) {
-    guard let userName = info?["userName"] else { return }
-    let profile = Profile(peerId: peerId, userName: userName)
-    
-    Store.dispatch(BrowserState.Connection.found(profile))
+    withDiscoveryInfo info: [String: String]?) {
+    Inject.Store().dispatch(BrowserState.Connection.found(peerId, into: info))
   }
   
   func browser(_ browser: MCNearbyServiceBrowser, lostPeer peer: MCPeerID) {
-    Store.dispatch(BrowserState.Connection.lost(peer))
+    Inject.Store().dispatch(BrowserState.Connection.lost(peer))
   }
   
   func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {

@@ -10,7 +10,7 @@ struct Preference<Value: Codable> {
   
   var wrappedValue: Value {
     get {
-      let storedValue = Preferences.shared.userDefaults.object(forKey: key)
+      let storedValue = Inject.UserDefaults().object(forKey: key)
       
       // Try to get the stored data for decoding, or fall back to the raw representation.
       guard let data = storedValue as? Data else {
@@ -21,7 +21,7 @@ struct Preference<Value: Codable> {
       return decodedValue ?? defaultValue
     }
     set {
-      let userDefaults = Preferences.shared.userDefaults
+      let userDefaults = Inject.UserDefaults()
       
       // Clear out the object if the new value is an Optional and nil.
       if let optionalValue = newValue as? AnyOptional, optionalValue.isNil {

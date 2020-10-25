@@ -19,5 +19,7 @@ extension LayoutSpacing where Self: Numeric {
 // MARK: - Other Constants
 
 enum Constants {
-  static var invitationTimeout: TimeInterval { 10 }
+  static var nearbyService: String = "nearby"
+  static var userNameKey: String = "userName"
+  static var invitationTimeout: TimeInterval = 10
 }

@@ -19,9 +19,6 @@ class ChatBrowserController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    Preferences.shared.userProfile = .defaultProfile
-    Preferences.shared.chatHistory = nil
-    
     navigationItem.title = "Nearby Chats"
     navigationController?.navigationBar.prefersLargeTitles = true
     navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -41,22 +38,22 @@ class ChatBrowserController: UIViewController {
     
     refreshControl.addTarget(self, action: #selector(refreshDidChange), for: .valueChanged)
     view.backgroundColor = .systemBackground
+    
+    Inject.ChatManager().setUpAndStartDiscovery()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    Store.subscribe(self) { subscription in
-      subscription.skipRepeats {
-        $0.guestChat != nil && $1.guestChat != nil && $0.guestChat == $1.guestChat
-      }
+    Inject.Store().subscribe(self) { subscription in
+      subscription.skipRepeats { $0.guestChat ==? $1.guestChat }
     }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     
-    Store.unsubscribe(self)
+    Inject.Store().unsubscribe(self)
   }
 }
 
@@ -86,17 +83,7 @@ private extension ChatBrowserController {
   }
   
   @objc func refreshDidChange() {
-    ChatManager.shared.setIsDiscovering(false)
-    Store.dispatch(BrowserState.Connection.reset)
-    ChatManager.shared.setIsDiscovering(true)
-  }
-  
-  @objc func textFieldDidChange(_ textField: UITextField) {
-    let preferences = Preferences.shared
-    preferences.userProfile.name = textField.text ?? UIDevice.current.name
-    preferences.userProfile.peerId = .devicePeerId
-    
-    ChatManager.shared.setUpAndStartDiscovery()
+    Inject.Store().dispatch(BrowserState.Connection.reset)
   }
 }
 
@@ -116,7 +103,7 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
     let cell = tableView.dequeueReusableCell(UITableViewCell.self)
     
     if indexPath.section == 0 {
-      let profile = Preferences.shared.userProfile
+      let profile = Inject.Preferences().userProfile
       cell.textLabel?.text = "\(profile.name) (Your Chat)"
       
     } else {
@@ -132,12 +119,12 @@ extension ChatBrowserController: UITableViewDelegate, UITableViewDataSource {
     tableView.deselectRow(at: indexPath, animated: true)
     
     guard indexPath.section != 0 else {
-      let chat = Store.state.hostChat
+      let chat = Inject.Store().state.hostChat
       show(ChatController(chat: chat), sender: self)
       return
     }
     
     let peerToJoin = chats[indexPath.row].host.peerId
-    Store.dispatch(BrowserState.Invite.send(to: peerToJoin, Invitation(purpose: .joinRequest)))
+    Inject.Store().dispatch(BrowserState.Invite.send(to: peerToJoin, Invitation(purpose: .joinRequest)))
   }
 }

@@ -13,7 +13,7 @@ struct BrowserState: StateType {
 
 extension BrowserState {
   enum Connection: Action {
-    case found(Profile)
+    case found(MCPeerID, into: [String: String]?)
     case lost(MCPeerID)
     case reset
   }
