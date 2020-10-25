@@ -4,7 +4,7 @@ import ReSwift
 import XCTest
 
 extension XCTestCase {
-  func setUpDefaultMocks(for testName: String = #function, in fileName: String = #file) {
+  func setUpDefaultMocks(for testName: String = #function, in fileName: String = #fileID) {
     Inject.isTesting = true
     
     Inject.mock(Date.self) { Date() }
