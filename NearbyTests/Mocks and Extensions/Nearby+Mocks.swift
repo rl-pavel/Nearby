@@ -7,8 +7,12 @@ extension XCTestCase {
   func setUpDefaultMocks(for testName: String = #function, in fileName: String = #fileID) {
     Inject.isTesting = true
     
+    let suitName = "com.op.\(fileName).\(testName)"
+    let userDefaults = UserDefaults(suiteName: suitName)!
+    userDefaults.removePersistentDomain(forName: suitName)
+    
     Inject.mock(Date.self) { Date() }
-    Inject.mock(UserDefaults.self) { UserDefaults(suiteName: "com.op.\(fileName).\(testName)")! }
+    Inject.mock(UserDefaults.self) { userDefaults }
     Inject.mock(PreferencesInterface.self) { MockPreferences() }
     Inject.mock(ChatManagerInterface.self) { MockChatManager() }
     
