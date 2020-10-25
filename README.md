@@ -1,18 +1,30 @@
-# What is Nearby?
+# What is Nearby? 
 
-Nearby is an iOS peer-to-peer chat app that works offline via Bluetooth and WiFi with the help of Apple's MultipeerConnectivity framework.
+Nearby is an iOS peer-to-peer chat app that works offline via Bluetooth and WiFi with the help of Apple's `MultipeerConnectivity` framework.
 
 It supports two parallel sessions, one hosted on each device, and anther that can be used to join other peers. It also has configurable user profiles with avatars and display names which are visible in chat. 
 
 The app is still a work in progress, so more features are coming 🙂
 
+You can [watch a 30s demo on YouTube](http://www.youtube.com/watch?v=nVeQ5MOtQE8).
+
 # Technical Stuff
 
 I've designed and implemented everything from scratch using 2 libraries added via Swift Package Manager - [ReSwift](https://github.com/ReSwift/ReSwift) (for Redux architectural backbone) and [SnapKit](https://github.com/SnapKit/SnapKit) (for programatic UI/constraints). 
 
-I find ReSwift/Redux useful because it forces you to conceptualize the app's various states and consider what actions are possible/required to alter it. It's also pretty helpful with managing parallel sessions using separate reducers, so the user can host/receive messages in their chat while participating in another user's session. Because of its unidirectional data flow and immutable nature, it can be really helpful for testing - simply dispatch an action and verify the state change.
+### About Redux 
+This is where the majority of the business logic is written. The way Redux works is that there's a static `Store` object that manages the app's states, reducers and middlewares. To alter the states or emit a side-effect, you dispatch `Action`s, which goes through the `Store`'s layers, update the state and notify the observers. 
 
-I used a `ChatManager` singleton to manage the discovery and the two `ChatClient`s, responsible for communication between host, guest and vice versa. It communicates with the rest of the app via the `Store` (a Redux layer, managing the state and actions). The view layer is built programmatically using SnapKit and currently uses MVC. Most of the logic happens in the various states' `middleware`s (for side effects, like sending/handling messages or UserDefaults) and `reducer`s (for actually changing the state).
-  
-# 30s Demo on YouTube:
-[![](http://img.youtube.com/vi/nVeQ5MOtQE8/0.jpg)](http://www.youtube.com/watch?v=nVeQ5MOtQE8 "Nearby Demo")
+Middleware is a layer in between the action and the state and gets called first. It takes an action and returns an _optional_ action. This is intended for side-effects, like asynchronous tasks, or accessing preferences, and can also dispatch (or break off) additional actions.
+
+Reducers get called after, which take an action and the current state and return a new state. To observe the state, objects can subscribe to the `Store` and get notified about a state (or sub-state) changes.
+
+Nearby currently has 3 state types (along with the respective middlewares, reducers):
+1. AppState, which is the main state and manages the other sub-states.
+2. BrowserState, which manages the list of chats the user can join.
+3. ChatState, which manages the active chat(s).
+
+I really like how Redux forces you to conceptualize the app's various states and consider what actions are possible/required to alter it. One of the biggest upsides of Redux is how it makes testing the business logic quite simple due to its unidirectional data flow and immutable nature - all you need to do is dispatch and action and validate the state change. There's also potential to inject custom middlewares to verify which actions have been dispatched and when, which helps testing things _outside_ of the state, like view models, etc.
+
+### Testing
+One of the most important things for testability is dependency injection. I decided to implement something like a Service Locator Pattern, which I learned about in this [talk](https://www.youtube.com/watch?v=dA9rGQRwHGs)/[article](https://noahgilmore.com/blog/swift-dependency-injection/) but never used before. What I like about it is the simplicity light weight(ness?), both in terms of implementation and added boilerplate in code. It's quite flexible, allowing injection of anything from singleton instances (or mocks thereof) to custom initializers like `Date`. I like that it's also easy to implement into a pre-existing project.
