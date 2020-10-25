@@ -131,6 +131,7 @@ extension ChatManager: MCNearbyServiceAdvertiserDelegate {
   func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
     guard discoveryAttempts < 5 else {
       // TODO: - Show error to user.
+      assert(false, "Could not start advertising.")
       return
     }
     
@@ -157,6 +158,7 @@ extension ChatManager: MCNearbyServiceBrowserDelegate {
   func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
     guard discoveryAttempts < 5 else {
       // TODO: - Show error to user.
+      assert(false, "Could not start advertising.")
       return
     }
     
