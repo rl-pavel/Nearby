@@ -38,8 +38,6 @@ class ChatBrowserController: UIViewController {
     
     refreshControl.addTarget(self, action: #selector(refreshDidChange), for: .valueChanged)
     view.backgroundColor = .systemBackground
-    
-    Inject.ChatManager().setUpAndStartDiscovery()
   }
   
   override func viewWillAppear(_ animated: Bool) {
