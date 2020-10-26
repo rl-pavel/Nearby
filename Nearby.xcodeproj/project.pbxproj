@@ -57,8 +57,6 @@
 		498B734725353A5200AD1A9F /* Sequence+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498B734625353A5200AD1A9F /* Sequence+Extensions.swift */; };
 		499C5B13253A7EF400778314 /* Codable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499C5B12253A7EF400778314 /* Codable+Extensions.swift */; };
 		49EBDE582537D5F200BD0129 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE572537D5F200BD0129 /* ChatManager.swift */; };
-		49EBDE5B2537E52800BD0129 /* MultiSimConfig.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49EBDE5A2537E52800BD0129 /* MultiSimConfig.txt */; };
-		49EBDE5E2537E59500BD0129 /* LaunchMultiSim.sh in Resources */ = {isa = PBXBuildFile; fileRef = 49EBDE5D2537E59500BD0129 /* LaunchMultiSim.sh */; };
 		49EBDE7625380C1400BD0129 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE7525380C1300BD0129 /* AppState.swift */; };
 		49EBDE7A25380E1200BD0129 /* BrowserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE7925380E1200BD0129 /* BrowserState.swift */; };
 		49EBDE832538160100BD0129 /* ChatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EBDE822538160100BD0129 /* ChatState.swift */; };
@@ -129,8 +127,6 @@
 		498B734625353A5200AD1A9F /* Sequence+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extensions.swift"; sourceTree = "<group>"; };
 		499C5B12253A7EF400778314 /* Codable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Extensions.swift"; sourceTree = "<group>"; };
 		49EBDE572537D5F200BD0129 /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
-		49EBDE5A2537E52800BD0129 /* MultiSimConfig.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = MultiSimConfig.txt; sourceTree = "<group>"; };
-		49EBDE5D2537E59500BD0129 /* LaunchMultiSim.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = LaunchMultiSim.sh; sourceTree = "<group>"; };
 		49EBDE7525380C1300BD0129 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		49EBDE7925380E1200BD0129 /* BrowserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserState.swift; sourceTree = "<group>"; };
 		49EBDE822538160100BD0129 /* ChatState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatState.swift; sourceTree = "<group>"; };
@@ -247,8 +243,6 @@
 				495E8DF5253256E200E7FFAD /* Assets.xcassets */,
 				495E8DFA253256E200E7FFAD /* LaunchScreen.storyboard */,
 				495E8DFD253256E200E7FFAD /* Info.plist */,
-				49EBDE5A2537E52800BD0129 /* MultiSimConfig.txt */,
-				49EBDE5D2537E59500BD0129 /* LaunchMultiSim.sh */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -379,7 +373,6 @@
 				495E8DE8253256DF00E7FFAD /* Sources */,
 				495E8DE9253256DF00E7FFAD /* Frameworks */,
 				495E8DEA253256DF00E7FFAD /* Resources */,
-				49EBDE602537E64E00BD0129 /* Launch MultiSim */,
 			);
 			buildRules = (
 			);
@@ -448,34 +441,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				495E8DFC253256E200E7FFAD /* LaunchScreen.storyboard in Resources */,
-				49EBDE5E2537E59500BD0129 /* LaunchMultiSim.sh in Resources */,
 				495E8DF6253256E200E7FFAD /* Assets.xcassets in Resources */,
-				49EBDE5B2537E52800BD0129 /* MultiSimConfig.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		49EBDE602537E64E00BD0129 /* Launch MultiSim */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Launch MultiSim";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "custom_sim=`xcrun simctl list | grep 'MultiSim' | awk -F'[()]' '{print $2}'`\nif [ ! -z \"${custom_sim}\" ] && [ \"${TARGET_DEVICE_IDENTIFIER}\" = \"${custom_sim}\" ]; then\n  SCRIPT_PATH=\"${SRCROOT}/Nearby/Supporting Files/LaunchMultiSim.sh\"\n  /bin/sh \"${SCRIPT_PATH}\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4922D95E25449C0300D2AD5E /* Sources */ = {
