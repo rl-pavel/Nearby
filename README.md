@@ -2,9 +2,7 @@
 
 Nearby is an iOS peer-to-peer chat app that works offline via Bluetooth and WiFi with the help of Apple's `MultipeerConnectivity` framework.
 
-It supports two parallel sessions, one hosted on each device, and anther that can be used to join other peers. It also has configurable user profiles with avatars and display names which are visible in chat. The app is built using appearance adaptive colors (currently standard system colors), and dynamic type for text accessibility.
-
-The app is still a work in progress, so more features are coming 🙂
+It supports two parallel sessions, one hosted on each device, and anther that can be used to join other peers. It also has configurable user profiles with avatars and display names which are visible in chat. The app is built using appearance adaptive colors and dynamic type for text accessibility.
 
 You can [watch a 30s demo on YouTube](http://www.youtube.com/watch?v=nVeQ5MOtQE8).
 
