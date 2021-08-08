@@ -4,16 +4,16 @@ import ReSwift
 
 // MARK: - ChatManager Interface
 
-extension Inject {
-  static let ChatManager = bind(ChatManagerInterface.self) { Nearby.ChatManager.shared }
-}
-
-protocol ChatManagerInterface: class {
+protocol ChatManagerInterface: AnyObject {
   func setUpAndStartDiscovery()
   func setIsDiscovering(_ isDiscovering: Bool)
   func invite(peer: MCPeerID, invitation: Invitation)
   func disconnectFromHost()
   func sendMessage(_ message: Message, in chatType: ChatType)
+}
+
+extension Inject {
+  static let ChatManager = bind(ChatManagerInterface.self) { Nearby.ChatManager.shared }
 }
 
 
