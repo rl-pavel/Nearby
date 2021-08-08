@@ -58,8 +58,8 @@ class ChatController: UIViewController {
     messageEntryView.snp.makeConstraints { make in
       make.top.equalToSuperview().inset(8)
       make.horizontal.equalToSuperview().inset(12)
-      make.bottom.equalTo(view.keyboardLayoutGuide).inset(8).priority(.high)
       make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
+      make.bottom.equalTo(view.keyboardLayoutGuide).inset(8).priority(.high)
     }
     messageEntryView.sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
     
@@ -142,7 +142,6 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
     if message.sender == currentUserProfile {
       let cell = tableView.dequeueReusableCell(RightMessageCell.self)
       cell.messageLabel.text = message.text
-      
       return cell
       
     } else {
@@ -150,7 +149,6 @@ extension ChatController: UITableViewDelegate, UITableViewDataSource {
       message.sender.avatar.map { cell.avatarView.image = $0 }
       cell.senderLabel.text = message.sender.name
       cell.messageLabel.text = message.text
-      
       return cell
     }
   }

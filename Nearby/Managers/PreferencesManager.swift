@@ -2,7 +2,7 @@ import MultipeerConnectivity
 
 // MARK: - Preferences Interface
 
-protocol PreferencesInterface: class {
+protocol PreferencesInterface: AnyObject {
   var userProfile: Profile { get set }
 }
 
